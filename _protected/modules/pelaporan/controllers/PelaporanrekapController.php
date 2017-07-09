@@ -61,26 +61,38 @@ class PelaporanrekapController extends Controller
         $getparam = NULL;
         IF(Yii::$app->request->queryParams){
             $getparam = Yii::$app->request->queryParams;
+            $kd_pemda_params = NULL;
+            foreach($getparam['Laporan']['kd_pemda'] as $data){
+                $kd_pemda_params = $kd_pemda_params.$data.',';
+            }            
             if(!($getparam['Laporan']['kd_pemda']) || in_array('%', $getparam['Laporan']['kd_pemda'])){
-                $getparam['Laporan']['kd_pemda'] = ArrayHelper::map(\app\models\RefPemda::find()->select(['id', 'CONCAT(id, \' \', name) AS name'])->all(),'id','name');
+                $getparam['Laporan']['kd_pemda'] = \app\models\RefPemda::find()->select(['id'])->asArray()->all();
+                $kd_pemda_params = NULL;
+                foreach($getparam['Laporan']['kd_pemda'] as $data){
+                    $kd_pemda_params = $kd_pemda_params.$data['id'].',';
+                }
+                // var_dump($kd_pemda_params);
             }
-            IF($getparam['Laporan']['Kd_Laporan'] == 2){
+            $kd_pemda_params = substr($kd_pemda_params, 0, -1);            
+            IF($getparam['Laporan']['Kd_Laporan']){
                 $Kd_Laporan = Yii::$app->request->queryParams['Laporan']['Kd_Laporan'];
                 switch ($Kd_Laporan) {
                     case 1:
                         $totalCount = Yii::$app->db->createCommand("
                                 SELECT
-                                COUNT(b.id)
-                                FROM
-                                ref_sekolah AS b
-                                LEFT JOIN (SELECT * FROM ta_rkas_peraturan a WHERE a.tahun = :tahun AND a.perubahan_id LIKE :perubahan_id) AS a ON a.sekolah_id = b.id
-                                LEFT JOIN ref_jenis_sekolah AS c ON b.jenis_id = c.id
-                                LEFT JOIN ref_pendidikan AS d ON c.pendidikan_id = d.id
-                                WHERE d.id LIKE :pendidikan_id
+                                count(a.tahun)
+                                FROM compilation_records a
+                                LEFT JOIN ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                WHERE a.tahun = :tahun AND 
+                                a.akhir_periode = :tgl_laporan AND 
+                                a.kd_pemda IN ($kd_pemda_params) AND
+                                (a.tahun, a.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3) NOT IN
+                                (SELECT tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3 FROM elimination_account)
+                                GROUP BY a.tahun, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
                             ", [
                                 ':tahun' => $Tahun,
-                                ':pendidikan_id' => $getparam['Laporan']['pendidikan_id'],
-                                ':perubahan_id' => $getparam['Laporan']['perubahan_id'],
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                // ':kd_pemda' => $kd_pemda_params,
                             ])->queryScalar();
 
                         $data = new SqlDataProvider([
@@ -92,7 +104,7 @@ class PelaporanrekapController extends Controller
                                 LEFT JOIN ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
                                 WHERE a.tahun = :tahun AND 
                                 a.akhir_periode = :tgl_laporan AND 
-                                a.kd_pemda IN (:kd_pemda) AND
+                                a.kd_pemda IN ($kd_pemda_params) AND
                                 (a.tahun, a.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3) NOT IN
                                 (SELECT tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3 FROM elimination_account)
                                 GROUP BY a.tahun, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
@@ -100,14 +112,15 @@ class PelaporanrekapController extends Controller
                             'params' => [
                                 ':tahun' => $Tahun,
                                 ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
-                                ':kd_pemda' => $getparam['Laporan']['kd_pemda'],
+                                // ':kd_pemda' => $kd_pemda_params,
                             ],
                             'totalCount' => $totalCount,
                             //'sort' =>false, to remove the table header sorting
                             'pagination' => [
                                 'pageSize' => 50,
                             ],
-                        ]);                        
+                        ]);
+                        // var_dump($data);   
                         $render = 'laporan1';
                         break;
                                                       

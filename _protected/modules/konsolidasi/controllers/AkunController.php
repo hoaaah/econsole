@@ -8,6 +8,7 @@ use app\modules\konsolidasi\models\EliminationAccountSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * AkunController implements the CRUD actions for EliminationAccount model.
@@ -63,7 +64,7 @@ class AkunController extends Controller
      * @param integer $category
      * @return mixed
      */
-    public function actionView($tahun, $el_id, $kd_pemda, $category)
+    public function actionView($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3)
     {
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
@@ -76,7 +77,7 @@ class AkunController extends Controller
             $tahun = DATE('Y');
         }   
         return $this->renderAjax('view', [
-            'model' => $this->findModel($tahun, $el_id, $kd_pemda, $category),
+            'model' => $this->findModel($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3),
         ]);
     }
 
@@ -108,7 +109,7 @@ class AkunController extends Controller
                 akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
             ", [
                 ':tahun' => $elRecord->tahun,
-                ':kd_pemda' => $elRecord->kd_pemda,
+                ':kd_pemda' => Yii::$app->user->identity->pemda_id,
             ])->queryAll();
         $model = new EliminationAccount();
         $model->tahun = $elRecord->tahun;
@@ -140,22 +141,28 @@ class AkunController extends Controller
      * @param integer $category
      * @return mixed
      */
-    public function actionUpdate($tahun, $el_id, $kd_pemda, $category)
+    public function actionUpdate($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3)
     {
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
             return $this->redirect(Yii::$app->request->referrer);
         }    
-        IF(Yii::$app->session->get('tahun'))
-        {
-            $tahun = Yii::$app->session->get('tahun');
-        }ELSE{
-            $tahun = DATE('Y');
-        }
 
-        $model = $this->findModel($tahun, $el_id, $kd_pemda, $category);
+        $model = $this->findModel($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3);
+        $dropDownRek3 = Yii::$app->db->createCommand("
+                SELECT 
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS kd3,
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', akun) AS akun
+                FROM compilation_records 
+                WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
+                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+            ", [
+                ':tahun' => $tahun,
+                ':kd_pemda' => $kd_pemda,
+            ])->queryAll();        
 
         if ($model->load(Yii::$app->request->post())) {
+            list($model->kd_rek_1, $model->kd_rek_2, $model->kd_rek_3) = explode('.', $model->kd3);
             IF($model->save()){
                 echo 1;
             }ELSE{
@@ -164,6 +171,7 @@ class AkunController extends Controller
         } else {
             return $this->renderAjax('_form', [
                 'model' => $model,
+                'dropDownRek3' => $dropDownRek3,
             ]);
         }
     }
@@ -177,7 +185,7 @@ class AkunController extends Controller
      * @param integer $category
      * @return mixed
      */
-    public function actionDelete($tahun, $el_id, $kd_pemda, $category)
+    public function actionDelete($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3)
     {
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
@@ -190,7 +198,7 @@ class AkunController extends Controller
             $tahun = DATE('Y');
         }
 
-        $this->findModel($tahun, $el_id, $kd_pemda, $category)->delete();
+        $this->findModel($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3)->delete();
 
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -205,9 +213,9 @@ class AkunController extends Controller
      * @return EliminationAccount the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($tahun, $el_id, $kd_pemda, $category)
+    protected function findModel($tahun, $el_id, $kd_pemda, $category, $kd_rek_1, $kd_rek_2, $kd_rek_3)
     {
-        if (($model = EliminationAccount::findOne(['tahun' => $tahun, 'el_id' => $el_id, 'kd_pemda' => $kd_pemda, 'category' => $category])) !== null) {
+        if (($model = EliminationAccount::findOne(['tahun' => $tahun, 'el_id' => $el_id, 'kd_pemda' => $kd_pemda, 'category' => $category, 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -216,39 +224,44 @@ class AkunController extends Controller
 
 
     // populate pemda
-    public function actionRek3($tahun, $kd_pemda){
-        $countKd3 = Yii::$app->db->createCommand("
-                SELECT 
-                COUNT(kd_rek_1)
-                FROM compilation_records 
-                WHERE tahun = :tahun AND kd_pemda = ':kd_pemda' AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = ':kd_pemda')
-            ", [
-                ':tahun' => $tahun,
-                ':kd_pemda' => $kd_pemda,
-            ])->queryScalar();
-        $kd3 = Yii::$app->db->createCommand("
-                SELECT 
-                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS kd3,
-                akun
-                FROM compilation_records 
-                WHERE tahun = :tahun AND kd_pemda = ':kd_pemda' AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = ':kd_pemda')
-            ", [
-                ':tahun' => $tahun,
-                ':kd_pemda' => $kd_pemda,
-            ])->queryAll();
-        if($countKd3 > 0)
+    public function actionRek3($tahun = null, $kd_pemda = null){
+        IF(Yii::$app->session->get('tahun'))
         {
-            var_dump($kd3);
-            foreach ($kd3 as $kd3) {
-                // echo "<option value='" .$kd3->akun. "'>".$kd3->akun."</option>";
+            $tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $tahun = DATE('Y');
+        }
+
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            // $list = Account::find()->andWhere(['parent'=>$id])->asArray()->all();
+            $list = Yii::$app->db->createCommand("
+                    SELECT 
+                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS id,
+                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', akun) AS name
+                    FROM compilation_records 
+                    WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
+                    akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                ", [
+                    ':tahun' => $tahun,
+                    ':kd_pemda' => $id,
+                ])->queryAll();
+            $selected  = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $account) {
+                    $out[] = ['id' => $account['id'], 'name' => $account['name']];
+                    if ($i == 0) {
+                        $selected = $account['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected'=>$selected]);
+                return;
             }
         }
-        else
-        {
-            echo "<option>-</option>";
-        }
+        echo Json::encode(['output' => '', 'selected'=>'']);            
     }
 
     public function actionGetrek3($q = null, $id = null, $tahun = null, $kd_pemda = null) {
@@ -258,10 +271,10 @@ class AkunController extends Controller
             $data = Yii::$app->db->createCommand("
                 SELECT 
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS id,
-                akun AS text
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', akun) AS text
                 FROM compilation_records 
-                WHERE tahun = :tahun AND kd_pemda = ':kd_pemda' AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = ':kd_pemda')
+                WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
+                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_records WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
             ", [
                 ':tahun' => $tahun,
                 ':kd_pemda' => $kd_pemda,
@@ -277,16 +290,17 @@ class AkunController extends Controller
 
     protected function cekakses(){
 
-        IF(Yii::$app->user->identity){
-            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 401])->one();
-            IF($akses){
-                return true;
-            }else{
-                return false;
-            }
-        }ELSE{
-            return false;
-        }
+        // IF(Yii::$app->user->identity){
+        //     $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 401])->one();
+        //     IF($akses){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }ELSE{
+        //     return false;
+        // }
+        return true;
     }  
 
 }

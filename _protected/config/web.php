@@ -37,7 +37,10 @@ $config = [
         ],
         'konsolidasi' => [
             'class' => 'app\modules\konsolidasi\Konsolidasi',
-        ],        
+        ],   
+        'pelaporan' => [
+            'class' => 'app\modules\pelaporan\pelaporan',
+        ],                
     ],     
     'components' => [
         'request' => [

@@ -42,21 +42,34 @@ use yii\bootstrap\Modal;
         'pjaxSettings'=>[
             'options' => ['id' => 'elimination-account-pjax', 'timeout' => 5000],
         ],        
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'tahun',
-            'el_id',
-            'kd_pemda',
-            'category',
-            'kd_rek_1',
-            // 'kd_rek_2',
-            // 'kd_rek_3',
-
+            'pemda.name',
+            [
+                'attribute' => 'category',
+                'value' => function($model){
+                    switch ($model->category) {
+                        case 1:
+                            return 'Parent / Belanja';
+                            break;
+                        
+                        default:
+                            return 'Child / Pendapatan';
+                            break;
+                    }
+                }
+            ],
+            [
+                'label' => 'Akun',
+                'value' => function($model){
+                    return $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3.' '.$model['rek3Compilation']['akun'];
+                }
+            ],
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{view} {update} {delete}',
+                'controller' => 'akun',
                 'noWrap' => true,
                 'vAlign'=>'top',
                 'buttons' => [

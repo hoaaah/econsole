@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'attribute' => 'sekolah_id',
-                    'value' => $model['refSekolah']['nama_sekolah'],
+                    'value' => $model['refPemda']['name'],
                     'displayOnly' => true,
                 ],
                 'email',

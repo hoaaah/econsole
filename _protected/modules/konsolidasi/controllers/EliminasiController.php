@@ -40,8 +40,16 @@ class EliminasiController extends Controller
      */
     public function actionIndex()
     {    
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $tahun = DATE('Y');
+        }        
         $searchModel = new EliminationRecordSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere(['tahun' => $tahun]);
+        if(Yii::$app->user->identity->pemda_id) $dataProvider->query->andWhere(['kd_provinsi' => 30]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

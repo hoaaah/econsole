@@ -22,12 +22,13 @@ class Laporan extends Model
     public $perubahan_id;
     public $jenis_sekolah_id;
     public $pendidikan_id;
+    public $kd_pemda;
 
     public function rules()
     {
         return [
             [['Kd_Laporan', 'Kd_Urusan', 'Kd_Bidang', 'Kd_Unit', 'Kd_Sub', 'Kd_Trans_1', 'Kd_Trans_2', 'Kd_Trans_3', 'jenis_sekolah_id', 'pendidikan_id'], 'integer'],
-            [['Tgl_1', 'Tgl_2', 'Nm_Penandatangan', 'Jabatan_Penandatangan', 'NIP_Penandatangan'], 'safe'],
+            [['Tgl_1', 'Tgl_2', 'kd_pemda', 'Nm_Penandatangan', 'Jabatan_Penandatangan', 'NIP_Penandatangan'], 'safe'],
         ];
     }
 

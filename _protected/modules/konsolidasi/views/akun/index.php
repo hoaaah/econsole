@@ -63,7 +63,7 @@ use yii\bootstrap\Modal;
             [
                 'label' => 'Akun',
                 'value' => function($model){
-                    return $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3.' '.$model['rek3Compilation']['akun'];
+                    return $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3.' '.$model['rek3Compilation5']['akun'];
                 }
             ],
             [

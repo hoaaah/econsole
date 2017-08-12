@@ -235,7 +235,16 @@ class AkunController extends Controller
         $out = [];
         if (isset($_POST['depdrop_parents'])) {
             $id = end($_POST['depdrop_parents']);
-            // $list = Account::find()->andWhere(['parent'=>$id])->asArray()->all();
+            /* this query use for rek5 group by
+            *we will replace this later
+                SELECT 
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS id,
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS NAME
+                FROM compilation_record5
+                WHERE tahun = 2016 AND kd_pemda = '30.04' AND 
+                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = 2016 AND kd_pemda = '30.04')
+                GROUP BY kd_rek_1, kd_rek_2, kd_rek_3, nm_rek_3
+            */            
             $list = Yii::$app->db->createCommand("
                     SELECT 
                     CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS id,

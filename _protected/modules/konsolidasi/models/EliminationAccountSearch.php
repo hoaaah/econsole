@@ -19,7 +19,7 @@ class EliminationAccountSearch extends EliminationAccount
     {
         return [
             [['tahun', 'kd_pemda'], 'safe'],
-            [['el_id', 'category', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3'], 'integer'],
+            [['kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5'], 'integer'],
         ];
     }
 
@@ -60,11 +60,11 @@ class EliminationAccountSearch extends EliminationAccount
         // grid filtering conditions
         $query->andFilterWhere([
             'tahun' => $this->tahun,
-            'el_id' => $this->el_id,
-            'category' => $this->category,
             'kd_rek_1' => $this->kd_rek_1,
             'kd_rek_2' => $this->kd_rek_2,
             'kd_rek_3' => $this->kd_rek_3,
+            'kd_rek_4' => $this->kd_rek_4,
+            'kd_rek_5' => $this->kd_rek_5,
         ]);
 
         $query->andFilterWhere(['like', 'kd_pemda', $this->kd_pemda]);

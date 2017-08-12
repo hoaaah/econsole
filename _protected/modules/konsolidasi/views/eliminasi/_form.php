@@ -33,12 +33,26 @@ use kartik\widgets\DepDrop;
             if(isset($model->kd_rek_1)) $model->kd3 = $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3;
             echo $form->field($model, 'kd3')->widget(DepDrop::classname(), [
                 'data'=> ArrayHelper::map($dropDownRek3,'kd3','akun'),
-                'options' => ['placeholder' => 'Pilih Rekening ...'],
+                'options' => ['placeholder' => 'Pilih Jenis Akun ...'],
                 'type' => DepDrop::TYPE_SELECT2,
                 'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
                 'pluginOptions'=>[
                     'depends'=>['eliminationaccount-kd_pemda'],
                     'url' => Url::to(['/konsolidasi/eliminasi/rek3']),
+                    'loadingText' => 'Loading ...',
+                ]
+            ]); 
+
+            // Child level 2
+            if(isset($model->kd_rek_1)) $model->kd4 = $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3.'.'.$model->kd_rek_4;
+            echo $form->field($model, 'kd4')->widget(DepDrop::classname(), [
+                'data'=> ArrayHelper::map($dropDownRek3,'kd3','akun'),
+                'options' => ['placeholder' => 'Pilih Objek ...'],
+                'type' => DepDrop::TYPE_SELECT2,
+                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                'pluginOptions'=>[
+                    'depends'=>['eliminationaccount-kd_pemda', 'eliminationaccount-kd3'],
+                    'url' => Url::to(['/konsolidasi/eliminasi/rek4']),
                     'loadingText' => 'Loading ...',
                 ]
             ]);            
@@ -56,8 +70,6 @@ use kartik\widgets\DepDrop;
     }
     
     ?>
-
-    <?= $form->field($model, 'kd_rek_4')->textInput() ?>
 
     <?= $form->field($model, 'kd_rek_5')->textInput() ?>
 

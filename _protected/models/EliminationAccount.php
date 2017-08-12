@@ -25,7 +25,9 @@ class EliminationAccount extends \yii\db\ActiveRecord
         return 'elimination_account';
     }
 
-    public $kd3;    
+    public $kd3;
+    public $kd4;
+    public $kd5;
 
     /**
      * @inheritdoc
@@ -36,7 +38,7 @@ class EliminationAccount extends \yii\db\ActiveRecord
             [['tahun', 'kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5'], 'required'],
             [['tahun'], 'safe'],
             [['kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5'], 'integer'],
-            [['kd_pemda', 'kd3'], 'string', 'max' => 11],
+            [['kd_pemda', 'kd3', 'kd4', 'kd5'], 'string', 'max' => 11],
         ];
     }
 
@@ -53,7 +55,9 @@ class EliminationAccount extends \yii\db\ActiveRecord
             'kd_rek_3' => 'Kd Rek 3',
             'kd_rek_4' => 'Kd Rek 4',
             'kd_rek_5' => 'Kd Rek 5',
-            'kd3' => 'Akun',            
+            'kd3' => 'Jenis',
+            'kd4' => 'Objek',
+            'kd5' => 'Rincian Objek',  
         ];
     }
 

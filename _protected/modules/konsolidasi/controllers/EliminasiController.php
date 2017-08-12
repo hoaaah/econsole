@@ -213,6 +213,55 @@ class EliminasiController extends Controller
         }
         echo Json::encode(['output' => '', 'selected'=>'']);            
     }
+     
+    public function actionRek4($tahun = null, $kd_pemda = null){
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $tahun = DATE('Y');
+        }
+
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $ids = $_POST['depdrop_parents'];
+            $kd_pemda = empty($ids[0]) ? Yii::$app->user->identity->kd_pemda : $ids[0];
+            $kd3 = empty($ids[1]) ? null : $ids[1];
+            if($kd3) list($kd_rek_1, $kd_rek_2, $kd_rek_3) = explode('.', $kd3);
+            if ($kd_pemda != null) {
+                $list = Yii::$app->db->createCommand("
+                    SELECT 
+                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4) AS id,
+                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', nm_rek_4) AS name
+                    FROM compilation_record5 
+                    WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND kd_rek_1 = :kd_rek_1 AND kd_rek_2 = :kd_rek_2 AND kd_rek_3 = :kd_rek_3 AND
+                    akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                    GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, nm_rek_4
+                    ", [
+                        ':tahun' => $tahun,
+                        ':kd_pemda' => $kd_pemda,
+                        ':kd_rek_1' => $kd_rek_1,
+                        ':kd_rek_2' => $kd_rek_2,
+                        ':kd_rek_3' => $kd_rek_3,
+                    ])->queryAll();
+                $selected  = null;
+                if ($kd3 != null && count($list) > 0) {
+                    $selected = '';
+                    $out[] = ['id' => 0, 'name' => 'Semua Akun Objek']
+                    foreach ($list as $i => $account) {
+                        $out[] = ['id' => $account['id'], 'name' => $account['name']];
+                        if ($i == 0) {
+                            $selected = $account['id'];
+                        }
+                    }
+                    // Shows how you can preselect a value
+                    echo Json::encode(['output' => $out, 'selected'=>$selected]);
+                    return;
+                }
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
 
     public function actionGetrek3($q = null, $id = null, $tahun = null, $kd_pemda = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

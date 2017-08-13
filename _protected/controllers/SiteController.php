@@ -17,6 +17,8 @@ use yii\filters\AccessControl;
 use Yii;
 use yii\data\ActiveDataProvider;
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 /**
  * Site controller.
  * It is responsible for displaying static pages, logging users in and out,
@@ -24,11 +26,6 @@ use yii\data\ActiveDataProvider;
  */
 class SiteController extends Controller
 {
-    /**
-     * Returns a list of behaviors that this component should behave as.
-     *
-     * @return array
-     */
     public function behaviors()
     {
         return [
@@ -57,11 +54,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Declares external actions for the controller.
-     *
-     * @return array
-     */
     public function actions()
     {
         return [
@@ -75,8 +67,7 @@ class SiteController extends Controller
         ];
     }
 
-//Choose what year this application will use as default year --@hoaaah
-
+    //Choose what year this application will use as default year --@hoaaah
     public function actionTahun($id)
     {
         $session = Yii::$app->session;
@@ -92,12 +83,6 @@ class SiteController extends Controller
 // STATIC PAGES
 //------------------------------------------------------------------------------------------------//
 
-    /**
-     * Displays the index (home) page.
-     * Use it in case your home page contains static content.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         IF(Yii::$app->session->get('tahun'))
@@ -151,20 +136,11 @@ class SiteController extends Controller
         $model = \app\models\User::findOne($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            //  $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-            // var_dump($model->password_hash);
-            // var_dump(Yii::$app->security->validatePassword($model->passwordlama, $model->password_hash));
-            // var_dump(Yii::$app->security->generatePasswordHash($model->passwordlama));
             IF(Yii::$app->security->validatePassword($model->passwordlama, $model->password_hash)){
                 $model->setPassword($model->password);
                 $model->save();
                 Yii::$app->getSession()->setFlash('success',  'Password sudah diganti');
-                return $this->redirect(Yii::$app->request->referrer);                                
-                // IF($model->save()){
-                //     echo 1;
-                // }ELSE{
-                //     echo 0;
-                // }                 
+                return $this->redirect(Yii::$app->request->referrer);                                                
             }ELSE{
                 Yii::$app->getSession()->setFlash('warning',  'Password lama anda salah');
                 return $this->redirect(Yii::$app->request->referrer);                
@@ -175,34 +151,13 @@ class SiteController extends Controller
                 'user' => $model,
             ]);
         }        
-
-        // if (!$user->load(Yii::$app->request->post())) {
-        //     return $this->renderAjax('ubahpwd', ['user' => $user, 'role' => $user->item_name]);
-        // }
-
-        // // only if user entered new password we want to hash and save it
-        // if ($user->password) {
-        //     $user->setPassword($user->password);
-        // }
-
-        // return $this->redirect(['view', 'id' => $user->id]);
     }          
 
-    /**
-     * Displays the about static page.
-     *
-     * @return string
-     */
     public function actionAbout()
     {
         return $this->render('about');
     }
 
-    /**
-     * Displays the contact static page and sends the contact email.
-     *
-     * @return string|\yii\web\Response
-     */
     public function actionContact()
     {
         $model = new ContactForm();

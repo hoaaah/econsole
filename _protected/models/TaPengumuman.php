@@ -4,32 +4,17 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-/**
- * This is the model class for table "ta_pengumuman".
- *
- * @property integer $id
- * @property integer $diumumkan_di
- * @property integer $sticky
- * @property string $title
- * @property string $content
- * @property integer $published
- * @property integer $user_id
- * @property integer $created_at
- * @property integer $updated_at
- */
+
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class TaPengumuman extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'ta_pengumuman';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -40,9 +25,6 @@ class TaPengumuman extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

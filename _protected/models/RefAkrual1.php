@@ -4,27 +4,15 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "ref_akrual_1".
- *
- * @property integer $kd_akrual_1
- * @property string $nm_akrual_1
- *
- * @property RefAkrual2[] $refAkrual2s
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class RefAkrual1 extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'ref_akrual_1';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -34,9 +22,6 @@ class RefAkrual1 extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -45,9 +30,6 @@ class RefAkrual1 extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRefAkrual2s()
     {
         return $this->hasMany(RefAkrual2::className(), ['kd_akrual_1' => 'kd_akrual_1']);

@@ -7,22 +7,15 @@ use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use Yii;
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends AppController
 {
-    /**
-     * How many users we want to display per page.
-     * @var int
-     */
     protected $_pageSize = 11;
 
-    /**
-     * Lists all User models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         $searchModel = new UserSearch();
@@ -34,14 +27,6 @@ class UserController extends AppController
         ]);
     }
 
-    /**
-     * Displays a single User model.
-     *
-     * @param  integer $id The user id.
-     * @return string
-     *
-     * @throws NotFoundHttpException
-     */
     public function actionView($id)
     {
         return $this->render('view', ['model' => $this->findModel($id)]);
@@ -53,12 +38,6 @@ class UserController extends AppController
         return $this->render('view', ['model' => $this->findModel($id)]);
     }    
 
-    /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     *
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $user = new User(['scenario' => 'create']);
@@ -85,15 +64,6 @@ class UserController extends AppController
         return $this->redirect('index');
     }
 
-    /**
-     * Updates an existing User and Role models.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     *
-     * @param  integer $id The user id.
-     * @return string|\yii\web\Response
-     *
-     * @throws NotFoundHttpException
-     */
     public function actionUpdate($id)
     {
         // load user data
@@ -160,15 +130,6 @@ class UserController extends AppController
         return $this->redirect(['view', 'id' => $user->id]);
     }
 
-    /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     *
-     * @param  integer $id The user id.
-     * @return \yii\web\Response
-     *
-     * @throws NotFoundHttpException
-     */
     public function actionDelete($id)
     {
         // delete user or throw exception if could not
@@ -200,15 +161,6 @@ class UserController extends AppController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param  integer $id The user id.
-     * @return User The loaded model.
-     *
-     * @throws NotFoundHttpException if the model cannot be found.
-     */
     protected function findModel($id)
     {
         $model = User::findOne($id);

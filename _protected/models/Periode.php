@@ -4,25 +4,15 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "periode".
- *
- * @property integer $id
- * @property string $akhir_periode
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class Periode extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'periode';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -32,9 +22,6 @@ class Periode extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

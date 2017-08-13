@@ -11,9 +11,8 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 
-/**
- * PemdaController implements the CRUD actions for RefPemda model.
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class PemdaController extends Controller
 {
     /**

@@ -6,6 +6,8 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 /**
  * AppController extends Controller and implements the behaviors() method
  * where you can specify the access control ( AC filter + RBAC ) for your controllers and their actions.

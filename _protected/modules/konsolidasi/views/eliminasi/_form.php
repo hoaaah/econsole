@@ -9,9 +9,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\widgets\DepDrop;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\EliminationAccount */
-/* @var $form yii\widgets\ActiveForm */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
 ?>
 
 <div class="elimination-account-form">
@@ -100,14 +98,13 @@ $('form#{$model->formName()}').on('beforeSubmit',function(e)
 {
     var \$form = $(this);
     $.post(
-        \$form.attr("action"), //serialize Yii2 form 
+        \$form.attr("action"),
         \$form.serialize()
     )
         .done(function(result){
             if(result == 1)
             {
-                $("#myModal").modal('hide'); //hide modal after submit
-                //$(\$form).trigger("reset"); //reset form to reuse it to input
+                $("#myModal").modal('hide'); 
                 $.pjax.reload({container:'#elimination-account-pjax'});
             }else
             {

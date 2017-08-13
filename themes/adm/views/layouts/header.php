@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 IF(Yii::$app->session->get('tahun'))
 {
     $Tahun = Yii::$app->session->get('tahun');

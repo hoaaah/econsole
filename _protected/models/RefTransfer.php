@@ -4,25 +4,16 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "ref_transfer".
- *
- * @property integer $id
- * @property string $jenis_transfer
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class RefTransfer extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'ref_transfer';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -30,9 +21,6 @@ class RefTransfer extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

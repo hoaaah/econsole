@@ -6,9 +6,8 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-/**
- * TaValidasiPembayaranSearch represents the model behind the search form about `app\models\TaValidasiPembayaran`.
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class Laporan extends Model
 {
     public $Kd_Laporan;

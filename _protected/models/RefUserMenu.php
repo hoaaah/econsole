@@ -4,19 +4,11 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "ref_user_menu".
- *
- * @property integer $menu
- * @property integer $kd_user
- *
- * @property RefUser $kdUser
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class RefUserMenu extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'ref_user_menu';
@@ -26,9 +18,6 @@ class RefUserMenu extends \yii\db\ActiveRecord
        return array('kd_user', 'menu');
     }    
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -38,9 +27,6 @@ class RefUserMenu extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -49,9 +35,6 @@ class RefUserMenu extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getKdUser()
     {
         return $this->hasOne(RefUser::className(), ['id' => 'kd_user']);

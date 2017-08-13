@@ -4,22 +4,11 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "elimination_account".
- *
- * @property string $tahun
- * @property string $kd_pemda
- * @property integer $kd_rek_1
- * @property integer $kd_rek_2
- * @property integer $kd_rek_3
- * @property integer $kd_rek_4
- * @property integer $kd_rek_5
- */
+ /* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class EliminationAccount extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'elimination_account';
@@ -29,9 +18,6 @@ class EliminationAccount extends \yii\db\ActiveRecord
     public $kd4;
     public $kd5;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -42,9 +28,6 @@ class EliminationAccount extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -77,16 +60,12 @@ class EliminationAccount extends \yii\db\ActiveRecord
         ]);
     }
 
-    public function getRek3Compilation()
+    public function getTransfer()
     {
-        return $this->hasOne(\app\models\CompilationRecords::className(), [
-            'tahun' => 'tahun',
-            'kd_pemda' => 'kd_pemda',
-            'kd_rek_1' => 'kd_rek_1',
-            'kd_rek_2' => 'kd_rek_2',
-            'kd_rek_3' => 'kd_rek_3'
+        return $this->hasOne(\app\models\RefTransfer::className(), [
+            'id' => 'transfer_id'
         ]);
-    }
+    }    
 
     public function getRek3Compilation5()
     {

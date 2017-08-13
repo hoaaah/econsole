@@ -8,20 +8,17 @@ use yii\bootstrap\Modal;
 /* @var $searchModel app\modules\parameter\models\RefTransferSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ref Transfers';
+$this->title = 'Kategori Transfer';
+$this->params['breadcrumbs'][] = 'Parameter';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ref-transfer-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?= Html::a('Tambah Ref Transfer', ['create'], [
+        <?= Html::a('Tambah Kategori Transfer', ['create'], [
                                                     'class' => 'btn btn-xs btn-success',
                                                     'data-toggle'=>"modal",
                                                     'data-target'=>"#myModal",
-                                                    'data-title'=>"Tambah 'Tambah Ref Transfer'",
+                                                    'data-title'=>'Tambah Ref Transfer',
                                                     ]) ?>
     </p>
     <?= GridView::widget([
@@ -35,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'responsiveWrap' => false,        
         'toolbar' => [
             [
-                'content' => $this->render('_search', ['model' => $searchModel, 'Tahun' => $Tahun]),
+                // 'content' => $this->render('_search', ['model' => $searchModel, 'Tahun' => $Tahun]),
             ],
         ],       
         'pager' => [
@@ -48,9 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],        
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            ['class' => 'kartik\grid\SerialColumn'],
             'jenis_transfer',
 
             [

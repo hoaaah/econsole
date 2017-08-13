@@ -2,6 +2,7 @@
 /**
  * This is the template for generating a CRUD controller class file.
  */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
 
 use yii\db\ActiveRecordInterface;
 use yii\helpers\StringHelper;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "796b20177c1307a92c5730f4332a5a26",
+    "content-hash": "f0f556956a127d75c5fe18b69fe51d4a",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -221,37 +221,6 @@
                 "web"
             ],
             "time": "2017-01-08T21:03:57+00:00"
-        },
-        {
-            "name": "bower-asset/bootbox",
-            "version": "v4.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/makeusabrew/bootbox.git",
-                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
-                "reference": "cb756203e250ed0ff2539359ff0ad1c3ffb8e8d3",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/bootstrap": ">=3.0.0"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": "./bootbox.js",
-                "bower-asset-ignore": [
-                    "CHANGELOG.md",
-                    "CONTRIBUTING",
-                    "Gruntfile.js",
-                    "header.txt",
-                    "karma*.js",
-                    "build",
-                    "tests"
-                ]
-            }
         },
         {
             "name": "bower-asset/bootstrap",
@@ -531,47 +500,6 @@
             ]
         },
         {
-            "name": "bower-asset/patternfly-bootstrap-treeview",
-            "version": "v2.1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/patternfly/patternfly-bootstrap-treeview.git",
-                "reference": "c8f1603317c3ba50196a86796806ece226413b1e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/patternfly/patternfly-bootstrap-treeview/zipball/c8f1603317c3ba50196a86796806ece226413b1e",
-                "reference": "c8f1603317c3ba50196a86796806ece226413b1e",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/bootstrap": ">=3.0.0",
-                "bower-asset/jquery": ">=1.9.0"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": "dist/bootstrap-treeview.js",
-                "bower-asset-ignore": [
-                    "**/.*",
-                    "node_modules",
-                    "test",
-                    "tests"
-                ]
-            },
-            "description": "Tree View for Twitter Bootstrap",
-            "keywords": [
-                "bootstrap",
-                "javascript",
-                "jquery",
-                "jquery-plugin",
-                "navigation",
-                "tree",
-                "tree-view",
-                "treeview",
-                "twitter"
-            ]
-        },
-        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
@@ -778,46 +706,6 @@
             "time": "2017-06-28T14:36:40+00:00"
         },
         {
-            "name": "creocoder/yii2-nested-sets",
-            "version": "0.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/creocoder/yii2-nested-sets.git",
-                "reference": "cb8635a459b6246e5a144f096b992dcc30cf9954"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/creocoder/yii2-nested-sets/zipball/cb8635a459b6246e5a144f096b992dcc30cf9954",
-                "reference": "cb8635a459b6246e5a144f096b992dcc30cf9954",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "creocoder\\nestedsets\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Kochetov",
-                    "email": "creocoder@gmail.com"
-                }
-            ],
-            "description": "The nested sets behavior for the Yii framework",
-            "keywords": [
-                "nested sets",
-                "yii2"
-            ],
-            "time": "2015-01-27T10:53:51+00:00"
-        },
-        {
             "name": "dmstr/yii2-adminlte-asset",
             "version": "2.4.2",
             "source": {
@@ -987,93 +875,6 @@
                 "validator"
             ],
             "time": "2017-01-30T22:07:36+00:00"
-        },
-        {
-            "name": "execut/yii2-base",
-            "version": "1.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/execut/yii2-base.git",
-                "reference": "e08489d48587371176d1ce8024e983b47a632a39"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/execut/yii2-base/zipball/e08489d48587371176d1ce8024e983b47a632a39",
-                "reference": "e08489d48587371176d1ce8024e983b47a632a39",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2-jui": "@dev"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "execut\\yii\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "eXeCUT"
-                }
-            ],
-            "description": "My base classes for yii2",
-            "homepage": "https://github.com/execut/yii2-base",
-            "keywords": [
-                "yii2"
-            ],
-            "time": "2017-08-08T13:29:00+00:00"
-        },
-        {
-            "name": "execut/yii2-widget-bootstraptreeview",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/execut/yii2-widget-bootstraptreeview.git",
-                "reference": "5f6a45c854fb22b603a313c93cf193a4912d0de6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/execut/yii2-widget-bootstraptreeview/zipball/5f6a45c854fb22b603a313c93cf193a4912d0de6",
-                "reference": "5f6a45c854fb22b603a313c93cf193a4912d0de6",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/patternfly-bootstrap-treeview": "@dev",
-                "execut/yii2-base": "*",
-                "yiisoft/yii2-jui": "@dev"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "execut\\widget\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "eXeCUT"
-                }
-            ],
-            "description": "Bootstrap Tree View widget wrapper for yii2",
-            "homepage": "https://github.com/execut/yii2-widget-bootstraptreeview",
-            "keywords": [
-                "bootstrap",
-                "extension",
-                "form",
-                "input",
-                "jquery",
-                "plugin",
-                "tree",
-                "yii2"
-            ],
-            "time": "2017-06-22T11:31:31+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1297,50 +1098,6 @@
                 "svg"
             ],
             "time": "2016-02-28T16:13:18+00:00"
-        },
-        {
-            "name": "kartik-v/bootstrap-tabs-x",
-            "version": "v1.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/bootstrap-tabs-x.git",
-                "reference": "e85a731d79f030fb7f7742e3e2e0ac828c3233a1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-tabs-x/zipball/e85a731d79f030fb7f7742e3e2e0ac828c3233a1",
-                "reference": "e85a731d79f030fb7f7742e3e2e0ac828c3233a1",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "kartik\\plugins\\tabs\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
-                }
-            ],
-            "description": "Extended Bootstrap Tabs with ability to align tabs in multiple ways, add borders, rotated titles, and more.",
-            "homepage": "https://github.com/kartik-v/bootstrap-tabs-x",
-            "keywords": [
-                "bootstrap",
-                "extended",
-                "jquery",
-                "modal",
-                "modal-tabs",
-                "tabs",
-                "tabs-x"
-            ],
-            "time": "2015-06-26T14:48:16+00:00"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -1954,116 +1711,6 @@
                 "yii2"
             ],
             "time": "2015-06-17T17:34:48+00:00"
-        },
-        {
-            "name": "kartik-v/yii2-tabs-x",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/yii2-tabs-x.git",
-                "reference": "685eef44354194b36f6892de2f8288bcf12bc321"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/685eef44354194b36f6892de2f8288bcf12bc321",
-                "reference": "685eef44354194b36f6892de2f8288bcf12bc321",
-                "shasum": ""
-            },
-            "require": {
-                "kartik-v/bootstrap-tabs-x": "~1.3",
-                "kartik-v/yii2-krajee-base": "~1.7"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "kartik\\tabs\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
-                }
-            ],
-            "description": "An extended bootstrap 3.0 tabs widget with ability to align tabs in multiple ways, add borders, rotated titles, and more.",
-            "homepage": "https://github.com/kartik-v/yii2-tabs-x",
-            "keywords": [
-                "bootstrap",
-                "extended",
-                "jquery",
-                "modal",
-                "modal-tabs",
-                "tabs",
-                "tabs-x"
-            ],
-            "time": "2017-05-04T12:30:21+00:00"
-        },
-        {
-            "name": "kartik-v/yii2-tree-manager",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/yii2-tree-manager.git",
-                "reference": "adb0f310093d59ccf360e056fcc85b11d7654ed0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/adb0f310093d59ccf360e056fcc85b11d7654ed0",
-                "reference": "adb0f310093d59ccf360e056fcc85b11d7654ed0",
-                "shasum": ""
-            },
-            "require": {
-                "creocoder/yii2-nested-sets": "~0.9",
-                "kartik-v/yii2-dialog": "~1.0",
-                "kartik-v/yii2-widget-activeform": "~1.4"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "kartik\\tree\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
-                }
-            ],
-            "description": "An enhanced tree management module with tree node selection and manipulation using nested sets.",
-            "homepage": "https://github.com/kartik-v/yii2-tree-manager",
-            "keywords": [
-                "ajax",
-                "bootstrap",
-                "hierarchy",
-                "jquery",
-                "krajee",
-                "nested",
-                "nestedset",
-                "set",
-                "tree",
-                "treeview"
-            ],
-            "time": "2017-04-29T15:57:07+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -3409,44 +3056,6 @@
                 "yii2-dynamicform"
             ],
             "time": "2015-02-25T15:31:24+00:00"
-        },
-        {
-            "name": "xj/yii2-bootbox-widget",
-            "version": "1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/xjflyttp/yii2-bootbox-widget.git",
-                "reference": "237f881ce929e1b7cbf0fd94ce1657be8446d0af"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/xjflyttp/yii2-bootbox-widget/zipball/237f881ce929e1b7cbf0fd94ce1657be8446d0af",
-                "reference": "237f881ce929e1b7cbf0fd94ce1657be8446d0af",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/bootbox": "~4.4.0",
-                "yiisoft/yii2": "*",
-                "yiisoft/yii2-bootstrap": "~2.0.0 || ~2.1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "xj\\bootbox\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "xjflyttp",
-                    "email": "xjflyttp@gmail.com"
-                }
-            ],
-            "description": "yii2-bootbox-widget",
-            "time": "2016-11-18T02:33:37+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -6827,10 +6436,7 @@
         "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-dynagrid": 20,
         "kartik-v/yii2-krajee-base": 20,
-        "kartik-v/yii2-tabs-x": 20,
         "kartik-v/yii2-detail-view": 20,
-        "execut/yii2-widget-bootstraptreeview": 20,
-        "kartik-v/yii2-tree-manager": 20,
         "kartik-v/yii2-builder": 20
     },
     "prefer-stable": false,

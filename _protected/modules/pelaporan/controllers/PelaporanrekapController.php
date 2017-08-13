@@ -11,9 +11,8 @@ use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use yii\helpers\ArrayHelper;
 
-/**
- * ValidasiController implements the CRUD actions for TaValidasiPembayaran model.
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class PelaporanrekapController extends Controller
 {
     /**

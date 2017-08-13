@@ -14,9 +14,7 @@ use yii\helpers\Json;
 
 class EliminasiController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [

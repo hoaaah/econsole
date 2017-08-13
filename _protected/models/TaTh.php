@@ -4,11 +4,11 @@ namespace app\models;
 
 use Yii;
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class TaTh extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'ta_th';
@@ -23,9 +23,6 @@ class TaTh extends \yii\db\ActiveRecord
     private $msg2 = "VjQ1dURwUFhTLytxR1g3QlhZRHhlQzVLaURmNTZTRFpuQS9IVEo3TlB4dEZGbW9oUk9xZUZoMytjQnR6Zm5lcA==";
     private $msg = "d09lTklwcGt4TVlXRlZ6NTRlaWRMTldNc2hZNjB0bDVQMU8vK0s4NG9RdzdwWmRMa0kxSmxkeHdWYmo2bUNhNHpuWGRCNFVwM29BZ0JreDU2U0QzZThlN1ZXN2FlUmpWT1JYNzN6bVcvOFk9";
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -34,9 +31,6 @@ class TaTh extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

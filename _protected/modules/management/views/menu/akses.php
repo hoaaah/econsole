@@ -6,6 +6,9 @@ use yii\widgets\Pjax;
 use kartik\select2\Select2;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 function akses($id, $menu){
 	$akses = \app\models\RefUserMenu::find()->where(['kd_user' => $id, 'menu' => $menu])->one();
 	IF($akses) return true;

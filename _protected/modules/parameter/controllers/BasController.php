@@ -11,14 +11,11 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 
-/**
- * BasController implements the CRUD actions for RefAkrual3 model.
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class BasController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
+
     public function behaviors()
     {
         return [
@@ -32,10 +29,6 @@ class BasController extends Controller
         ];
     }
 
-    /**
-     * Lists all RefAkrual3 models.
-     * @return mixed
-     */
     public function actionIndex()
     {    
         $searchModel = new RefAkrual3Search();
@@ -47,14 +40,6 @@ class BasController extends Controller
         ]);
     }
 
-
-    /**
-     * Displays a single RefAkrual3 model.
-     * @param integer $kd_akrual_1
-     * @param integer $kd_akrual_2
-     * @param integer $kd_akrual_3
-     * @return mixed
-     */
     public function actionView($kd_akrual_1, $kd_akrual_2, $kd_akrual_3)
     {   
         $request = Yii::$app->request;
@@ -75,12 +60,6 @@ class BasController extends Controller
         }
     }
 
-    /**
-     * Creates a new RefAkrual3 model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -136,15 +115,6 @@ class BasController extends Controller
        
     }
 
-    /**
-     * Updates an existing RefAkrual3 model.
-     * For ajax request will return json object
-     * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $kd_akrual_1
-     * @param integer $kd_akrual_2
-     * @param integer $kd_akrual_3
-     * @return mixed
-     */
     public function actionUpdate($kd_akrual_1, $kd_akrual_2, $kd_akrual_3)
     {
         $request = Yii::$app->request;
@@ -198,15 +168,6 @@ class BasController extends Controller
         }
     }
 
-    /**
-     * Delete an existing RefAkrual3 model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $kd_akrual_1
-     * @param integer $kd_akrual_2
-     * @param integer $kd_akrual_3
-     * @return mixed
-     */
     public function actionDelete($kd_akrual_1, $kd_akrual_2, $kd_akrual_3)
     {
         $request = Yii::$app->request;
@@ -228,15 +189,6 @@ class BasController extends Controller
 
     }
 
-     /**
-     * Delete multiple existing RefAkrual3 model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $kd_akrual_1
-     * @param integer $kd_akrual_2
-     * @param integer $kd_akrual_3
-     * @return mixed
-     */
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -261,15 +213,6 @@ class BasController extends Controller
        
     }
 
-    /**
-     * Finds the RefAkrual3 model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $kd_akrual_1
-     * @param integer $kd_akrual_2
-     * @param integer $kd_akrual_3
-     * @return RefAkrual3 the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($kd_akrual_1, $kd_akrual_2, $kd_akrual_3)
     {
         if (($model = RefAkrual3::findOne(['kd_akrual_1' => $kd_akrual_1, 'kd_akrual_2' => $kd_akrual_2, 'kd_akrual_3' => $kd_akrual_3])) !== null) {

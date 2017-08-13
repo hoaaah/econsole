@@ -4,16 +4,12 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\bootstrap\Modal;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\konsolidasi\models\EliminationAccountSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
 
 $this->title = 'Elimination Accounts';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="elimination-account-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -21,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'class' => 'btn btn-xs btn-success',
                                                     'data-toggle'=>"modal",
                                                     'data-target'=>"#myModal",
-                                                    'data-title'=>"Tambah 'Tambah Elimination Account'",
+                                                    'data-title'=> 'Tambah Elimination Account',
                                                     ]) ?>
     </p>
     <?= GridView::widget([
@@ -58,6 +54,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'label' => 'Jenis Transfer',
+                'attribute' => 'transfer_id',
+                'noWrap' => true,
+                'value' => 'transfer.jenis_transfer',
+            ],
+            [
                 'label' => 'Akun',
                 'value' => function($model){
                     return $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3.'.'.$model->kd_rek_4.'.'.$model->kd_rek_5;
@@ -87,10 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                  'title' => Yii::t('yii', 'ubah'),
                                  'data-toggle'=>"modal",
                                  'data-target'=>"#myModal",
-                                 'data-title'=> "Ubah",                                 
-                                 // 'data-confirm' => "Yakin menghapus ini?",
-                                 // 'data-method' => 'POST',
-                                 // 'data-pjax' => 1
+                                 'data-title'=> "Ubah",
                               ]);
                         },
                         'view' => function ($url, $model) {
@@ -111,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'id' => 'myModal',
     'header' => '<h4 class="modal-title">Lihat lebih...</h4>',
         'options' => [
-            'tabindex' => false // important for Select2 to work properly
+            'tabindex' => false,
         ], 
 ]);
  

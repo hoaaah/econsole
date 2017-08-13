@@ -1,5 +1,7 @@
 <?php
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 return [
 
     //------------------------//

@@ -4,30 +4,8 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "compilation_record5".
- *
- * @property string $tahun
- * @property integer $kd_provinsi
- * @property string $kd_pemda
- * @property string $akhir_periode
- * @property integer $perubahan_id
- * @property integer $kd_rek_1
- * @property integer $kd_rek_2
- * @property integer $kd_rek_3
- * @property integer $kd_rek_4
- * @property integer $kd_rek_5
- * @property string $nm_rek_1
- * @property string $nm_rek_2
- * @property string $nm_rek_3
- * @property string $nm_rek_4
- * @property string $nm_rek_5
- * @property string $anggaran
- * @property string $realisasi
- * @property integer $d_k
- * @property string $created_at
- * @property integer $user_id
- */
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
+
 class CompilationRecord5 extends \yii\db\ActiveRecord
 {
     /**

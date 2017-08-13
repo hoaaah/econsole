@@ -37,7 +37,7 @@ class EliminationAccount extends \yii\db\ActiveRecord
         return [
             [['tahun', 'kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5'], 'required'],
             [['tahun'], 'safe'],
-            [['kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5'], 'integer'],
+            [['kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5', 'transfer_id'], 'integer'],
             [['kd_pemda', 'kd3', 'kd4', 'kd5'], 'string', 'max' => 11],
         ];
     }
@@ -57,7 +57,8 @@ class EliminationAccount extends \yii\db\ActiveRecord
             'kd_rek_5' => 'Kd Rek 5',
             'kd3' => 'Jenis',
             'kd4' => 'Objek',
-            'kd5' => 'Rincian Objek',  
+            'kd5' => 'Rincian Objek',
+            'transfer_id' => 'Kategori Transfer',
         ];
     }
 
@@ -96,5 +97,30 @@ class EliminationAccount extends \yii\db\ActiveRecord
             'kd_rek_2' => 'kd_rek_2',
             'kd_rek_3' => 'kd_rek_3'
         ]);
-    }        
+    } 
+
+    public function getRek4Compilation5()
+    {
+        return $this->hasOne(\app\models\CompilationRecord5::className(), [
+            'tahun' => 'tahun',
+            'kd_pemda' => 'kd_pemda',
+            'kd_rek_1' => 'kd_rek_1',
+            'kd_rek_2' => 'kd_rek_2',
+            'kd_rek_3' => 'kd_rek_3',
+            'kd_rek_4' => 'kd_rek_4',
+        ]);
+    } 
+
+    public function getRek5Compilation5()
+    {
+        return $this->hasOne(\app\models\CompilationRecord5::className(), [
+            'tahun' => 'tahun',
+            'kd_pemda' => 'kd_pemda',
+            'kd_rek_1' => 'kd_rek_1',
+            'kd_rek_2' => 'kd_rek_2',
+            'kd_rek_3' => 'kd_rek_3',
+            'kd_rek_4' => 'kd_rek_4',
+            'kd_rek_5' => 'kd_rek_5'
+        ]);
+    }                
 }

@@ -10,8 +10,7 @@ function akses($id, $menu){
 	$akses = \app\models\RefUserMenu::find()->where(['kd_user' => $id, 'menu' => $menu])->one();
 	IF($akses) return true;
 }
-?>
-<?php Pjax::begin(['id' => 'akses-pjax', 'timeout' => 5000]); ?>    
+?>  
 <table class="table table-hover">
 	<tbody>
 		<tr>
@@ -22,28 +21,21 @@ function akses($id, $menu){
 		</tr>
 		<!--Menu 1 -->
 		<tr>
-			<td rowspan="8">Pengaturan</td>
+			<td rowspan="4">Pengaturan</td>
 			<td>Pengaturan Global</td>
 			<td>-</td>
 			<td>
 			<?php
-				$menu = 405;
+				$menu = 101;
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -59,19 +51,12 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -83,76 +68,16 @@ function akses($id, $menu){
 			<td>-</td>
 			<td>
 			<?php
-				$menu = 401;
+				$menu = 103;
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Mapping Komponen BOS</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 104;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Mapping Pendapatan</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 105;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -168,83 +93,23 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
 			?>
 			</td>
-		</tr>
-		<tr>
-			<td>Seleksi Rekening</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 107;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Program dan Kegiatan</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 108;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>						
+		</tr>			
 		<!--end of menu-->
 		<!--Menu 2 -->
 		<tr>
-			<td rowspan="3">Parameter</td>
-			<td>Sekolah</td>
+			<td rowspan="4">Parameter</td>
+			<td>Periode</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -252,19 +117,12 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -272,7 +130,7 @@ function akses($id, $menu){
 			</td>
 		</tr>
 		<tr>
-			<td>Data Sekolah</td>
+			<td>Bagan Akun Standar</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -280,19 +138,12 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -300,7 +151,28 @@ function akses($id, $menu){
 			</td>		
 		</tr>
 		<tr>
-			<td>Kecamatan-Desa/Kelurahan</td>
+			<td>Pemda</td>
+			<td>-</td>
+			<td>
+			<?php
+				$menu = 203;
+				IF(akses($model->id, $menu) === true){
+					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
+                            [
+                             'id' => 'access-'.$menu,
+                          ]);							
+				}ELSE{
+					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
+                            [  
+                             'id' => 'access-'.$menu,
+                          ]);
+				}
+
+			?>
+			</td>		
+		</tr>
+		<tr>
+			<td>Jenis Transfer</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -308,25 +180,18 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
 			?>
 			</td>		
-		</tr>		
+		</tr>
 		<!--end of menu-->
 		<tr>
 			<td rowspan="1">Data Management</td>
@@ -338,144 +203,22 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
 			?>
 			</td>
 		</tr>
-		<!--Menu 4 -->
-		<tr>
-			<td rowspan="4">Anggaran</td>
-			<td>RKAS</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 402;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Anggaran Kas</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 404;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>		
-		<tr>
-			<td>Posting</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 403;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Verifikasi Anggaran</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 406;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<!--end of menu-->
 		<!--Menu 5 -->
 		<tr>
-			<td rowspan="9">Penatausahaan</td>
-			<td>Penerimaan</td>
+			<td rowspan="2">Eliminasi</td>
+			<td>Record Eliminasi</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -483,19 +226,12 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -503,63 +239,7 @@ function akses($id, $menu){
 			</td>
 		</tr>
 		<tr>
-			<td>Mutasi Kas</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 508;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Belanja</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 506;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>		
-		<tr>
-			<td>SPJ</td>
+			<td>Data Management</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -567,166 +247,23 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
 			?>
 			</td>
-		</tr>
-		<tr>
-			<td>Setoran Potongan</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 509;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>		
-		<tr>
-			<td>Verifikasi SPJ (TU)</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 503;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Pengadaan Aset</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 504;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Daftar Aset Tetap</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 505;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>Saldo Awal</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 507;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>						
+		</tr>					
 		<!--end of menu-->
 		<!--Menu 6 -->
 		<tr>
-			<td rowspan="5">Pelaporan</td>
-			<td>Pelaporan Sekolah</td>
+			<td rowspan="3">Pelaporan</td>
+			<td>Pelaporan Pusat</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -734,19 +271,12 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
@@ -754,89 +284,28 @@ function akses($id, $menu){
 			</td>
 		</tr>
 		<tr>
-			<td>SP3B (Pemda)</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 604;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>SP2B (Pemda)</td>
-			<td>-</td>
-			<td>
-			<?php
-				$menu = 605;
-				IF(akses($model->id, $menu) === true){
-					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);							
-				}ELSE{
-					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
-                            [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
-                          ]);
-				}
-
-			?>
-			</td>
-		</tr>				
-		<tr>
-			<td>Pelaporan Kabupaten</td>
+			<td>Pelaporan Provinsi</td>
 			<td>-</td>
 			<td>
 			<?php
 				$menu = 602;
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
-                            [
-                             // 'class' => 'ajaxAkses',
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                            [  
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
 			?>
 			</td>
-		</tr>		
+		</tr>
 		<tr>
-			<td>Verifikasi SPJ (Pemda)</td>
+			<td>Pelaporan Daerah</td>
 			<td>-</td>
 			<td>
 			<?php
@@ -844,25 +313,60 @@ function akses($id, $menu){
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Hapus Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);							
 				}ELSE{
 					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
                             [  
-                             'pjax-container' => 'akses-pjax',
-                             'data-confirm' => "Berikan Akses?",
-                             'data-method' => 'POST',
-                             'data-pjax' => 1
+                             'id' => 'access-'.$menu,
                           ]);
 				}
 
 			?>
 			</td>
-		</tr>
+		</tr>				
 		<!--end of menu-->		
 	</tbody>
 </table>
-<?php Pjax::end(); ?>
+<script>
+    $('a[id^="access-"]').on("click", function(event) {
+        event.preventDefault();
+        var href = $(this).attr('href');
+        var id = $(this).attr('id');
+		var status = href.slice(-1);
+		status = parseInt(status);
+		status == 1 ? confirmMessage = 'Berikan akses?' : confirmMessage = 'Hapus Akses?'
+		var confirmation = confirm(confirmMessage);
+        object = $(this);
+		if(confirmation == true){
+			$(this).html('<i class=\"fa fa-spinner fa-spin\"></i>');
+			$.ajax({
+			    url: href,
+			    type: 'post',
+			    data: $(this).serialize(),
+			    beforeSend: function(){
+			            // create before send here
+			        },
+			        complete: function(){
+			            // create complete here
+			        },
+			    success: function(data) {
+					if(data == 1)
+					{
+						if(status == 1){
+							$(object).html('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>');
+							href = href.replace('akses=1', 'akses=0');
+							$(object).attr('href', href);
+						}else{
+							$(object).html('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>');
+							href = href.replace('akses=0', 'akses=1');
+							$(object).attr('href', href);
+						}
+					}else{
+						$(object).html('<span class = "label label-danger">Gagal!</span>');
+					}
+			    }
+			});
+		}
+    });   
+</script>

@@ -1,18 +1,18 @@
 <?php
 
-namespace app\modules\management\controllers;
+namespace app\modules\parameter\controllers;
 
 use Yii;
-use app\models\RefUser;
-use app\modules\management\models\RefUserSearch;
+use app\models\RefTransfer;
+use app\modules\parameter\models\RefTransferSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MenuController implements the CRUD actions for RefUser model.
+ * TransferController implements the CRUD actions for RefTransfer model.
  */
-class MenuController extends Controller
+class TransferController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,7 +30,7 @@ class MenuController extends Controller
     }
 
     /**
-     * Lists all RefUser models.
+     * Lists all RefTransfer models.
      * @return mixed
      */
     public function actionIndex()
@@ -38,62 +38,25 @@ class MenuController extends Controller
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
             return $this->redirect(Yii::$app->request->referrer);
+        }    
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $Tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $Tahun = DATE('Y');
         }
-        $searchModel = new RefUserSearch();
+        $searchModel = new RefTransferSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'Tahun' => $Tahun,
         ]);
     }
 
-    public function actionAkses($id)
-    {
-        IF($this->cekakses() !== true){
-            Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
-            return $this->redirect(Yii::$app->request->referrer);
-        }
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->renderAjax('akses', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionGive($id, $menu, $akses)
-    {
-        IF($this->cekakses() !== true){
-            Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
-            return $this->redirect(Yii::$app->request->referrer);
-        }
-        IF($akses == 1){
-            $model = new \app\models\RefUserMenu();
-            $model->menu = $menu;
-            $model->kd_user = $id;
-            if($model->save()){
-                echo 1;
-            }else{
-                echo 0;
-            }
-        }ELSE{
-            $model = \app\models\RefUserMenu::find()->where(['kd_user' => $id, 'menu' => $menu])->one();
-            if($model->delete()){
-                echo 1;
-            }else{
-                echo 0;
-            }
-        }
-        
-        // return $this->redirect(Yii::$app->request->referrer);
-    }     
-
     /**
-     * Displays a single RefUser model.
+     * Displays a single RefTransfer model.
      * @param integer $id
      * @return mixed
      */
@@ -102,14 +65,20 @@ class MenuController extends Controller
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
             return $this->redirect(Yii::$app->request->referrer);
-        }
-        return $this->render('view', [
+        }    
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $Tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $Tahun = DATE('Y');
+        }   
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new RefUser model.
+     * Creates a new RefTransfer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -118,11 +87,22 @@ class MenuController extends Controller
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
             return $this->redirect(Yii::$app->request->referrer);
+        }    
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $Tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $Tahun = DATE('Y');
         }
-        $model = new RefUser();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new RefTransfer();
+
+        if ($model->load(Yii::$app->request->post())) {
+            IF($model->save()){
+                echo 1;
+            }ELSE{
+                echo 0;
+            }
         } else {
             return $this->renderAjax('_form', [
                 'model' => $model,
@@ -131,7 +111,7 @@ class MenuController extends Controller
     }
 
     /**
-     * Updates an existing RefUser model.
+     * Updates an existing RefTransfer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -141,11 +121,22 @@ class MenuController extends Controller
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
             return $this->redirect(Yii::$app->request->referrer);
+        }    
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $Tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $Tahun = DATE('Y');
         }
+
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            IF($model->save()){
+                echo 1;
+            }ELSE{
+                echo 0;
+            }
         } else {
             return $this->renderAjax('_form', [
                 'model' => $model,
@@ -154,7 +145,7 @@ class MenuController extends Controller
     }
 
     /**
-     * Deletes an existing RefUser model.
+     * Deletes an existing RefTransfer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -164,32 +155,40 @@ class MenuController extends Controller
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
             return $this->redirect(Yii::$app->request->referrer);
+        }    
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $Tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $Tahun = DATE('Y');
         }
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
-     * Finds the RefUser model based on its primary key value.
+     * Finds the RefTransfer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return RefUser the loaded model
+     * @return RefTransfer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = RefUser::findOne($id)) !== null) {
+        if (($model = RefTransfer::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
+
     protected function cekakses(){
 
         IF(Yii::$app->user->identity){
-            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 103])->one();
+            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 204])->one();
             IF($akses){
                 return true;
             }else{
@@ -198,5 +197,6 @@ class MenuController extends Controller
         }ELSE{
             return false;
         }
-    }     
+    }  
+
 }

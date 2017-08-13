@@ -5,27 +5,27 @@ use kartik\grid\GridView;
 use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\konsolidasi\models\EliminationAccountSearch */
+/* @var $searchModel app\modules\parameter\models\RefTransferSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Elimination Accounts';
+$this->title = 'Ref Transfers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="elimination-account-index">
+<div class="ref-transfer-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Tambah Elimination Account', ['create'], [
+        <?= Html::a('Tambah Ref Transfer', ['create'], [
                                                     'class' => 'btn btn-xs btn-success',
                                                     'data-toggle'=>"modal",
                                                     'data-target'=>"#myModal",
-                                                    'data-title'=>"Tambah 'Tambah Elimination Account'",
+                                                    'data-title'=>"Tambah 'Tambah Ref Transfer'",
                                                     ]) ?>
     </p>
     <?= GridView::widget([
-        'id' => 'elimination-account',    
+        'id' => 'ref-transfer',    
         'dataProvider' => $dataProvider,
         'export' => false, 
         'responsive'=>true,
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'responsiveWrap' => false,        
         'toolbar' => [
             [
-                // 'content' => $this->render('_search', ['model' => $searchModel, 'Tahun' => $Tahun]),
+                'content' => $this->render('_search', ['model' => $searchModel, 'Tahun' => $Tahun]),
             ],
         ],       
         'pager' => [
@@ -44,37 +44,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'pjax'=>true,
         'pjaxSettings'=>[
-            'options' => ['id' => 'elimination-account-pjax', 'timeout' => 5000],
+            'options' => ['id' => 'ref-transfer-pjax', 'timeout' => 5000],
         ],        
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'kartik\grid\SerialColumn'],
-            [
-                'label' => 'Pemda',
-                'attribute' => 'kd_pemda',
-                'visible' => isset(Yii::$app->user->identity->pemda_id) ? false : true,
-                'value' => function($model){
-                    return $model->kd_pemda.'. '.$model->pemda->name;
-                }
-            ],
-            [
-                'label' => 'Akun',
-                'value' => function($model){
-                    return $model->kd_rek_1.'.'.$model->kd_rek_2.'.'.$model->kd_rek_3.'.'.$model->kd_rek_4.'.'.$model->kd_rek_5;
-                }
-            ],
-            [
-                'label' => ' Nama Akun',
-                'value' => function($model){
-                    if($model->kd_rek_4 == 0){
-                        return $model->rek3Compilation5->nm_rek_3;
-                    }elseif($model->kd_rek_5 == 0){
-                        return $model->rek4Compilation5->nm_rek_4;
-                    }else{
-                        return $model->rek5Compilation5->nm_rek_5;
-                    }
-                }
-            ],
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'jenis_transfer',
+
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{view} {update} {delete}',

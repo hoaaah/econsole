@@ -31,23 +31,22 @@
                     ],                    
                     ['label' => 'Parameter', 'icon' => 'circle-o','url' => '#', 'visible' => 1,'items'  =>
                         [
-                            ['label' => 'Periode', 'icon' => 'circle-o', 'url' => ['/parameter/periode'], 'visible' => akses(202)],
-                            ['label' => 'Bagan Akun Standar', 'icon' => 'circle-o', 'url' => ['/parameter/bas'], 'visible' => akses(204)],
-                            ['label' => 'Pemda', 'icon' => 'circle-o', 'url' => ['/parameter/pemda'], 'visible' => akses(201)],
+                            ['label' => 'Periode', 'icon' => 'circle-o', 'url' => ['/parameter/periode'], 'visible' => akses(201)],
+                            ['label' => 'Bagan Akun Standar', 'icon' => 'circle-o', 'url' => ['/parameter/bas'], 'visible' => akses(202)],
+                            ['label' => 'Pemda', 'icon' => 'circle-o', 'url' => ['/parameter/pemda'], 'visible' => akses(203)],
+                            ['label' => 'Jenis Transfer', 'icon' => 'circle-o', 'url' => ['/parameter/transfer'], 'visible' => akses(204)],
                         ],
                     ],
                     ['label' => 'Konsolidasi', 'icon' => 'fa fa-edit', 'url' => '#', 'visible' => !Yii::$app->user->isGuest, 'items' => 
                         [
-                            ['label' => 'Record Eliminasi', 'icon' => 'circle-o', 'url' => ['/konsolidasi/eliminasi'], 'visible' => akses(402)],
-                            ['label' => 'Data Management', 'icon' => 'circle-o', 'url' => ['/konsolidasi/rencana'], 'visible' => akses(404)],
+                            ['label' => 'Record Eliminasi', 'icon' => 'circle-o', 'url' => ['/konsolidasi/eliminasi'], 'visible' => akses(501)],
+                            ['label' => 'Data Management', 'icon' => 'circle-o', 'url' => ['/konsolidasi/rencana'], 'visible' => akses(502)],
                         ],
                     ],
                     ['label' => 'Pelaporan', 'icon' => 'fa fa-edit', 'url' => '#', 'visible' => !Yii::$app->user->isGuest, 'items' => 
                         [
                             ['label' => 'Pelaporan', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporansekolah'], 'visible' => akses(601)],
                             ['label' => 'Pelaporan', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporanrekap'], 'visible' => akses(602)],
-                            ['label' => 'SP3B', 'icon' => 'circle-o', 'url' => ['/pelaporan/sp3b'], 'visible' => akses(604)],
-                            ['label' => 'SP2B', 'icon' => 'circle-o', 'url' => ['/pelaporan/sp2b'], 'visible' => akses(605)],
                             ['label' => 'Verifikasi SPJ', 'icon' => 'circle-o', 'url' => ['/pelaporan/verpemda'], 'visible' => akses(603)],                           
                         ],
                     ],

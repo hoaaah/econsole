@@ -1,47 +1,32 @@
 <?php
 
-use yii\helpers\Inflector;
-use yii\helpers\StringHelper;
-
-/* @var $this yii\web\View */
-/* @var $generator yii\gii\generators\crud\Generator */
-
-$urlParams = $generator->generateUrlParams();
-$nameAttribute = $generator->getNameAttribute();
-
-echo "<?php\n";
-?>
-
 use yii\helpers\Html;
-use <?= $generator->indexWidgetType === 'grid' ? "kartik\\grid\\GridView" : "yii\\widgets\\ListView" ?>;
+use kartik\grid\GridView;
 use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
-<?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
+/* @var $searchModel app\modules\parameter\models\PemdaWilayahSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 /* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk Indonesia.*/
 
-$this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
+$this->title = 'Pemda Wilayahs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-index">
+<div class="pemda-wilayah-index">
 
-<?php if(!empty($generator->searchModelClass)): ?>
-<?= "    <?php " . ($generator->indexWidgetType === 'grid' ? "// " : "") ?>echo $this->render('_search', ['model' => $searchModel]); ?>
-<?php endif; ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Tambah ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], [
+        <?= Html::a('Tambah Pemda Wilayah', ['create'], [
                                 'class' => 'btn btn-xs btn-success',
                                 'data-toggle'=>"modal",
                                 'data-target'=>"#myModal",
                                 'data-title'=>"Tambah",
                                 ]) ?>
     </p>
-<?php if ($generator->indexWidgetType === 'grid'): ?>
-    <?= "<?= " ?>GridView::widget([
-        'id' => '<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>',    
+    <?= GridView::widget([
+        'id' => 'pemda-wilayah',    
         'dataProvider' => $dataProvider,
         'export' => false, 
         'responsive'=>true,
@@ -62,32 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'pjax'=>true,
         'pjaxSettings'=>[
-            'options' => ['id' => '<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-pjax', 'timeout' => 5000],
+            'options' => ['id' => 'pemda-wilayah-pjax', 'timeout' => 5000],
         ],        
-        <?= !empty($generator->searchModelClass) ? "// 'filterModel' => \$searchModel,\n        'columns' => [\n" : "'columns' => [\n"; ?>
+        // 'filterModel' => $searchModel,
+        'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-<?php
-$count = 0;
-if (($tableSchema = $generator->getTableSchema()) === false) {
-    foreach ($generator->getColumnNames() as $name) {
-        if (++$count < 6) {
-            echo "            '" . $name . "',\n";
-        } else {
-            echo "            // '" . $name . "',\n";
-        }
-    }
-} else {
-    foreach ($tableSchema->columns as $column) {
-        $format = $generator->generateColumnFormat($column);
-        if (++$count < 6) {
-            echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
-        } else {
-            echo "            // '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
-        }
-    }
-}
-?>
+            'wilayah_id',
+            'pemda_id',
 
             [
                 'class' => 'kartik\grid\ActionColumn',
@@ -117,18 +84,8 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
             ],
         ],
     ]); ?>
-<?php else: ?>
-    <?= "<?= " ?>ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model-><?= $nameAttribute ?>), ['view', <?= $urlParams ?>]);
-        },
-    ]) ?>
-<?php endif; ?>
 </div>
-<?= "<?php " ?>
-Modal::begin([
+<?php Modal::begin([
     'id' => 'myModal',
     'header' => '<h4 class="modal-title">Lihat lebih...</h4>',
         'options' => [

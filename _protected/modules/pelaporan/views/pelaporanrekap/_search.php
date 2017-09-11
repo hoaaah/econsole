@@ -18,23 +18,20 @@ use kartik\widgets\DatePicker;
     ]); ?>
 
 <div class="row col-md-12">
-    <div class="col-md-4">
+    <div class="col-md-2">
         <?php
 
             $model->Kd_Laporan = isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) ? Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] : '';
             echo $form->field($model, 'Kd_Laporan')->widget(Select2::classname(), [
                 'data' => [
-                    '1' => 'LRA Konsolidasi',
-                    '2' => 'Rekapitulasi RKAS-APBS',               
-                    '3' => 'Rekapitulasi Pembuatan SPJ',
-                    '4' => 'Rekapitulasi Realisasi Pendapatan dan Belanja',
-                    '5' => 'Rekapitulasi SP3B dan SP2B',
-                    '6' => 'Rekapitulasi Sisa dana BOS',
-                    // '7' => 'BOS-K7A Realisasi Penggunaan Dana Tiap Komponen BOS',
-                    // '8' => 'BOS-03 Rencana Penggunaan dana BOS per Periode',                 
+                    1 => 'LRA Nasional',
+                    2 => 'LRA Wilayah',               
+                    3 => 'LRA Regional Provinsi',
+                    4 => 'LRA Pemda',
+                    // 5 => 'LRA',
+                    // 6 => 'LRA',               
                 ],
                 'options' => ['class' =>'form-control input-sm' ,'placeholder' => 'Pilih Jenis Laporan ...', 
-                // 'onchange'=> 'this.form.submit()'
                 ],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -44,13 +41,6 @@ use kartik\widgets\DatePicker;
     </div>
     <div class="col-md-4">
         <?php 
-            // echo $form->field($model, 'kd_pemda')->widget(Select2::classname(), [
-            //     'data' => ArrayHelper::map(\app\models\RefPemda::find()->select(['id', 'CONCAT(id, \' \', name) AS name'])->all(),'id','name'),
-            //     'options' => ['placeholder' => 'Pilih Pemda ...'],
-            //     'pluginOptions' => [
-            //         'allowClear' => true
-            //     ],
-            // ])->label(false);
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_pemda'])){
                 $model->kd_pemda = Yii::$app->request->queryParams['Laporan']['kd_pemda'];             
             }

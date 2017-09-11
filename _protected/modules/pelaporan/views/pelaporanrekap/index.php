@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\controlhutang\models\RekananSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pelaporan Pemda';
+$this->title = 'Pelaporan';
 $this->params['breadcrumbs'][] = 'Pelaporan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,26 +19,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php 
 	                switch ($Kd_Laporan) {
 	                    case 1:
-	                        $heading = 'LRA Konsolidasi '.$Tahun;
+	                        $heading = 'LRA Nasional '.$Tahun;
 	                        break;
 	                    case 2:
-	                        $heading = 'Rekapitulasi RKAS-APBS Tahun Anggaran '.$Tahun;
+	                        $heading = 'LRA Wilayah '.$Tahun;
 	                        break;	                	
 	                    case 3:
-	                        $heading = 'Rekapitulasi Pembuatan SPJ '.$Tahun;
+	                        $heading = 'LRA Regional Provinsi '.$Tahun;
 	                        break;
 	                    case 4:
-	                        $heading = 'Rekapitulasi Realisasi Pendapatan dan Belanja '.$Tahun;
+	                        $heading = 'LRA Pemda '.$Tahun;
 	                        break;
-                        case 5:
-                            $heading = 'Rekapitulasi SP3B dan SP2B '.$Tahun;
-                            break;
-                        case 6:
-                            $heading = 'Rekapitulasi Sisa dana BOS '.$Tahun;
-                            break;
-                        case 7:
-                            $heading = 'BOS-K7A Realisasi Penggunaan Dana Tiap Komponen BOS '.$Tahun;
-                            break;
+                        // case 5:
+                        //     $heading = 'Rekapitulasi SP3B dan SP2B '.$Tahun;
+                        //     break;
+                        // case 6:
+                        //     $heading = 'Rekapitulasi Sisa dana BOS '.$Tahun;
+                        //     break;
+                        // case 7:
+                        //     $heading = 'BOS-K7A Realisasi Penggunaan Dana Tiap Komponen BOS '.$Tahun;
+                        //     break;
 	                    default:
 	                        # code...
 	                        break;

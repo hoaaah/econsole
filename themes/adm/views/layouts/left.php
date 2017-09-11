@@ -33,6 +33,7 @@
                             ['label' => 'Bagan Akun Standar', 'icon' => 'circle-o', 'url' => ['/parameter/bas'], 'visible' => akses(202)],
                             ['label' => 'Pemda', 'icon' => 'circle-o', 'url' => ['/parameter/pemda'], 'visible' => akses(203)],
                             ['label' => 'Jenis Transfer', 'icon' => 'circle-o', 'url' => ['/parameter/transfer'], 'visible' => akses(204)],
+                            ['label' => 'Wilayah', 'icon' => 'circle-o', 'url' => ['/parameter/wilayah'], 'visible' => akses(205)],
                         ],
                     ],
                     ['label' => 'Konsolidasi', 'icon' => 'fa fa-edit', 'url' => '#', 'visible' => !Yii::$app->user->isGuest, 'items' => 
@@ -43,9 +44,9 @@
                     ],
                     ['label' => 'Pelaporan', 'icon' => 'fa fa-edit', 'url' => '#', 'visible' => !Yii::$app->user->isGuest, 'items' => 
                         [
-                            ['label' => 'Pelaporan', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporansekolah'], 'visible' => akses(601)],
-                            ['label' => 'Pelaporan', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporanrekap'], 'visible' => akses(602)],
-                            ['label' => 'Verifikasi SPJ', 'icon' => 'circle-o', 'url' => ['/pelaporan/verpemda'], 'visible' => akses(603)],                           
+                            ['label' => 'Pelaporan', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporanrekap'], 'visible' => akses(601)],
+                            ['label' => 'Pelaporan Provinsi', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporanprovinsi'], 'visible' => akses(602)],
+                            ['label' => 'Pelaporan Pemda', 'icon' => 'circle-o', 'url' => ['/pelaporan/pelaporanpemda'], 'visible' => akses(603)],                           
                         ],
                     ],
                 ],

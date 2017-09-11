@@ -41,30 +41,28 @@ use yii\widgets\ActiveForm;
 
 </div>
 <?= "<?php " ?>
-$script = <<<JS
-$('form#{$model->formName()}').on('beforeSubmit',function(e)
-{
-    var \$form = $(this);
-    $.post(
-        \$form.attr("action"), //serialize Yii2 form 
-        \$form.serialize()
-    )
-        .done(function(result){
-            if(result == 1)
-            {
-                $("#myModal").modal('hide'); //hide modal after submit
-                //$(\$form).trigger("reset"); //reset form to reuse it to input
-                $.pjax.reload({container:'#<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-pjax'});
-            }else
-            {
-                $("#message").html(result);
-            }
-        }).fail(function(){
-            console.log("server error");
-        });
-    return false;
-});
-
-JS;
-$this->registerJs($script);
+$this->registerJs(<<<JS
+    $('form#{$model->formName()}').on('beforeSubmit',function(e)
+    {
+        var \$form = $(this);
+        $.post(
+            \$form.attr("action"), //serialize Yii2 form 
+            \$form.serialize()
+        )
+            .done(function(result){
+                if(result == 1)
+                {
+                    $("#myModal").modal('hide'); //hide modal after submit
+                    $.pjax.reload({container:'#<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-pjax'});
+                }else
+                {
+                    $("#message").html(result);
+                }
+            }).fail(function(){
+                console.log("server error");
+            });
+        return false;
+    });
+JS
+);
 ?>

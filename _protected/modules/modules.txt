@@ -16,7 +16,7 @@
 	02 => Bagan Akun Standar 
 	03 => Pemda
 	04 => Jenis Transfer
-	05 => 
+	05 => Wilayah
 	06 => 
 	07 => 
 	08 => 

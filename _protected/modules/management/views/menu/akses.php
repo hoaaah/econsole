@@ -111,7 +111,7 @@ function akses($id, $menu){
 		<!--end of menu-->
 		<!--Menu 2 -->
 		<tr>
-			<td rowspan="4">Parameter</td>
+			<td rowspan="5">Parameter</td>
 			<td>Periode</td>
 			<td>-</td>
 			<td>
@@ -180,6 +180,27 @@ function akses($id, $menu){
 			<td>
 			<?php
 				$menu = 204;
+				IF(akses($model->id, $menu) === true){
+					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
+                            [
+                             'id' => 'access-'.$menu,
+                          ]);							
+				}ELSE{
+					echo Html::a('<span class = "label label-danger"><i class="fa  fa-lock bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 1 ],
+                            [  
+                             'id' => 'access-'.$menu,
+                          ]);
+				}
+
+			?>
+			</td>		
+		</tr>
+		<tr>
+			<td>Wilayah</td>
+			<td>-</td>
+			<td>
+			<?php
+				$menu = 205;
 				IF(akses($model->id, $menu) === true){
 					echo Html::a('<span class = "label label-success"><i class="fa  fa-sign-in bg-white"></i></span>', ['give', 'id' => $model->id, 'menu' => $menu, 'akses' => 0 ],
                             [

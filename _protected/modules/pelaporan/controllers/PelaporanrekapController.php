@@ -30,10 +30,6 @@ class PelaporanrekapController extends Controller
         ];
     }
 
-    /**
-     * Lists all TaValidasiPembayaran models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         IF($this->cekakses() !== true){
@@ -97,7 +93,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL)
+                                    WHERE (B.tahun IS NULL) AND a.tahun = :tahun AND A.akhir_periode = :tgl_laporan
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -129,7 +125,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL)
+                                    WHERE (B.tahun IS NULL) AND a.tahun = :tahun AND A.akhir_periode = :tgl_laporan
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -171,7 +167,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id)
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND a.tahun = :tahun AND A.akhir_periode = :tgl_laporan
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -205,7 +201,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id)
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND a.tahun = :tahun AND A.akhir_periode = :tgl_laporan
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -248,7 +244,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id)
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND a.tahun = :tahun AND A.akhir_periode = :tgl_laporan
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -282,7 +278,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id)
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND a.tahun = :tahun AND A.akhir_periode = :tgl_laporan
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3

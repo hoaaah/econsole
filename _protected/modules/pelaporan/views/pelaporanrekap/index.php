@@ -21,14 +21,27 @@ $this->params['breadcrumbs'][] = $this->title;
 	                    case 1:
 	                        $heading = 'LRA Nasional '.$Tahun;
 	                        break;
-	                    case 2:
-	                        $heading = 'LRA Wilayah '.$Tahun;
+						case 2:
+							$wilayah = \app\models\RefWilayah::findOne(['id' => $getparam['Laporan']['kd_wilayah']]);
+	                        $heading = 'LRA Wilayah '.$wilayah->nama_wilayah.' '.$Tahun;
 	                        break;	                	
-	                    case 3:
-	                        $heading = 'LRA Regional Provinsi '.$Tahun;
+						case 3:
+							$provinsi =  Yii::$app->db->createCommand("
+							SELECT a.province_id,  b.name
+							FROM ref_pemda a INNER JOIN
+							(
+								SELECT a.id, RIGHT(a.id,2) AS province_flag, a.name, a.province_id FROM ref_pemda a
+								WHERE province_id = :province_id
+								HAVING province_flag = '00'
+							)b ON a.id = b.id
+							GROUP BY a.province_id, b.name
+							ORDER BY province_id
+							")->bindValues([':province_id' => $getparam['Laporan']['kd_provinsi']])->queryOne();
+	                        $heading = 'LRA Regional '.$provinsi['name'].' '.$Tahun;
 	                        break;
-	                    case 4:
-	                        $heading = 'LRA Pemda '.$Tahun;
+						case 4:
+							$pemda = \app\models\RefPemda::findOne(['id' => $getparam['Laporan']['kd_pemda']]);
+	                        $heading = 'LRA Pemda '.$pemda['name'].' '.$Tahun;
 	                        break;
                         // case 5:
                         //     $heading = 'Rekapitulasi SP3B dan SP2B '.$Tahun;

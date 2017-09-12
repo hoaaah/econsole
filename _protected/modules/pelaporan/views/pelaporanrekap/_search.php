@@ -16,9 +16,11 @@ use kartik\widgets\DatePicker;
     'action' => ['index'],
     'method' => 'get',
 ]); ?>
-
+<div class="col-md-12">
+<div class="box box-primary">
+<div class="box-body">
 <div class="row col-md-12">
-    <div class="col-md-2">
+    <div class="col-md-3">
         <?php
 
             $model->Kd_Laporan = isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) ? Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] : '';
@@ -39,7 +41,7 @@ use kartik\widgets\DatePicker;
             ])->label(false);
         ?>
     </div>
-    <div id="block-wilayah" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 2 ? 'block' : 'none' ?>;" class="col-md-2">
+    <div id="block-wilayah" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 2 ? 'block' : 'none' ?>;" class="col-md-4">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_wilayah'])){
                 $model->kd_wilayah = Yii::$app->request->queryParams['Laporan']['kd_wilayah'];             
@@ -56,7 +58,7 @@ use kartik\widgets\DatePicker;
             ])->label(false);        
         ?>
     </div>
-    <div id="block-provinsi" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 3 ? 'block' : 'none' ?>;" class="col-md-3">
+    <div id="block-provinsi" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 3 ? 'block' : 'none' ?>;" class="col-md-4">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_provinsi'])){
                 $model->kd_provinsi = Yii::$app->request->queryParams['Laporan']['kd_provinsi'];             
@@ -84,7 +86,7 @@ SQL
             ])->label(false);        
         ?>
     </div> 
-    <div style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 4 ? 'block' : 'none' ?>;" id="block-pemda" class="col-md-3">
+    <div style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 4 ? 'block' : 'none' ?>;" id="block-pemda" class="col-md-4">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_pemda'])){
                 $model->kd_pemda = Yii::$app->request->queryParams['Laporan']['kd_pemda'];             
@@ -133,6 +135,9 @@ SQL
         <?= Html::submitButton( 'Pilih', ['class' => 'btn btn-default']) ?>        
     </div>
 </div>
+</div> <!--box-body-->
+</div> <!--box-->
+</div> <!--col-->
 
 <?php ActiveForm::end(); ?>
 

@@ -39,7 +39,7 @@
                     ['label' => 'Konsolidasi', 'icon' => 'fa fa-edit', 'url' => '#', 'visible' => !Yii::$app->user->isGuest, 'items' => 
                         [
                             ['label' => 'Record Eliminasi', 'icon' => 'circle-o', 'url' => ['/konsolidasi/eliminasi'], 'visible' => akses(501)],
-                            ['label' => 'Data Management', 'icon' => 'circle-o', 'url' => ['/konsolidasi/rencana'], 'visible' => akses(502)],
+                            // ['label' => 'Data Management', 'icon' => 'circle-o', 'url' => ['/konsolidasi/rencana'], 'visible' => akses(502)],
                         ],
                     ],
                     ['label' => 'Pelaporan', 'icon' => 'fa fa-edit', 'url' => '#', 'visible' => !Yii::$app->user->isGuest, 'items' => 

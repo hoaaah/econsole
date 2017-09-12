@@ -60,58 +60,86 @@ class PelaporanrekapController extends Controller
         $getparam = NULL;
         IF(Yii::$app->request->queryParams){
             $getparam = Yii::$app->request->queryParams;
-            $kd_pemda_params = NULL;
-            foreach($getparam['Laporan']['kd_pemda'] as $data){
-                $kd_pemda_params = $kd_pemda_params.$data.',';
-            }            
-            if(!($getparam['Laporan']['kd_pemda']) || in_array('%', $getparam['Laporan']['kd_pemda'])){
-                $getparam['Laporan']['kd_pemda'] = \app\models\RefPemda::find()->select(['id'])->asArray()->all();
-                $kd_pemda_params = NULL;
-                foreach($getparam['Laporan']['kd_pemda'] as $data){
-                    $kd_pemda_params = $kd_pemda_params.$data['id'].',';
-                }
-                // var_dump($kd_pemda_params);
-            }
-            $kd_pemda_params = substr($kd_pemda_params, 0, -1);            
+            // this is for array in pemda
+            // $kd_pemda_params = NULL;
+            // foreach($getparam['Laporan']['kd_pemda'] as $data){
+            //     $kd_pemda_params = $kd_pemda_params.$data.',';
+            // }            
+            // if(!($getparam['Laporan']['kd_pemda']) || in_array('%', $getparam['Laporan']['kd_pemda'])){
+            //     $getparam['Laporan']['kd_pemda'] = \app\models\RefPemda::find()->select(['id'])->asArray()->all();
+            //     $kd_pemda_params = NULL;
+            //     foreach($getparam['Laporan']['kd_pemda'] as $data){
+            //         $kd_pemda_params = $kd_pemda_params.$data['id'].',';
+            //     }
+            // }
+            // $kd_pemda_params = substr($kd_pemda_params, 0, -1);            
             IF($getparam['Laporan']['Kd_Laporan']){
                 $Kd_Laporan = Yii::$app->request->queryParams['Laporan']['Kd_Laporan'];
                 switch ($Kd_Laporan) {
                     case 1:
                         $totalCount = Yii::$app->db->createCommand("
+                            SELECT COUNT(a.kd_rek_1) FROM
+                            (
                                 SELECT
-                                count(a.tahun)
-                                FROM compilation_records a
-                                LEFT JOIN ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                WHERE a.tahun = :tahun AND 
-                                a.akhir_periode = :tgl_laporan AND 
-                                a.kd_pemda IN ($kd_pemda_params) AND
-                                (a.tahun, a.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3) NOT IN
-                                (SELECT tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3 FROM elimination_account)
-                                GROUP BY a.tahun, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A LEFT OUTER JOIN
+                                        (
+                                        SELECT A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        FROM compilation_record5 A,
+                                            elimination_account B
+                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                            (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
+                                            AND ((B.kd_rek_4 = 0)
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
+                                        GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
+                                    WHERE (B.tahun IS NULL)
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                            ) a
                             ", [
+                                ':transfer_id' => 3,
                                 ':tahun' => $Tahun,
                                 ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
-                                // ':kd_pemda' => $kd_pemda_params,
                             ])->queryScalar();
 
                         $data = new SqlDataProvider([
                             'sql' => "
                                 SELECT
-                                a.tahun, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Belum terdaftar dalam BAS sistem--]') AS nm_akrual_3,
-                                SUM(a.realisasi) AS realisasi
-                                FROM compilation_records a
-                                LEFT JOIN ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                WHERE a.tahun = :tahun AND 
-                                a.akhir_periode = :tgl_laporan AND 
-                                a.kd_pemda IN ($kd_pemda_params) AND
-                                (a.tahun, a.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3) NOT IN
-                                (SELECT tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3 FROM elimination_account)
-                                GROUP BY a.tahun, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A LEFT OUTER JOIN
+                                        (
+                                        SELECT A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        FROM compilation_record5 A,
+                                            elimination_account B
+                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                            (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
+                                            AND ((B.kd_rek_4 = 0)
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
+                                        GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
+                                    WHERE (B.tahun IS NULL)
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
                                     ",
                             'params' => [
+                                ':transfer_id' => 3,
                                 ':tahun' => $Tahun,
                                 ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
-                                // ':kd_pemda' => $kd_pemda_params,
                             ],
                             'totalCount' => $totalCount,
                             //'sort' =>false, to remove the table header sorting
@@ -119,9 +147,217 @@ class PelaporanrekapController extends Controller
                                 'pageSize' => 50,
                             ],
                         ]);
-                        // var_dump($data);   
                         $render = 'laporan1';
                         break;
+                    case 2:
+                        $totalCount = Yii::$app->db->createCommand("
+                            SELECT COUNT(a.kd_rek_1) FROM
+                            (
+                                SELECT
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A LEFT OUTER JOIN
+                                        (
+                                        SELECT A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        FROM compilation_record5 A,
+                                            elimination_account B
+                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                            A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND B.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND 
+                                            (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
+                                            AND ((B.kd_rek_4 = 0)
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
+                                        GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id)
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                            ) a
+                            ", [
+                                ':transfer_id' => 2,
+                                ':tahun' => $Tahun,
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                ':wilayah_id' => $getparam['Laporan']['kd_wilayah'],
+                            ])->queryScalar();
+
+                        $data = new SqlDataProvider([
+                            'sql' => "
+                                SELECT
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A LEFT OUTER JOIN
+                                        (
+                                        SELECT A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        FROM compilation_record5 A,
+                                            elimination_account B
+                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                            A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND B.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND 
+                                            (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
+                                            AND ((B.kd_rek_4 = 0)
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
+                                        GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id)
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                    ",
+                            'params' => [
+                                ':transfer_id' => 2,
+                                ':tahun' => $Tahun,
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                ':wilayah_id' => $getparam['Laporan']['kd_wilayah'],
+                            ],
+                            'totalCount' => $totalCount,
+                            //'sort' =>false, to remove the table header sorting
+                            'pagination' => [
+                                'pageSize' => 50,
+                            ],
+                        ]);
+                        $render = 'laporan1';
+                        break;  
+                    case 3:
+                        $totalCount = Yii::$app->db->createCommand("
+                            SELECT COUNT(a.kd_rek_1) FROM
+                            (
+                                SELECT
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A LEFT OUTER JOIN
+                                        (
+                                        SELECT A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        FROM compilation_record5 A,
+                                            elimination_account B
+                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                            A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND B.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND 
+                                            (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
+                                            AND ((B.kd_rek_4 = 0)
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
+                                        GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id)
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                            ) a
+                            ", [
+                                ':transfer_id' => 1,
+                                ':tahun' => $Tahun,
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                ':province_id' => $getparam['Laporan']['kd_provinsi'],
+                            ])->queryScalar();
+
+                        $data = new SqlDataProvider([
+                            'sql' => "
+                                SELECT
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A LEFT OUTER JOIN
+                                        (
+                                        SELECT A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        FROM compilation_record5 A,
+                                            elimination_account B
+                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                            A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND B.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND 
+                                            (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
+                                            AND ((B.kd_rek_4 = 0)
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
+                                            OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
+                                        GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5
+                                        ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id)
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                    ",
+                            'params' => [
+                                ':transfer_id' => 1,
+                                ':tahun' => $Tahun,
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                ':province_id' => $getparam['Laporan']['kd_provinsi'],
+                            ],
+                            'totalCount' => $totalCount,
+                            //'sort' =>false, to remove the table header sorting
+                            'pagination' => [
+                                'pageSize' => 50,
+                            ],
+                        ]);
+                        $render = 'laporan1';
+                        break;
+                    case 4:
+                        $totalCount = Yii::$app->db->createCommand("
+                            SELECT COUNT(a.kd_rek_1) FROM
+                            (
+                                SELECT
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5, SUM(A.realisasi) AS realisasi
+                                    FROM compilation_record5 A
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        A.kd_pemda = :pemda_id
+                                    GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5       
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                            ) a
+                            ", [
+                                ':tahun' => $Tahun,
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                ':pemda_id' => $getparam['Laporan']['kd_pemda'],
+                            ])->queryScalar();
+
+                        $data = new SqlDataProvider([
+                            'sql' => "
+                                SELECT
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                FROM
+                                (
+                                    SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5, SUM(A.realisasi) AS realisasi
+                                    FROM compilation_record5 A
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        A.kd_pemda = :pemda_id
+                                    GROUP BY A.tahun, A.kd_pemda, a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, a.kd_rek_4, a.kd_rek_5       
+                                ) a
+                                LEFT JOIN
+                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
+                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                    ",
+                            'params' => [
+                                ':tahun' => $Tahun,
+                                ':tgl_laporan' => $getparam['Laporan']['Tgl_Laporan'],
+                                ':pemda_id' => $getparam['Laporan']['kd_pemda'],
+                            ],
+                            'totalCount' => $totalCount,
+                            //'sort' =>false, to remove the table header sorting
+                            'pagination' => [
+                                'pageSize' => 50,
+                            ],
+                        ]);
+                        $render = 'laporan1';
+                        break;                                              
                                                       
 
                     default:

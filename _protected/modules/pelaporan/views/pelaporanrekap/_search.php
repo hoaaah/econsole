@@ -12,10 +12,10 @@ use kartik\widgets\DatePicker;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+<?php $form = ActiveForm::begin([
+    'action' => ['index'],
+    'method' => 'get',
+]); ?>
 
 <div class="row col-md-12">
     <div class="col-md-2">
@@ -31,7 +31,7 @@ use kartik\widgets\DatePicker;
                     // 5 => 'LRA',
                     // 6 => 'LRA',               
                 ],
-                'options' => ['class' =>'form-control input-sm' ,'placeholder' => 'Pilih Jenis Laporan ...', 
+                'options' => ['class' =>'form-control input-sm' ,'placeholder' => 'Pilih Jenis Laporan ...', 'id' => 'field-kd_laporan'
                 ],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -39,25 +39,76 @@ use kartik\widgets\DatePicker;
             ])->label(false);
         ?>
     </div>
-    <div class="col-md-4">
+    <div id="block-wilayah" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 2 ? 'block' : 'none' ?>;" class="col-md-2">
+        <?php 
+            if(isset(Yii::$app->request->queryParams['Laporan']['kd_wilayah'])){
+                $model->kd_wilayah = Yii::$app->request->queryParams['Laporan']['kd_wilayah'];             
+            }
+            $dropDownWilayah = ArrayHelper::map(\app\models\RefWilayah::find()->select(['id', 'CONCAT(id, \'. \', nama_wilayah) AS nama_wilayah'])->all(),'id','nama_wilayah');
+            echo $form->field($model, 'kd_wilayah')->widget(Select2::classname(), [
+                'data' => $dropDownWilayah,
+                'options' => ['placeholder' => 'Pilih Wilayah'],
+                'pluginOptions' => [
+                    // 'tags' => true,
+                    // 'tokenSeparators' => [',', ' '],
+                    // 'maximumInputLength' => 100
+                ],
+            ])->label(false);        
+        ?>
+    </div>
+    <div id="block-provinsi" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 3 ? 'block' : 'none' ?>;" class="col-md-3">
+        <?php 
+            if(isset(Yii::$app->request->queryParams['Laporan']['kd_provinsi'])){
+                $model->kd_provinsi = Yii::$app->request->queryParams['Laporan']['kd_provinsi'];             
+            }
+$query =  Yii::$app->db->createCommand(<<<SQL
+SELECT CONVERT(a.province_id, UNSIGNED integer) AS province_id,  CONCAT(a.province_id, '. ', b.name) as name
+FROM ref_pemda a INNER JOIN
+(
+	SELECT a.id, RIGHT(a.id,2) AS province_flag, a.name, a.province_id FROM ref_pemda a
+	HAVING province_flag = '00'
+)b ON a.id = b.id
+GROUP BY a.province_id, b.name
+ORDER BY province_id
+SQL
+)->queryAll();
+            $dropDownProvinsi = ArrayHelper::map($query,'province_id','name');
+            echo $form->field($model, 'kd_provinsi')->widget(Select2::classname(), [
+                'data' => $dropDownProvinsi,
+                'options' => ['placeholder' => 'Pilih Provinsi'],
+                'pluginOptions' => [
+                    // 'tags' => true,
+                    // 'tokenSeparators' => [',', ' '],
+                    // 'maximumInputLength' => 100
+                ],
+            ])->label(false);        
+        ?>
+    </div> 
+    <div style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 4 ? 'block' : 'none' ?>;" id="block-pemda" class="col-md-3">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_pemda'])){
                 $model->kd_pemda = Yii::$app->request->queryParams['Laporan']['kd_pemda'];             
             }
             $data = ArrayHelper::map(\app\models\RefPemda::find()->select(['id', 'CONCAT(id, \' \', name) AS name'])->all(),'id','name');
-            $data = array_merge(['%' => 'Tampilkan Semua'], $data);
+            // $data = array_merge(['%' => 'Tampilkan Semua'], $data);
             echo $form->field($model, 'kd_pemda')->widget(Select2::classname(), [
                 'data' => $data,
-                'options' => ['placeholder' => 'Pilih Pemda', 'multiple' => true],
-                'showToggleAll' => false,
+                'options' => [
+                    'placeholder' => 'Pilih Pemda', 
+                    // 'multiple' => true
+                ],
+                // 'showToggleAll' => false,
                 'pluginOptions' => [
-                    'tags' => true,
-                    'tokenSeparators' => [',', ' '],
+                    // 'tags' => true,
+                    // 'tokenSeparators' => [',', ' '],
                     // 'maximumInputLength' => 100
                 ],
-            ])->label(false);            
+            ])->label(false);        
         ?>
     </div>
+
+</div>
+<div class="row col-md-12">   
     <div class="col-md-2">
         <?php
             if(isset(Yii::$app->request->queryParams['Laporan']['Tgl_Laporan'])){
@@ -78,11 +129,38 @@ use kartik\widgets\DatePicker;
             ]);               
         ?>    
     </div>    
-</div>
-<div class="row col-md-12">   
     <div class="col-md-2 pull-right">
         <?= Html::submitButton( 'Pilih', ['class' => 'btn btn-default']) ?>        
     </div>
 </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
+
+<?php 
+$this->registerJs(<<<JS
+    $("#field-kd_laporan").on("change", function(){
+        // hide all first
+        $("#block-wilayah").hide();
+        $("#block-provinsi").hide();
+        $("#block-pemda").hide();
+
+        var kdLaporan = $(this).val() - 0; // convert to number first, not work in certain browser
+        
+        // then show it
+        switch(kdLaporan) {
+            case 2:
+                $("#block-wilayah").show();
+                break;
+            case 3:
+                $("#block-provinsi").show();
+                break;
+            case 4:
+                $("#block-pemda").show();
+                break;
+            default:
+                // code block
+        }
+    })
+JS
+);
+?>

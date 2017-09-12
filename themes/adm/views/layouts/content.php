@@ -41,7 +41,7 @@ use dmstr\widgets\Alert;
         <b>Version</b> 1.0.0
     </div>
     <?php 
-        echo '<strong>Copyright &copy; 2016 <a href="https://kemenkeu.go.id">DJPK </a><a href="http://simda-online.com"> Kemenkeu</a> @ </strong> dan Pembangunan</a>';
+        echo '<strong>Copyright &copy; 2016 <a href="https://kemenkeu.go.id">Direktorat Jenderal Perimbangan Keuangan </a>-<a href="http://simda-online.com"> Kementerian Keuangan</a></strong>';
     ?>
 
 </footer>

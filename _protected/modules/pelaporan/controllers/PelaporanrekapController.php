@@ -86,7 +86,7 @@ class PelaporanrekapController extends Controller
                                         SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         FROM compilation_record5 A,
                                             elimination_account B
-                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        WHERE (B.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
                                             (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
                                             AND ((B.kd_rek_4 = 0)
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
@@ -118,7 +118,7 @@ class PelaporanrekapController extends Controller
                                         SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         FROM compilation_record5 A,
                                             elimination_account B
-                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        WHERE (B.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
                                             (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
                                             AND ((B.kd_rek_4 = 0)
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (B.kd_rek_4 <> 0) AND (B.kd_rek_5 = 0))
@@ -159,7 +159,7 @@ class PelaporanrekapController extends Controller
                                         SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         FROM compilation_record5 A,
                                             elimination_account B
-                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        WHERE (B.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
                                             A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND B.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND 
                                             (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
                                             AND ((B.kd_rek_4 = 0)
@@ -193,7 +193,7 @@ class PelaporanrekapController extends Controller
                                         SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         FROM compilation_record5 A,
                                             elimination_account B
-                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        WHERE (B.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
                                             A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND B.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND 
                                             (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
                                             AND ((B.kd_rek_4 = 0)
@@ -236,7 +236,7 @@ class PelaporanrekapController extends Controller
                                         SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         FROM compilation_record5 A,
                                             elimination_account B
-                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        WHERE (B.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
                                             A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND B.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND 
                                             (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
                                             AND ((B.kd_rek_4 = 0)
@@ -270,7 +270,7 @@ class PelaporanrekapController extends Controller
                                         SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         FROM compilation_record5 A,
                                             elimination_account B
-                                        WHERE (b.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
+                                        WHERE (B.transfer_id <= :transfer_id) AND A.tahun = :tahun AND B.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
                                             A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND B.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND 
                                             (A.tahun = B.tahun) AND (A.kd_pemda = B.kd_pemda) AND (A.kd_rek_1 = B.kd_rek_1) AND (A.kd_rek_2 = B.kd_rek_2) AND (A.kd_rek_3 = B.kd_rek_3) 
                                             AND ((B.kd_rek_4 = 0)

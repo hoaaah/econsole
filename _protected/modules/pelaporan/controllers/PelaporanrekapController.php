@@ -93,7 +93,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan
+                                    WHERE (B.tahun IS NULL) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -125,7 +125,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan
+                                    WHERE (B.tahun IS NULL) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -167,7 +167,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -201,7 +201,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -244,7 +244,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -278,7 +278,7 @@ class PelaporanrekapController extends Controller
                                             OR ((A.kd_rek_4 = B.kd_rek_4) AND (A.kd_rek_5 = B.kd_rek_5) AND (B.kd_rek_5 <> 0)))
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
-                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan
+                                    WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
                                 ) a
                                 LEFT JOIN
                                 ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
@@ -310,7 +310,7 @@ class PelaporanrekapController extends Controller
                                     SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5, SUM(A.realisasi) AS realisasi
                                     FROM compilation_record5 A
                                     WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
-                                        A.kd_pemda = :pemda_id
+                                        A.kd_pemda = :pemda_id AND A.kd_rek_1 IN (4,5,6,7)
                                     GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5       
                                 ) a
                                 LEFT JOIN
@@ -333,7 +333,7 @@ class PelaporanrekapController extends Controller
                                     SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5, SUM(A.realisasi) AS realisasi
                                     FROM compilation_record5 A
                                     WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND 
-                                        A.kd_pemda = :pemda_id
+                                        A.kd_pemda = :pemda_id AND A.kd_rek_1 IN (4,5,6,7)
                                     GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5       
                                 ) a
                                 LEFT JOIN
@@ -354,7 +354,38 @@ class PelaporanrekapController extends Controller
                         ]);
                         $render = 'laporan1';
                         break;                                              
-                                                      
+                    case 5:
+                        $query = \app\models\EliminationAccount::find()->where(['tahun' => $Tahun,])->andWhere('kd_rek_1 IN (4,5,6,7)');
+                        switch ($getparam['Laporan']['elimination_level']) {
+                            case 1:
+                                $pemda = \app\models\RefPemda::find()->select('id')->where(['province_id' => $getparam['Laporan']['kd_provinsi']])->asArray()->all();
+                                $arrayPemda = ArrayHelper::getColumn($pemda, 'id');
+                                if(count($arrayPemda) != 0){
+                                    $stringArrayPemda = implode(',', $arrayPemda);
+                                    $query->andWhere("kd_pemda IN($stringArrayPemda)");
+                                }
+                                break;
+                            case 2:
+                                $pemda = \app\models\PemdaWilayah::find()->select('pemda_id')->where(['wilayah_id' => $getparam['Laporan']['kd_wilayah']])->asArray()->all();
+                                $arrayPemda = ArrayHelper::getColumn($pemda, 'pemda_id');
+                                if(count($arrayPemda) != 0){
+                                    $stringArrayPemda = implode(',', $arrayPemda);
+                                    $query->andWhere("kd_pemda IN($stringArrayPemda)");
+                                }
+                                break;
+                            
+                            default:
+                                # code...
+                                break;
+                        }
+                        $data = new ActiveDataProvider([
+                            'query' => $query->orderBy('transfer_id, kd_pemda'),
+                            'pagination' => [
+                                'pageSize' => 50,
+                            ],
+                        ]);
+                        $render = 'laporan2';
+                        break;                                                      
 
                     default:
                         # code...

@@ -30,8 +30,8 @@ use kartik\widgets\DatePicker;
                     2 => 'LRA Wilayah',               
                     3 => 'LRA Regional Provinsi',
                     4 => 'LRA Pemda',
-                    // 5 => 'LRA',
-                    // 6 => 'LRA',               
+                    5 => 'Rekapitulasi Akun Eliminasi',
+                    // 6 => 'LRA Per Level Rekening',               
                 ],
                 'options' => ['class' =>'form-control input-sm' ,'placeholder' => 'Pilih Jenis Laporan ...', 'id' => 'field-kd_laporan'
                 ],
@@ -41,7 +41,19 @@ use kartik\widgets\DatePicker;
             ])->label(false);
         ?>
     </div>
-    <div id="block-wilayah" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 2 ? 'block' : 'none' ?>;" class="col-md-4">
+    <div id="block-elim" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 5 ? 'block' : 'none' ?>;" class="col-md-4">
+        <?php 
+            if(isset(Yii::$app->request->queryParams['Laporan']['elimination_level'])){
+                $model->elimination_level = Yii::$app->request->queryParams['Laporan']['elimination_level'];             
+            }
+            $dropDownTransfer = ArrayHelper::map(\app\models\RefTransfer::find()->select(['id', 'CONCAT(id, \'. \', jenis_transfer) AS jenis_transfer'])->all(),'id','jenis_transfer');
+            echo $form->field($model, 'elimination_level')->widget(Select2::classname(), [
+                'data' => $dropDownTransfer,
+                'options' => ['id' => 'field-block-elim', 'placeholder' => 'Tingkat Eliminasi'],
+            ])->label(false);        
+        ?>
+    </div>    
+    <div id="block-wilayah" style="display:<?= (isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 2) || (isset(Yii::$app->request->queryParams['Laporan']['elimination_level']) && Yii::$app->request->queryParams['Laporan']['elimination_level'] == 2) ? 'block' : 'none' ?>;" class="col-md-4">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_wilayah'])){
                 $model->kd_wilayah = Yii::$app->request->queryParams['Laporan']['kd_wilayah'];             
@@ -58,7 +70,7 @@ use kartik\widgets\DatePicker;
             ])->label(false);        
         ?>
     </div>
-    <div id="block-provinsi" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 3 ? 'block' : 'none' ?>;" class="col-md-4">
+    <div id="block-provinsi" style="display:<?= (isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 3) || (isset(Yii::$app->request->queryParams['Laporan']['elimination_level']) && Yii::$app->request->queryParams['Laporan']['elimination_level'] == 1) ? 'block' : 'none' ?>;" class="col-md-4">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_provinsi'])){
                 $model->kd_provinsi = Yii::$app->request->queryParams['Laporan']['kd_provinsi'];             
@@ -148,6 +160,7 @@ $this->registerJs(<<<JS
         $("#block-wilayah").hide();
         $("#block-provinsi").hide();
         $("#block-pemda").hide();
+        $("#block-elim").hide();
 
         var kdLaporan = $(this).val() - 0; // convert to number first, not work in certain browser
         
@@ -162,10 +175,34 @@ $this->registerJs(<<<JS
             case 4:
                 $("#block-pemda").show();
                 break;
+            case 5:
+                $("#block-elim").show();
+                break;
             default:
                 // code block
         }
     })
+
+    $("#field-block-elim").on("change", function(){
+        // hide all first
+        $("#block-wilayah").hide();
+        $("#block-provinsi").hide();
+        $("#block-pemda").hide();
+
+        var kdElim = $(this).val() - 0; // convert to number first, not work in certain browser
+        
+        // then show it
+        switch(kdElim) {
+            case 2:
+                $("#block-wilayah").show();
+                break;
+            case 1:
+                $("#block-provinsi").show();
+                break;
+            default:
+                // code block
+        }
+    })    
 JS
 );
 ?>

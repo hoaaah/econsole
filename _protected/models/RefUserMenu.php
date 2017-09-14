@@ -39,4 +39,9 @@ class RefUserMenu extends \yii\db\ActiveRecord
     {
         return $this->hasOne(RefUser::className(), ['id' => 'kd_user']);
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'kd_user']);
+    }
 }

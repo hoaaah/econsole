@@ -19,7 +19,7 @@ $params = require(__DIR__ . '/params.php');
 // }
 
 $config = [
-    'id' => 'ec9nsole',
+    'id' => 'eC9nsole',
     'name' => 'Konsolidasi LKPD',
     'language' => 'id',
     'basePath' => dirname(__DIR__),
@@ -166,7 +166,20 @@ $config = [
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = ['class' => 'yii\debug\Module'];
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+        'panels' => [
+            'user' => [
+                'class'=>'yii\debug\panels\UserPanel',
+                'ruleUserSwitch' => [
+                    'allow' => true,
+                    'roles' => ['theCreator'],
+                ]
+            ]
+        ],
+        // uncomment and adjust the following to add your IP if you are not connecting from localhost.
+        //'allowedIPs' => ['127.0.0.1', '::1'],        
+    ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = ['class' => 'yii\gii\Module'];

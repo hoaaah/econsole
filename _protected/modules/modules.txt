@@ -64,9 +64,9 @@
 	11 => 
 	12 => 
 6 => Pelaporan
-	01 => Pelaporan Pemda
-	02 => Pelaporan Sekolah
-	03 => 
+	01 => Pelaporan
+	02 => Pelaporan Provinsi
+	03 => Pelaporan Pemda
 	04 => 
 	05 => 
 	06 => 
@@ -75,47 +75,4 @@
 	09 => 
 	10 => 
 	11 => 
-	12 => 	 
-
-
-Kd_Laporan
-Kd_Urusan
-Kd_Bidang
-Kd_Unit
-Kd_Sub
-Tgl_1
-Tgl_2
-Anggaran
-	Utang
-		Pelaporan
-			Rekapitulasi Data Saldo SPH dan Sebaran Utang 1
-			Rekapitulasi Kontrol Anggaran Utang 2
-	Dana Transfer
-		Pelaporan
-			Rekapitulasi Pagu Dana Transfer (SKPD) 1
-			Rekapitulasi Kontrol Anggaran Utang 2
-Penatausahaan
-	Utang
-		Pelaporan
-			Rekapitulasi RPH 3
-			Rekapitulasi Saldo Utang Berjalan 4
-			Rekapitulasi Realisasi Utang 5
-	Dana Transfer
-		Pelaporan
-			Posisi Saldo Dana Transfer 3
-			Rekapitulasi daftar Kontrak Dana Transfer 4
-			Rekapitulasi Realisasi Pembayaran Kontrak Dana Transfer 5
-Akuntansi (akuntansi ada pilihan untuk tanggal)
-	Utang
-		Pelaporan
-			Rekapitulasi Data Saldo SPH dan Sebaran Utang 1
-			Rekapitulasi Kontrol Anggaran Utang 2
-			Rekapitulasi RPH 3
-			Rekapitulasi Saldo Utang Berjalan 4
-			Rekapitulasi Realisasi Utang 5	
-	Dana Transfer
-		Pelaporan
-			Rekapitulasi Pagu Dana Transfer (SKPD) 1
-			Rekapitulasi Kontrol Anggaran Utang 2
-			Rekapitulasi daftar Kontrak Dana Transfer 4
-			Rekapitulasi Realisasi Pembayaran Kontrak Dana Transfer 5
+	12 =>

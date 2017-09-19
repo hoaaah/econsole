@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
 /* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
 
-class PelaporanrekapController extends Controller
+class PelaporanprovinsiController extends Controller
 {
     /**
      * @inheritdoc
@@ -567,7 +567,7 @@ class PelaporanrekapController extends Controller
     protected function cekakses(){
 
         IF(Yii::$app->user->identity){
-            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 601])->one();
+            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 602])->one();
             IF($akses){
                 return true;
             }else{

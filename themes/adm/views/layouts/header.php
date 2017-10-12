@@ -31,17 +31,28 @@ IF(Yii::$app->session->get('tahun'))
                 <?php 
                 IF(!Yii::$app->user->isGuest):
                 ?>
-                <li class="dropdown tahun user-menu">
+                <li class="dropdown tahun notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="hidden-xs">Tahun Anggaran: <?= Yii::$app->session->get('tahun') ? Yii::$app->session->get('tahun') : 'Pilih!' ?> </span>
+                        <i class="fa fa-flag"></i> <span class="hidden-xs"> Tahun Anggaran: </span><?= Yii::$app->session->get('tahun') ? Yii::$app->session->get('tahun') : 'Pilih!' ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <?php
-                            $tahun = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018]; 
-                            foreach($tahun as $tahun): 
-                        ?>
-                        <li><?= Html::a($tahun, ['/site/tahun', 'id' => $tahun]) ?></li>
-                        <?php endforeach;?>
+                        <li>
+                            <ul class="menu">
+                                <?php
+                                    $existedYears = Yii::$app->db->createCommand("SELECT tahun FROM compilation_record5 GROUP BY tahun")->queryAll();
+                                    $previousYear = date('Y')-1;
+                                    $currentYear = date('Y');
+                                    $nextYear = date('Y')+1;
+                                    $tahun = \yii\helpers\ArrayHelper::getColumn($existedYears, 'tahun');
+                                    if(!in_array($previousYear, $tahun)) $tahun = array_merge($tahun, [$previousYear]);
+                                    if(!in_array($currentYear, $tahun)) $tahun = array_merge($tahun, [$currentYear]);
+                                    if(!in_array($nextYear, $tahun)) $tahun = array_merge($tahun, [$nextYear]);
+                                    foreach($tahun as $tahun): 
+                                ?>
+                                <li><?= Html::a($tahun, ['/site/tahun', 'id' => $tahun]) ?></li>
+                                <?php endforeach;?>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="dropdown user user-menu">

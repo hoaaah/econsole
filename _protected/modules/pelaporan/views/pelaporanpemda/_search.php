@@ -38,19 +38,7 @@ use kartik\widgets\DatePicker;
             ])->label(false);
         ?>
     </div>
-    <div id="block-elim" style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 5 ? 'block' : 'none' ?>;" class="col-md-4">
-        <?php 
-            if(isset(Yii::$app->request->queryParams['Laporan']['elimination_level'])){
-                $model->elimination_level = Yii::$app->request->queryParams['Laporan']['elimination_level'];             
-            }
-            $dropDownTransfer = ArrayHelper::map(\app\models\RefTransfer::find()->select(['id', 'CONCAT(id, \'. \', jenis_transfer) AS jenis_transfer'])->all(),'id','jenis_transfer');
-            echo $form->field($model, 'elimination_level')->widget(Select2::classname(), [
-                'data' => $dropDownTransfer,
-                'options' => ['id' => 'field-block-elim', 'placeholder' => 'Tingkat Eliminasi'],
-            ])->label(false);        
-        ?>
-    </div>
-    <div style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 4 ? 'block' : 'none' ?>;" id="block-pemda" class="col-md-4">
+    <div style="display:<?= isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) && (Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 4 || Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] == 5) ? 'block' : 'none' ?>;" id="block-pemda" class="col-md-4">
         <?php 
             if(isset(Yii::$app->request->queryParams['Laporan']['kd_pemda'])){
                 $model->kd_pemda = Yii::$app->request->queryParams['Laporan']['kd_pemda'];             
@@ -133,7 +121,7 @@ $this->registerJs(<<<JS
                 $("#block-pemda").show();
                 break;
             case 5:
-                $("#block-elim").show();
+                $("#block-pemda").show();
                 break;
             default:
                 // code block

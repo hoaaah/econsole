@@ -355,29 +355,7 @@ class PelaporanpemdaController extends Controller
                         $render = 'laporan1';
                         break;                                              
                     case 5:
-                        $query = \app\models\EliminationAccount::find()->where(['tahun' => $Tahun,])->andWhere('kd_rek_1 IN (4,5,6,7)');
-                        switch ($getparam['Laporan']['elimination_level']) {
-                            case 1:
-                                $pemda = \app\models\RefPemda::find()->select('id')->where(['province_id' => $getparam['Laporan']['kd_provinsi']])->asArray()->all();
-                                $arrayPemda = ArrayHelper::getColumn($pemda, 'id');
-                                if(count($arrayPemda) != 0){
-                                    $stringArrayPemda = implode(',', $arrayPemda);
-                                    $query->andWhere("kd_pemda IN($stringArrayPemda)");
-                                }
-                                break;
-                            case 2:
-                                $pemda = \app\models\PemdaWilayah::find()->select('pemda_id')->where(['wilayah_id' => $getparam['Laporan']['kd_wilayah']])->asArray()->all();
-                                $arrayPemda = ArrayHelper::getColumn($pemda, 'pemda_id');
-                                if(count($arrayPemda) != 0){
-                                    $stringArrayPemda = implode(',', $arrayPemda);
-                                    $query->andWhere("kd_pemda IN($stringArrayPemda)");
-                                }
-                                break;
-                            
-                            default:
-                                # code...
-                                break;
-                        }
+                        $query = \app\models\EliminationAccount::find()->where(['tahun' => $Tahun, 'kd_pemda' => $getparam['Laporan']['kd_pemda']])->andWhere('kd_rek_1 IN (4,5,6,7)');
                         $data = new ActiveDataProvider([
                             'query' => $query->orderBy('transfer_id, kd_pemda'),
                             'pagination' => [
@@ -567,7 +545,7 @@ class PelaporanpemdaController extends Controller
     protected function cekakses(){
 
         IF(Yii::$app->user->identity){
-            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 602])->one();
+            $akses = \app\models\RefUserMenu::find()->where(['kd_user' => Yii::$app->user->identity->kd_user, 'menu' => 603])->one();
             IF($akses){
                 return true;
             }else{

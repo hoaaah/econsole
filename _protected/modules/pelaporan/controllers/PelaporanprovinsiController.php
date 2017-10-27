@@ -373,6 +373,16 @@ class PelaporanprovinsiController extends Controller
                                     $query->andWhere("kd_pemda IN($stringArrayPemda)");
                                 }
                                 break;
+                            case 3:
+                                if(Yii::$app->user->identity->pemda_id){
+                                    $pemda = \app\models\RefPemda::find()->select('id')->where(['province_id' => Yii::$app->user->identity->refPemda->province_id])->asArray()->all();
+                                    $arrayPemda = ArrayHelper::getColumn($pemda, 'id');
+                                    if(count($arrayPemda) != 0){
+                                        $stringArrayPemda = implode(',', $arrayPemda);
+                                        $query->andWhere("kd_pemda IN($stringArrayPemda)");
+                                    }
+                                }
+                                break;                            
                             
                             default:
                                 # code...

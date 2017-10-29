@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'displayOnly' => true,
                 ],
                 [
-                    'attribute' => 'sekolah_id',
+                    'attribute' => 'pemda_id',
                     'value' => $model['refPemda']['name'],
                     'displayOnly' => true,
                 ],

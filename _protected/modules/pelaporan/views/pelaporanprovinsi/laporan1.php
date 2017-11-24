@@ -83,49 +83,6 @@ echo GridView::widget([
 	],
 	'showPageSummary'=>true,    
 	'columns' => [
-        // [
-        //     'label' => 'Tingkat',
-        //     'value' =>function($model){
-        //         return $model['jenis'];
-        //     },
-        //     'group'=>true,  // enable grouping,
-        //     // 'groupedRow'=>true,                    // move grouped column to a single grouped row
-        //     // 'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
-        //     // 'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
-        // ],
-        // [
-        //     'label' => 'Sekolah',
-        //     'value' =>function($model){
-        //         return $model['nama_sekolah'];
-        //     },
-        //     // 'group'=>true,  // enable grouping,
-        //     // 'groupedRow'=>true,                    // move grouped column to a single grouped row
-        //     // 'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
-        //     // 'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
-        // ],
-        // [
-        //     'label' => 'No Peraturan',
-        //     'width'=>'20%',
-        //     'value' =>function($model){
-        //         return $model['no_peraturan'];
-        //     },
-        //     // 'group'=>true,  // enable grouping,
-        //     // 'groupedRow'=>true,                    // move grouped column to a single grouped row
-        //     // 'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
-        //     // 'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
-        // ],        
-        // [
-        //     'label' => 'Tgl Peraturan',
-        //     // 'width'=>'20%',
-        //     'format' => 'date',
-        //     'value' =>function($model){
-        //         return $model['tgl_peraturan'];
-        //     },
-        //     // 'group'=>true,  // enable grouping,
-        //     // 'groupedRow'=>true,                    // move grouped column to a single grouped row
-        //     // 'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
-        //     // 'groupEvenCssClass'=>'kv-grouped-row', // configure even group cell css class
-        // ],	
         [
             'label' => 'Kode Rekening',
             'width' => '10%',
@@ -146,12 +103,23 @@ echo GridView::widget([
             }
         ],
         [
-            'attribute' => 'realisasi',
-            'label' => 'Saldo',
+            'attribute' => 'realisasi_sebelum',
+            'label' => 'Sebelum Eliminasi',
             'format' => 'decimal',
             'hAlign' => 'right',
+            'pageSummary' => true,
             'value' => function($model){
-                return $model['realisasi'];
+                return $model['realisasi_sebelum'] ? $model['realisasi_sebelum'] : 0;
+            }
+        ],
+        [
+            'attribute' => 'realisasi_sesudah',
+            'label' => 'Sesudah Eliminasi',
+            'format' => 'decimal',
+            'hAlign' => 'right',
+            'pageSummary' => true,
+            'value' => function($model){
+                return $model['realisasi_sesudah'] ? $model['realisasi_sesudah'] : 0;
             }
         ],
 	],

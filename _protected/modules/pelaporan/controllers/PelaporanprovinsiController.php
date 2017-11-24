@@ -77,8 +77,14 @@ class PelaporanprovinsiController extends Controller
                             SELECT COUNT(a.kd_rek_1) FROM
                             (
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(c.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A 
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
+                                ) c 
+                                LEFT JOIN
                                 (
                                     SELECT A.*
                                     FROM compilation_record5 A LEFT OUTER JOIN
@@ -94,11 +100,12 @@ class PelaporanprovinsiController extends Controller
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
                                     WHERE (B.tahun IS NULL) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
-                                ) a
+                                ) a ON a.tahun = c.tahun AND a.kd_provinsi = c.kd_provinsi AND a.kd_pemda = c.kd_pemda AND a.akhir_periode = c.akhir_periode AND a.perubahan_id = c.perubahan_id AND 
+                                a.kd_rek_1 = c.kd_rek_1 AND a.kd_rek_2 = c.kd_rek_2 AND a.kd_rek_3 = c.kd_rek_3 AND a.kd_rek_4 = c.kd_rek_4 AND a.kd_rek_5 = c.kd_rek_5
                                 LEFT JOIN
-                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
-                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                ref_akrual_3 b ON c.kd_rek_1 = b.kd_akrual_1 AND c.kd_rek_2 = b.kd_akrual_2 AND c.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, b.nm_akrual_3 
+                                ORDER BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3
                             ) a
                             ", [
                                 ':transfer_id' => 3,
@@ -109,8 +116,14 @@ class PelaporanprovinsiController extends Controller
                         $data = new SqlDataProvider([
                             'sql' => "
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(c.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A 
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
+                                ) c 
+                                LEFT JOIN
                                 (
                                     SELECT A.*
                                     FROM compilation_record5 A LEFT OUTER JOIN
@@ -126,11 +139,12 @@ class PelaporanprovinsiController extends Controller
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
                                     WHERE (B.tahun IS NULL) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
-                                ) a
+                                ) a ON a.tahun = c.tahun AND a.kd_provinsi = c.kd_provinsi AND a.kd_pemda = c.kd_pemda AND a.akhir_periode = c.akhir_periode AND a.perubahan_id = c.perubahan_id AND 
+                                a.kd_rek_1 = c.kd_rek_1 AND a.kd_rek_2 = c.kd_rek_2 AND a.kd_rek_3 = c.kd_rek_3 AND a.kd_rek_4 = c.kd_rek_4 AND a.kd_rek_5 = c.kd_rek_5
                                 LEFT JOIN
-                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
-                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                ref_akrual_3 b ON c.kd_rek_1 = b.kd_akrual_1 AND c.kd_rek_2 = b.kd_akrual_2 AND c.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, b.nm_akrual_3 
+                                ORDER BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3
                                     ",
                             'params' => [
                                 ':transfer_id' => 3,
@@ -150,8 +164,14 @@ class PelaporanprovinsiController extends Controller
                             SELECT COUNT(a.kd_rek_1) FROM
                             (
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(c.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A 
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id)
+                                ) c 
+                                LEFT JOIN
                                 (
                                     SELECT A.*
                                     FROM compilation_record5 A LEFT OUTER JOIN
@@ -168,11 +188,12 @@ class PelaporanprovinsiController extends Controller
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
                                     WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
-                                ) a
+                                ) a ON a.tahun = c.tahun AND a.kd_provinsi = c.kd_provinsi AND a.kd_pemda = c.kd_pemda AND a.akhir_periode = c.akhir_periode AND a.perubahan_id = c.perubahan_id AND 
+                                a.kd_rek_1 = c.kd_rek_1 AND a.kd_rek_2 = c.kd_rek_2 AND a.kd_rek_3 = c.kd_rek_3 AND a.kd_rek_4 = c.kd_rek_4 AND a.kd_rek_5 = c.kd_rek_5
                                 LEFT JOIN
-                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
-                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                ref_akrual_3 b ON c.kd_rek_1 = b.kd_akrual_1 AND c.kd_rek_2 = b.kd_akrual_2 AND c.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, b.nm_akrual_3 
+                                ORDER BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3
                             ) a
                             ", [
                                 ':transfer_id' => 2,
@@ -184,8 +205,14 @@ class PelaporanprovinsiController extends Controller
                         $data = new SqlDataProvider([
                             'sql' => "
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(c.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A 
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id)
+                                ) c 
+                                LEFT JOIN
                                 (
                                     SELECT A.*
                                     FROM compilation_record5 A LEFT OUTER JOIN
@@ -202,11 +229,12 @@ class PelaporanprovinsiController extends Controller
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
                                     WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id = :wilayah_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
-                                ) a
+                                ) a ON a.tahun = c.tahun AND a.kd_provinsi = c.kd_provinsi AND a.kd_pemda = c.kd_pemda AND a.akhir_periode = c.akhir_periode AND a.perubahan_id = c.perubahan_id AND 
+                                a.kd_rek_1 = c.kd_rek_1 AND a.kd_rek_2 = c.kd_rek_2 AND a.kd_rek_3 = c.kd_rek_3 AND a.kd_rek_4 = c.kd_rek_4 AND a.kd_rek_5 = c.kd_rek_5
                                 LEFT JOIN
-                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
-                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                ref_akrual_3 b ON c.kd_rek_1 = b.kd_akrual_1 AND c.kd_rek_2 = b.kd_akrual_2 AND c.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, b.nm_akrual_3 
+                                ORDER BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3
                                     ",
                             'params' => [
                                 ':transfer_id' => 2,
@@ -227,8 +255,14 @@ class PelaporanprovinsiController extends Controller
                             SELECT COUNT(a.kd_rek_1) FROM
                             (
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(c.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A 
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id)
+                                ) c 
+                                LEFT JOIN
                                 (
                                     SELECT A.*
                                     FROM compilation_record5 A LEFT OUTER JOIN
@@ -245,11 +279,12 @@ class PelaporanprovinsiController extends Controller
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
                                     WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
-                                ) a
+                                ) a ON a.tahun = c.tahun AND a.kd_provinsi = c.kd_provinsi AND a.kd_pemda = c.kd_pemda AND a.akhir_periode = c.akhir_periode AND a.perubahan_id = c.perubahan_id AND 
+                                a.kd_rek_1 = c.kd_rek_1 AND a.kd_rek_2 = c.kd_rek_2 AND a.kd_rek_3 = c.kd_rek_3 AND a.kd_rek_4 = c.kd_rek_4 AND a.kd_rek_5 = c.kd_rek_5
                                 LEFT JOIN
-                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
-                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                ref_akrual_3 b ON c.kd_rek_1 = b.kd_akrual_1 AND c.kd_rek_2 = b.kd_akrual_2 AND c.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, b.nm_akrual_3 
+                                ORDER BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3
                             ) a
                             ", [
                                 ':transfer_id' => 1,
@@ -261,8 +296,14 @@ class PelaporanprovinsiController extends Controller
                         $data = new SqlDataProvider([
                             'sql' => "
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(c.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
+                                (
+                                    SELECT A.*
+                                    FROM compilation_record5 A 
+                                    WHERE A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id)
+                                ) c 
+                                LEFT JOIN
                                 (
                                     SELECT A.*
                                     FROM compilation_record5 A LEFT OUTER JOIN
@@ -279,11 +320,12 @@ class PelaporanprovinsiController extends Controller
                                         GROUP BY A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5
                                         ) B ON A.tahun = B.tahun AND A.kd_pemda = B.kd_pemda AND A.kd_rek_1 = B.kd_rek_1 AND A.kd_rek_2 = B.kd_rek_2 AND A.kd_rek_3 = B.kd_rek_3 AND A.kd_rek_4 = B.kd_rek_4 AND A.kd_rek_5 = B.kd_rek_5
                                     WHERE (B.tahun IS NULL) AND A.kd_pemda IN (SELECT id FROM ref_pemda WHERE province_id = :province_id) AND A.tahun = :tahun AND A.akhir_periode = :tgl_laporan AND A.kd_rek_1 IN (4,5,6,7)
-                                ) a
+                                ) a ON a.tahun = c.tahun AND a.kd_provinsi = c.kd_provinsi AND a.kd_pemda = c.kd_pemda AND a.akhir_periode = c.akhir_periode AND a.perubahan_id = c.perubahan_id AND 
+                                a.kd_rek_1 = c.kd_rek_1 AND a.kd_rek_2 = c.kd_rek_2 AND a.kd_rek_3 = c.kd_rek_3 AND a.kd_rek_4 = c.kd_rek_4 AND a.kd_rek_5 = c.kd_rek_5
                                 LEFT JOIN
-                                ref_akrual_3 b ON a.kd_rek_1 = b.kd_akrual_1 AND a.kd_rek_2 = b.kd_akrual_2 AND a.kd_rek_3 = b.kd_akrual_3
-                                GROUP BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, b.nm_akrual_3
-                                ORDER BY a.kd_rek_1, a.kd_rek_2, a.kd_rek_3
+                                ref_akrual_3 b ON c.kd_rek_1 = b.kd_akrual_1 AND c.kd_rek_2 = b.kd_akrual_2 AND c.kd_rek_3 = b.kd_akrual_3
+                                GROUP BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3, b.nm_akrual_3 
+                                ORDER BY c.kd_rek_1, c.kd_rek_2, c.kd_rek_3
                                     ",
                             'params' => [
                                 ':transfer_id' => 1,
@@ -304,7 +346,7 @@ class PelaporanprovinsiController extends Controller
                             SELECT COUNT(a.kd_rek_1) FROM
                             (
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
                                 (
                                     SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5, SUM(A.realisasi) AS realisasi
@@ -327,7 +369,7 @@ class PelaporanprovinsiController extends Controller
                         $data = new SqlDataProvider([
                             'sql' => "
                                 SELECT
-                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi
+                                a.kd_rek_1, a.kd_rek_2, a.kd_rek_3, IFNULL(b.nm_akrual_3, '[--Rekening Tidak Terdaftar--]' )AS nm_akrual_3, SUM(a.realisasi) AS realisasi_sebelum, SUM(a.realisasi) AS realisasi_sesudah
                                 FROM
                                 (
                                     SELECT A.tahun, A.kd_pemda, A.kd_rek_1, A.kd_rek_2, A.kd_rek_3, A.kd_rek_4, A.kd_rek_5, SUM(A.realisasi) AS realisasi

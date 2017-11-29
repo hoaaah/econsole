@@ -1,5 +1,4 @@
 <?php 
-use yii\helpers\Html;
 use kartik\grid\GridView;
 echo GridView::widget([
 	'dataProvider' => $data,
@@ -67,7 +66,7 @@ echo GridView::widget([
 	    'options' => ['id' => 'laporan1-pjax', 'timeout' => 5000],
 	],
 	'showPageSummary'=>true,    
-	'columns' => [	
+	'columns' => [
         [
             'label' => 'Kode Rekening',
             'width' => '10%',

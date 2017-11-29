@@ -29,7 +29,8 @@
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-builder": "@dev",
         "fedemotta/yii2-widget-datatables": "*",
-        "2amigos/yii2-ckeditor-widget": "^2.0"
+        "2amigos/yii2-ckeditor-widget": "^2.0",
+        "kartik-v/yii2-export": "*"
     },
     "require-dev": {
         "codeception/codeception": "*",

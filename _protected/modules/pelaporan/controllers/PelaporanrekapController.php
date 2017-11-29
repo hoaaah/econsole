@@ -157,7 +157,7 @@ class PelaporanrekapController extends Controller
                                 'pageSize' => 50,
                             ],
                         ]);
-                        $render = 'laporan1';
+                        $render = 'laporan1format';
                         break;
                     case 2:
                         $totalCount = Yii::$app->db->createCommand("

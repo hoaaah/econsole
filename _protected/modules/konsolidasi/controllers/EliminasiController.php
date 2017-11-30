@@ -90,7 +90,7 @@ class EliminasiController extends Controller
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                 GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, nm_rek_3
             ", [
                 ':tahun' => $Tahun,
@@ -146,7 +146,7 @@ class EliminasiController extends Controller
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                 GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, nm_rek_3
             ", [
                 ':tahun' => $Tahun,
@@ -159,7 +159,7 @@ class EliminasiController extends Controller
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', nm_rek_4) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                 GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, nm_rek_4
             ", [
                 ':tahun' => $Tahun,
@@ -172,7 +172,7 @@ class EliminasiController extends Controller
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5, ' ', nm_rek_5) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                 GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, kd_rek_5, nm_rek_5
             ", [
                 ':tahun' => $Tahun,
@@ -254,7 +254,7 @@ class EliminasiController extends Controller
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS name
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
-                akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                 GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, nm_rek_3
                 ", [
                     ':tahun' => $tahun,
@@ -298,7 +298,7 @@ class EliminasiController extends Controller
                     CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', nm_rek_4) AS name
                     FROM compilation_record5 
                     WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND kd_rek_1 = :kd_rek_1 AND kd_rek_2 = :kd_rek_2 AND kd_rek_3 = :kd_rek_3 AND
-                    akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                    periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                     GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, nm_rek_4
                     ", [
                         ':tahun' => $tahun,
@@ -347,7 +347,7 @@ class EliminasiController extends Controller
                     CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5, ' ', nm_rek_5) AS name
                     FROM compilation_record5 
                     WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND kd_rek_1 = :kd_rek_1 AND kd_rek_2 = :kd_rek_2 AND kd_rek_3 = :kd_rek_3 AND kd_rek_4 = :kd_rek_4 AND
-                    akhir_periode = (SELECT MAX(akhir_periode) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
+                    periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
                     GROUP BY tahun, kd_pemda, kd_rek_1, kd_rek_2, kd_rek_3, kd_rek_4, kd_rek_5, nm_rek_5
                     ", [
                         ':tahun' => $tahun,

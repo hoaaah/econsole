@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Periode;
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk Indonesia.*/
 /**
  * PeriodeSearch represents the model behind the search form about `app\models\Periode`.
  */
@@ -19,7 +20,7 @@ class PeriodeSearch extends Periode
     {
         return [
             [['id'], 'integer'],
-            [['akhir_periode'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -43,6 +44,8 @@ class PeriodeSearch extends Periode
     {
         $query = Periode::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,10 +58,12 @@ class PeriodeSearch extends Periode
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'akhir_periode' => $this->akhir_periode,
         ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

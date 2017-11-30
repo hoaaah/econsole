@@ -1,7 +1,7 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Periode */
@@ -10,29 +10,41 @@ use kartik\widgets\DatePicker;
 
 <div class="periode-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => $model->formName()]); ?>
 
     <?= $form->field($model, 'id')->textInput() ?>
 
-	<?= DatePicker::widget([
-			'model' => $model,
-			'attribute' => 'akhir_periode',
-			'type' => DatePicker::TYPE_INPUT,
-			'options' => ['placeholder' => 'Akhir Periode'],              
-			'pluginOptions' => [
-				'autoclose'=>true,
-				'format' => 'yyyy-mm-dd',
-			],
-		])
-	?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-  
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
 
     <?php ActiveForm::end(); ?>
-    
+
 </div>
+<?php $this->registerJs(<<<JS
+    $('form#{$model->formName()}').on('beforeSubmit',function(e)
+    {
+        var \$form = $(this);
+        $.post(
+            \$form.attr("action"), //serialize Yii2 form 
+            \$form.serialize()
+        )
+            .done(function(result){
+                if(result == 1)
+                {
+                    $("#myModal").modal('hide'); //hide modal after submit
+                    $.pjax.reload({container:'#periode-pjax'});
+                }else
+                {
+                    $("#message").html(result);
+                }
+            }).fail(function(){
+                console.log("server error");
+            });
+        return false;
+    });
+JS
+);
+?>

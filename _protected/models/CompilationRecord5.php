@@ -26,7 +26,7 @@ class CompilationRecord5 extends \yii\db\ActiveRecord
             [['tahun', 'akhir_periode', 'created_at'], 'safe'],
             [['kd_provinsi', 'perubahan_id', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'kd_rek_4', 'kd_rek_5', 'd_k', 'user_id'], 'integer'],
             [['anggaran', 'realisasi'], 'number'],
-            [['kd_pemda'], 'string', 'max' => 11],
+            [['kd_pemda', 'kd_satker'], 'string', 'max' => 11],
             [['nm_rek_1', 'nm_rek_2', 'nm_rek_3', 'nm_rek_4', 'nm_rek_5'], 'string', 'max' => 255],
         ];
     }
@@ -40,6 +40,7 @@ class CompilationRecord5 extends \yii\db\ActiveRecord
             'tahun' => 'Tahun',
             'kd_provinsi' => 'Kd Provinsi',
             'kd_pemda' => 'Kd Pemda',
+            'kd_satker' => 'Kd Satker',
             'akhir_periode' => 'Akhir Periode',
             'perubahan_id' => 'Perubahan ID',
             'kd_rek_1' => 'Kd Rek 1',

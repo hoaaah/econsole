@@ -8,6 +8,7 @@ use Yii;
 
 class Periode extends \yii\db\ActiveRecord
 {
+
     public static function tableName()
     {
         return 'periode';
@@ -16,17 +17,17 @@ class Periode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'akhir_periode'], 'required'],
+            [['id', 'name'], 'required'],
             [['id'], 'integer'],
-            [['akhir_periode'], 'safe'],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'akhir_periode' => 'Akhir Periode',
+            'id' => 'Kode',
+            'name' => 'Nama Periode',
         ];
     }
 }

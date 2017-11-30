@@ -1,66 +1,114 @@
 <?php
-use yii\helpers\Url;
+
 use yii\helpers\Html;
-use yii\bootstrap\Modal;
 use kartik\grid\GridView;
-use johnitvn\ajaxcrud\CrudAsset; 
-use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\parameter\models\PeriodeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+/* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk Indonesia.*/
+
 $this->title = 'Periode';
 $this->params['breadcrumbs'][] = 'Parameter';
 $this->params['breadcrumbs'][] = $this->title;
-
-CrudAsset::register($this);
-
 ?>
 <div class="periode-index">
-    <div id="ajaxCrudDatatable">
-        <?=GridView::widget([
-            'id'=>'crud-datatable',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'pjax'=>true,
-            'columns' => require(__DIR__.'/_columns.php'),
-            'toolbar'=> [
-                ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Tambah Periode','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
-                    '{toggleData}'.
-                    '{export}'
-                ],
-            ],          
-            'striped' => true,
-            'condensed' => true,
-            'responsive' => true,          
-            'panel' => [
-                'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> '.$this->title,
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
-                                ["bulk-delete"] ,
-                                [
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
-                                ]),
-                        ]).                        
-                        '<div class="clearfix"></div>',
-            ]
-        ])?>
-    </div>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a('Tambah Periode', ['create'], [
+                                'class' => 'btn btn-xs btn-success',
+                                'data-toggle'=>"modal",
+                                'data-target'=>"#myModal",
+                                'data-title'=>"Tambah",
+                                ]) ?>
+    </p>
+    <?= GridView::widget([
+        'id' => 'periode',    
+        'dataProvider' => $dataProvider,
+        'export' => false, 
+        'responsive'=>true,
+        'hover'=>true,     
+        'resizableColumns'=>true,
+        'panel'=>['type'=>'primary', 'heading'=>$this->title],
+        'responsiveWrap' => false,        
+        'toolbar' => [
+            [
+                '{toggleData}',
+                '{export}',
+                // 'content' => $this->render('_search', ['model' => $searchModel, 'Tahun' => $Tahun]),
+            ],
+        ],       
+        'pager' => [
+            'firstPageLabel' => 'Awal',
+            'lastPageLabel'  => 'Akhir'
+        ],
+        'pjax'=>true,
+        'pjaxSettings'=>[
+            'options' => ['id' => 'periode-pjax', 'timeout' => 5000],
+        ],        
+        // 'filterModel' => $searchModel,
+        'columns' => [
+            'id',
+            'name',
+
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{view} {update} {delete}',
+                'noWrap' => true,
+                'vAlign'=>'top',
+                'buttons' => [
+                        'update' => function ($url, $model) {
+                          return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url,
+                              [  
+                                 'title' => Yii::t('yii', 'ubah'),
+                                 'data-toggle'=>"modal",
+                                 'data-target'=>"#myModal",
+                                 'data-title'=> "Ubah",
+                              ]);
+                        },
+                        'view' => function ($url, $model) {
+                          return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url,
+                              [  
+                                 'title' => Yii::t('yii', 'lihat'),
+                                 'data-toggle'=>"modal",
+                                 'data-target'=>"#myModal",
+                                 'data-title'=> "Lihat",
+                              ]);
+                        },                        
+                ]
+            ],
+        ],
+    ]); ?>
 </div>
 <?php Modal::begin([
-    "id"=>"ajaxCrudModal",
-    "footer"=>"",// always need it for jquery plugin
-])?>
-<?php Modal::end(); ?>
+    'id' => 'myModal',
+    'header' => '<h4 class="modal-title">Lihat lebih...</h4>',
+        'options' => [
+            'tabindex' => false // important for Select2 to work properly
+        ], 
+]);
+ 
+echo '...';
+ 
+Modal::end();
+
+$this->registerJs(<<<JS
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var modal = $(this)
+        var title = button.data('title') 
+        var href = button.attr('href') 
+        modal.find('.modal-title').html(title)
+        modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>')
+        $.post(href)
+            .done(function( data ) {
+                modal.find('.modal-body').html(data)
+            });
+        })
+JS
+);
+?>

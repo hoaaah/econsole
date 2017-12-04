@@ -87,7 +87,7 @@ class EliminasiController extends Controller
         $dropDownRek3 = Yii::$app->db->createCommand("
                 SELECT 
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS kd3,
-                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS akun
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', IFNULL(nm_rek_3, 'Tidak Ada Keterangan')) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
                 periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
@@ -143,7 +143,7 @@ class EliminasiController extends Controller
         $dropDownRek3 = Yii::$app->db->createCommand("
                 SELECT 
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS kd3,
-                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS akun
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', IFNULL(nm_rek_3, 'Tidak Ada Keterangan')) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
                 periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
@@ -156,7 +156,7 @@ class EliminasiController extends Controller
         $dropDownRek4 = Yii::$app->db->createCommand("
                 SELECT 
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4) AS kd4,
-                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', nm_rek_4) AS akun
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', IFNULL(nm_rek_4, 'Tidak Ada Keterangan')) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
                 periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
@@ -169,7 +169,7 @@ class EliminasiController extends Controller
         $dropDownRek5 = Yii::$app->db->createCommand("
                 SELECT 
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5) AS kd5,
-                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5, ' ', nm_rek_5) AS akun
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5, ' ', IFNULL(nm_rek_5, 'Tidak Ada Keterangan')) AS akun
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
                 periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
@@ -251,7 +251,7 @@ class EliminasiController extends Controller
             $list = Yii::$app->db->createCommand("
                 SELECT 
                 CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3) AS id,
-                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', nm_rek_3) AS name
+                CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, ' ', IFNULL(nm_rek_3, 'Tidak Ada Keterangan')) AS name
                 FROM compilation_record5 
                 WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND 
                 periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
@@ -295,7 +295,7 @@ class EliminasiController extends Controller
                 $list = Yii::$app->db->createCommand("
                     SELECT 
                     CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4) AS id,
-                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', nm_rek_4) AS name
+                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, ' ', IFNULL(nm_rek_4, 'Tidak Ada Keterangan')) AS name
                     FROM compilation_record5 
                     WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND kd_rek_1 = :kd_rek_1 AND kd_rek_2 = :kd_rek_2 AND kd_rek_3 = :kd_rek_3 AND
                     periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)
@@ -344,7 +344,7 @@ class EliminasiController extends Controller
                 $list = Yii::$app->db->createCommand("
                     SELECT 
                     CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5) AS id,
-                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5, ' ', nm_rek_5) AS name
+                    CONCAT(kd_rek_1, '.', kd_rek_2, '.', kd_rek_3, '.', kd_rek_4, '.', kd_rek_5, ' ', IFNULL(nm_rek_5, 'Tidak Ada Keterangan')) AS name
                     FROM compilation_record5 
                     WHERE tahun = :tahun AND kd_pemda = :kd_pemda AND kd_rek_1 = :kd_rek_1 AND kd_rek_2 = :kd_rek_2 AND kd_rek_3 = :kd_rek_3 AND kd_rek_4 = :kd_rek_4 AND
                     periode_id = (SELECT MAX(periode_id) FROM compilation_record5 WHERE tahun = :tahun AND kd_pemda = :kd_pemda)

@@ -140,22 +140,22 @@ SQL
 <div class="row col-md-12">   
     <div class="col-md-2">
         <?php
-            if(isset(Yii::$app->request->queryParams['Laporan']['Tgl_Laporan'])){
-                $model->Tgl_Laporan = Yii::$app->request->queryParams['Laporan']['Tgl_Laporan'];             
-            }ELSE{
-                $model->Tgl_Laporan = $Tahun.'-12-31';
+            if(isset(Yii::$app->request->queryParams['Laporan']['periode_id'])){
+                $model->periode_id = Yii::$app->request->queryParams['Laporan']['periode_id'];             
             }
-
-            echo DatePicker::widget([
-                'model' => $model,
-                'attribute' => 'Tgl_Laporan',
-                'type' => DatePicker::TYPE_INPUT,
-                'options' => ['placeholder' => 'Berakhir Pada'],              
-                'pluginOptions' => [
-                    'autoclose'=>true,
-                    'format' => 'yyyy-mm-dd',
+            $periodeList = ArrayHelper::map(\app\models\Periode::find()->select(['id', 'CONCAT(id, \'. \', name) AS name'])->all(),'id','name');
+            // $data = array_merge(['%' => 'Tampilkan Semua'], $data);
+            echo $form->field($model, 'periode_id')->widget(Select2::classname(), [
+                'data' => $periodeList,
+                'options' => [
+                    'placeholder' => 'Pilih Periode Pelaporan',
                 ],
-            ]);               
+                'pluginOptions' => [
+                    // 'tags' => true,
+                    // 'tokenSeparators' => [',', ' '],
+                    // 'maximumInputLength' => 100
+                ],
+            ])->label(false);              
         ?>    
     </div>    
     <div class="col-md-2 pull-right">

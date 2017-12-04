@@ -60,4 +60,9 @@ class CompilationRecord5 extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
         ];
     }
+
+    public function getRefPemda()
+    {
+        return $this->hasOne(RefPemda::className(), ['id' => 'kd_pemda']);
+    } 
 }

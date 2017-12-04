@@ -131,21 +131,21 @@ $config = [
     // this class use for force login to all controller. Usefull quiet enough
     // this function work only in login placed in site controller. FOr other login controller/action, change denyCallback access
 	'as beforeRequest' => [
-			    'class' => 'yii\filters\AccessControl',
-			    'rules' => [
-			        [
-			            'allow' => true,
-			            'actions' => ['login'],
-			        ],
-			        [
-			            'allow' => true,
-			            'roles' => ['@'],
-			        ],
-			    ],
-			    'denyCallback' => function () {
-			        return Yii::$app->response->redirect(['site/login']);
-			    },
-			],    
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'allow' => true,
+                'actions' => ['login'],
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+        'denyCallback' => function () {
+            return Yii::$app->response->redirect(['site/login']);
+        },
+    ],    
     'params' => $params,
 ];
 

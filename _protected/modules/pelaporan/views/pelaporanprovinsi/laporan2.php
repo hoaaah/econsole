@@ -144,7 +144,7 @@ use yii\web\Controller;
                     if($model->kd_rek_4 == 0){
                         $saldo = \app\models\CompilationRecord5::find()->where([
                             'tahun' => $model->tahun,
-                            'akhir_periode' => $getparam['Laporan']['Tgl_Laporan'],
+                            'periode_id' => $getparam['Laporan']['periode_id'],
                             'kd_pemda' => $model->kd_pemda,
                             'kd_rek_1' => $model->kd_rek_1,
                             'kd_rek_2' => $model->kd_rek_2,
@@ -154,7 +154,7 @@ use yii\web\Controller;
                     }elseif($model->kd_rek_5 == 0){
                         $saldo = \app\models\CompilationRecord5::find()->where([
                             'tahun' => $model->tahun,
-                            'akhir_periode' => $getparam['Laporan']['Tgl_Laporan'],
+                            'periode_id' => $getparam['Laporan']['periode_id'],
                             'kd_pemda' => $model->kd_pemda,
                             'kd_rek_1' => $model->kd_rek_1,
                             'kd_rek_2' => $model->kd_rek_2,
@@ -165,7 +165,7 @@ use yii\web\Controller;
                     }else{
                         $saldo = \app\models\CompilationRecord5::find()->where([
                             'tahun' => $model->tahun,
-                            'akhir_periode' => $getparam['Laporan']['Tgl_Laporan'],
+                            'periode_id' => $getparam['Laporan']['periode_id'],
                             'kd_pemda' => $model->kd_pemda,
                             'kd_rek_1' => $model->kd_rek_1,
                             'kd_rek_2' => $model->kd_rek_2,

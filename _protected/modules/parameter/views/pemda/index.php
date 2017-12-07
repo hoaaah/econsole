@@ -37,7 +37,11 @@ CrudAsset::register($this);
             ],          
             'striped' => true,
             'condensed' => true,
-            'responsive' => true,          
+            'responsive' => true,   
+            'pager' => [
+                'firstPageLabel' => 'Awal',
+                'lastPageLabel'  => 'Akhir'
+            ],       
             'panel' => [
                 'type' => 'primary', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> '.$this->title,

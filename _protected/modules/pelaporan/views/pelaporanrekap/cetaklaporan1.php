@@ -15,7 +15,7 @@ class PDF extends \fpdf\FPDF
 
 }
 
-$pdf = new PDF('P', 'mm', array(216,330));
+$pdf = new PDF('P', 'mm', 'A4');
 function getAkun1($model)
 {
     $kdAkun1 = $model['kd_rek_1'];
@@ -195,19 +195,18 @@ $marginLeft = 15;
 
 $pdf->SetFont('Times','B',12);
 $pdf->SetXY($marginLeft,20);
-$pdf->MultiCell(185,5,strtoupper($heading), '', 'C', 0);
+$pdf->MultiCell(180,5,strtoupper($heading), '', 'C', 0);
 $pdf->SetXY($marginLeft,$pdf->GetY());
-$pdf->MultiCell(185,5, strtoupper('UNTUK TAHUN YANG BERAKHIR SAMPAI DENGAN '.bulan($getparam['Laporan']['periode_id']).' '.$Tahun), '', 'C', 0);
+$pdf->MultiCell(180,5, strtoupper('UNTUK TAHUN YANG BERAKHIR SAMPAI DENGAN '.bulan($getparam['Laporan']['periode_id']).' '.$Tahun), '', 'C', 0);
 
 
-$w = [20, 100, 35, 35]; // Tentukan width masing-masing kolom
+$w = [20, 125, 35]; // Tentukan width masing-masing kolom
  
 $pdf->SetFont('Times','B',10);
-$pdf->SetXY($marginLeft, $pdf->GetY()+15);
+$pdf->SetXY($marginLeft, $pdf->GetY()+10);
 $pdf->Cell($w['0'],6,'Kode Akun','TL',0,'C');
 $pdf->Cell($w['1'],6,'Uraian Akun','TLR',0,'C');
 $pdf->Cell($w['2'],6,'Realisasi','TLR',0,'C');
-$pdf->Cell($w['3'],6,'Konsolidasi','LTR',0,'C');
 $pdf->ln();
 
 $baris1 = $y1 = $pdf->GetY(); // Untuk baris berikutnya
@@ -243,10 +242,7 @@ foreach($data as $model){
         $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['2'],5,number_format($totalSebelum2,0,',','.'),'','R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,number_format($totalSesudah2,0,',','.'),'','R');
+        $pdf->MultiCell($w['2'],5,number_format($totalSesudah2,0,',','.'),'','R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
@@ -262,10 +258,7 @@ foreach($data as $model){
         $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['2'],5,number_format($totalSebelum1,0,',','.'),'','R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,number_format($totalSesudah1,0,',','.'),'','R');
+        $pdf->MultiCell($w['2'],5,number_format($totalSesudah1,0,',','.'),'','R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
@@ -288,10 +281,7 @@ foreach($data as $model){
         $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['2'],5,number_format($totalBelanjaSebelum,0,',','.'),1,'R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,number_format($totalBelanjaSesudah,0,',','.'),1,'R');
+        $pdf->MultiCell($w['2'],5,number_format($totalBelanjaSesudah,0,',','.'),1,'R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
@@ -306,10 +296,7 @@ foreach($data as $model){
         $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['2'],5,number_format($totalPendapatanSebelum-$totalBelanjaSebelum,0,',','.'),1,'R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,number_format($totalPendapatanSesudah-$totalBelanjaSesudah,0,',','.'),1,'R');
+        $pdf->MultiCell($w['2'],5,number_format($totalPendapatanSesudah-$totalBelanjaSesudah,0,',','.'),1,'R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
@@ -327,9 +314,6 @@ foreach($data as $model){
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
         $pdf->MultiCell($w['2'],5,'','','R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,'','','R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
@@ -345,10 +329,7 @@ foreach($data as $model){
         $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['2'],5,number_format($totalSebelum2,0,',','.'),'','R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,number_format($totalSesudah2,0,',','.'),'','R');
+        $pdf->MultiCell($w['2'],5,number_format($totalSesudah2,0,',','.'),'','R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
@@ -368,21 +349,17 @@ foreach($data as $model){
         $xcurrent = $xcurrent+$w['1'];
          $pdf->SetXY($xcurrent, $y);
         $pdf->MultiCell($w['2'],5,'','','R');
-        $xcurrent = $xcurrent+$w['2'];
-        $pdf->SetXY($xcurrent, $y);
-        $pdf->MultiCell($w['3'],5,'','','R');
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
     }
 
-	IF($y2 > 285 || $y1 + (5*(strlen($model['nm_akrual_3'])/35)) > 285 ){ //cek pagebreak
-		$ylst = 290 - $yst; //207 batas margin bawah dikurang dengan y pertama
+	IF($y2 > 275 || $y1 + (5*(strlen($model['nm_akrual_3'])/35)) > 275 ){ //cek pagebreak
+		$ylst = 280 - $yst; //207 batas margin bawah dikurang dengan y pertama
 		//setiap selesai page maka buat rectangle
 		$pdf->Rect($x, $yst, $w['0'] ,$ylst);
 		$pdf->Rect($x+$w['0'], $yst, $w['1'] ,$ylst);
 		$pdf->Rect($x+$w['0']+$w['1'], $yst, $w['2'] ,$ylst);
-		$pdf->Rect($x+$w['0']+$w['1']+$w['2'], $yst, $w['3'] ,$ylst);
 		
 		//setelah buat rectangle baru kemudian addPage
 		$pdf->AddPage();
@@ -394,7 +371,7 @@ foreach($data as $model){
         $pdf->Cell($w['0'],6,'Kode Akun','TL',0,'C');
         $pdf->Cell($w['1'],6,'Uraian Akun','TLR',0,'C');
         $pdf->Cell($w['2'],6,'Realisasi','TLR',0,'C');
-        $pdf->Cell($w['3'],6,'Konsolidasi','LTR',0,'C');
+    
         $pdf->ln();
 
 
@@ -418,10 +395,7 @@ foreach($data as $model){
     $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
 	$xcurrent = $xcurrent+$w['1'];
  	$pdf->SetXY($xcurrent, $y);
-	$pdf->MultiCell($w['2'],5,number_format($model['realisasi_sebelum'],0,',','.'),'','R');
-	$xcurrent = $xcurrent+$w['2'];
-	$pdf->SetXY($xcurrent, $y);
-	$pdf->MultiCell($w['3'],5,number_format($model['realisasi_sesudah'],0,',','.'),'','R');
+	$pdf->MultiCell($w['2'],5,number_format($model['realisasi_sesudah'],0,',','.'),'','R');
 	
 	$ysisa = $y;
 
@@ -472,10 +446,7 @@ $pdf->MultiCell($w['1']-2,5,"Total " .getAkun2($lastModel),'','R');
 $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
 $xcurrent = $xcurrent+$w['1'];
  $pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['2'],5,number_format($totalSebelum2,0,',','.'),'','R');
-$xcurrent = $xcurrent+$w['2'];
-$pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['3'],5,number_format($totalSesudah2,0,',','.'),'','R');
+$pdf->MultiCell($w['2'],5,number_format($totalSesudah2,0,',','.'),'','R');
 $y = MAX($y1, $y2, $y3);
 $ysisa = $y;
 $pdf->ln();
@@ -494,10 +465,7 @@ $pdf->MultiCell($w['1']-2,5,"Total " .getAkun1($lastModel),'','R');
 $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
 $xcurrent = $xcurrent+$w['1'];
  $pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['2'],5,number_format($totalPembiayaanSebelum,0,',','.'),'','R');
-$xcurrent = $xcurrent+$w['2'];
-$pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['3'],5,number_format($totalPembiayaanSesudah,0,',','.'),'','R');
+$pdf->MultiCell($w['2'],5,number_format($totalPembiayaanSesudah,0,',','.'),'','R');
 $y = MAX($y1, $y2, $y3);
 $ysisa = $y;
 $pdf->ln();
@@ -512,10 +480,7 @@ $pdf->MultiCell($w['1'],5,"Sisa Lebih/Kurang Pembiayaan Anggaran",1,'R');
 $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
 $xcurrent = $xcurrent+$w['1'];
  $pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['2'],5,number_format(($totalPendapatanSebelum-$totalBelanjaSebelum)+$totalPembiayaanSebelum,0,',','.'),1,'R');
-$xcurrent = $xcurrent+$w['2'];
-$pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['3'],5,number_format(($totalPendapatanSesudah-$totalBelanjaSesudah)+$totalPembiayaanSesudah,0,',','.'),1,'R');
+$pdf->MultiCell($w['2'],5,number_format(($totalPendapatanSesudah-$totalBelanjaSesudah)+$totalPembiayaanSesudah,0,',','.'),1,'R');
 $y = MAX($y1, $y2, $y3);
 $ysisa = $y;
 $pdf->ln();
@@ -526,7 +491,6 @@ $ylst = $y - $yst;  //$y batas marjin bawah dikurangi dengan y pertama
 $pdf->Rect($x, $yst, $w['0'] ,$ylst);
 $pdf->Rect($x+$w['0'], $yst, $w['1'] ,$ylst);
 $pdf->Rect($x+$w['0']+$w['1'], $yst, $w['2'] ,$ylst);
-$pdf->Rect($x+$w['0']+$w['1']+$w['2'], $yst, $w['3'] ,$ylst);
 
 //Untuk mengakhiri dokumen pdf, dan mengirim dokumen ke output
 $pdf->Output();

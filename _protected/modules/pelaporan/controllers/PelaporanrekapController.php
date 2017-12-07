@@ -30,6 +30,29 @@ class PelaporanrekapController extends Controller
         ];
     }
 
+    protected function getViewCompilation($model, $getParam)
+    {
+        // ':wilayah_id' => $getparam['Laporan']['Kd_Laporan'] == 2 ?  $getparam['Laporan']['kd_wilayah'] : '%',
+        // ':province_id' => $getparam['Laporan']['Kd_Laporan'] == 3 ?  $getparam['Laporan']['kd_provinsi'] : '%',
+        // ':pemda_id' => $getparam['Laporan']['Kd_Laporan'] == 4 ?  $getparam['Laporan']['kd_pemda'] : '%',
+        switch ($getParam['kd_laporan']) {
+            case 2:
+                return $model->andWhere('kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id LIKE :wilayah_id)', [':wilayah_id' => $getParam['kd_wilayah']]);
+                break;
+            case 3:
+                return $model->andWhere(['kd_provinsi' => $getParam['kd_provinsi']]);
+                break;
+            case 4:
+                return $model->andWhere(['kd_pemda' => $getParam['kd_pemda']]);
+                break;
+            
+            default:
+                return false;
+                break;
+        }
+        return false;
+    }
+
     public function actionView($id){
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
@@ -46,7 +69,12 @@ class PelaporanrekapController extends Controller
         } catch (Exception $e) {
             throw new Exception("Error Processing Request: ".$e->getMessage(), 1);
         }
-        $model = \app\models\CompilationRecord5::find()->where(['tahun' => $Tahun, 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])->select(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3', "SUM(realisasi) AS realisasi"])->groupBy(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3']);
+        $getParam = Yii::$app->request->queryParams;
+        $model = \app\models\CompilationRecord5::find()->where(['tahun' => $Tahun, 'periode_id' => $getParam['periode_id'], 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])->select(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3', "SUM(realisasi) AS realisasi"])->groupBy(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3']);
+        if($this->getViewCompilation($model, $getParam)){
+            $model = $this->getViewCompilation($model, $getParam);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $model,
         ]);
@@ -81,21 +109,9 @@ class PelaporanrekapController extends Controller
         $data6 = NULL;
         $render = NULL;
         $getparam = NULL;
+        $totalPemda = NULL;
         IF(Yii::$app->request->queryParams){
-            $getparam = Yii::$app->request->queryParams;
-            // this is for array in pemda
-            // $kd_pemda_params = NULL;
-            // foreach($getparam['Laporan']['kd_pemda'] as $data){
-            //     $kd_pemda_params = $kd_pemda_params.$data.',';
-            // }            
-            // if(!($getparam['Laporan']['kd_pemda']) || in_array('%', $getparam['Laporan']['kd_pemda'])){
-            //     $getparam['Laporan']['kd_pemda'] = \app\models\RefPemda::find()->select(['id'])->asArray()->all();
-            //     $kd_pemda_params = NULL;
-            //     foreach($getparam['Laporan']['kd_pemda'] as $data){
-            //         $kd_pemda_params = $kd_pemda_params.$data['id'].',';
-            //     }
-            // }
-            // $kd_pemda_params = substr($kd_pemda_params, 0, -1);            
+            $getparam = Yii::$app->request->queryParams;        
             IF($getparam['Laporan']['Kd_Laporan']){
                 $Kd_Laporan = Yii::$app->request->queryParams['Laporan']['Kd_Laporan'];
                 switch ($Kd_Laporan) {
@@ -455,14 +471,158 @@ class PelaporanrekapController extends Controller
                         ]);
                         $render = 'laporan2';
                         break;                                                      
+                    case 6:
+                        $totalCount = Yii::$app->db->createCommand("
+                            SELECT COUNT(id) FROM ref_pemda
+                            "
+                            // , [
+                            //     ':tahun' => $Tahun,
+                            //     ':periode_id' => $getparam['Laporan']['periode_id'],
+                            //     ':pemda_id' => $getparam['Laporan']['kd_pemda'],
+                            // ]
+                            )->queryScalar();
 
+                        $data = new SqlDataProvider([
+                            'sql' => "
+                                SELECT z.id, z.name AS nama_pemda, 
+                                y.kd_pemda AS col_0,
+                                a.kd_pemda AS col_1,
+                                b.kd_pemda AS col_2,
+                                c.kd_pemda AS col_3,
+                                d.kd_pemda AS col_4,
+                                e.kd_pemda AS col_5,
+                                f.kd_pemda AS col_6,
+                                g.kd_pemda AS col_7,
+                                h.kd_pemda AS col_8,
+                                i.kd_pemda AS col_9,
+                                j.kd_pemda AS col_10,
+                                k.kd_pemda AS col_11,
+                                l.kd_pemda AS col_12,
+                                m.kd_pemda AS col_13,
+                                n.kd_pemda AS col_14,
+                                o.kd_pemda AS col_15,
+                                p.kd_pemda AS col_16
+                                FROM ref_pemda z
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 0 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) y ON z.id = y.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 1 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) a ON z.id = a.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 2 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) b ON z.id = b.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 3 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) c ON z.id = c.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 4 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) d ON z.id = d.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 5 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) e ON z.id = e.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 6 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) f ON z.id = f.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 7 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) g ON z.id = g.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 8 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) h ON z.id = h.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 9 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) i ON z.id = i.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 10 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) j ON z.id = j.kd_pemda
+                                
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 11 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) k ON z.id = k.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 12 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) l ON z.id = l.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 13 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) m ON z.id = m.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 14 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) n ON z.id = n.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 15 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) o ON z.id = o.kd_pemda
+                                LEFT JOIN
+                                (
+                                    SELECT kd_pemda FROM compilation_record5 WHERE tahun = :tahun AND periode_id = 16 AND kd_pemda LIKE :pemda_id GROUP BY kd_pemda
+                                ) p ON z.id = p.kd_pemda
+                                WHERE z.id LIKE :pemda_id
+                                    ",
+                            'params' => [
+                                ':tahun' => $Tahun,
+                                // ':periode_id' => $getparam['Laporan']['periode_id'],
+                                ':pemda_id' => '%', // $getparam['Laporan']['kd_pemda'],
+                            ],
+                            'totalCount' => $totalCount,
+                            //'sort' =>false, to remove the table header sorting
+                            'pagination' => [
+                                'pageSize' => 50,
+                            ],
+                        ]);
+                        $render = 'laporan3';
+                        break;    
+                    case 7:
+                        $data1 = new \app\modules\pelaporan\models\MonitoringEliminasiSearch;
+                        $data1->tahun = $Tahun;
+                        // $data->akun_eliminasi = '>= 2';
+                        $data = $data1->search(Yii::$app->request->queryParams);
+                        $render = 'laporan4';
+                        break;                 
                     default:
                         # code...
                         break;
                 }
+            
+                $totalPemda = Yii::$app->db->createCommand("
+                    SELECT COUNT(a.kd_pemda) FROM (
+                        SELECT kd_pemda
+                        FROM compilation_record5 
+                        WHERE tahun = :tahun 
+                        AND periode_id = :periode_id 
+                        AND kd_rek_1 IN (4,5,6,7) 
+                        AND kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id LIKE :wilayah_id) 
+                        AND kd_provinsi LIKE :province_id
+                        AND kd_pemda LIKE :pemda_id
+                        GROUP BY kd_pemda
+                    ) a
+                ",[
+                    ':tahun' => $Tahun,
+                    ':periode_id' => $getparam['Laporan']['periode_id'],
+                    ':wilayah_id' => $getparam['Laporan']['Kd_Laporan'] == 2 ?  $getparam['Laporan']['kd_wilayah'] : '%',
+                    ':province_id' => $getparam['Laporan']['Kd_Laporan'] == 3 ?  $getparam['Laporan']['kd_provinsi'] : '%',
+                    ':pemda_id' => $getparam['Laporan']['Kd_Laporan'] == 4 ?  $getparam['Laporan']['kd_pemda'] : '%',
+                ])->queryScalar();
+                if($getparam['Laporan']['Kd_Laporan'] == 5) $totalPemda = null;
             }
-
         }
+
+
 
         return $this->render('index', [
             'get' => $get,
@@ -477,6 +637,7 @@ class PelaporanrekapController extends Controller
             'render' => $render,
             'getparam' => $getparam,
             'Tahun' => $Tahun,
+            'totalPemda' => $totalPemda
         ]);
     }
 

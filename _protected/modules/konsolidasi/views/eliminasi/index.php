@@ -3,17 +3,21 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\bootstrap\Modal;
+use kartik\widgets\Select2;
+use kartik\select2\Select2Asset;
+
+Select2Asset::register($this);
 
 /* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
 
-$this->title = 'Elimination Accounts';
+$this->title = 'Akun Eliminasi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="elimination-account-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Tambah Elimination Account', ['create'], [
+        <?= Html::a('Tambah Akun Eliminasi', ['create'], [
                                                     'class' => 'btn btn-xs btn-success',
                                                     'data-toggle'=>"modal",
                                                     'data-target'=>"#myModal",
@@ -51,7 +55,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'visible' => isset(Yii::$app->user->identity->pemda_id) ? false : true,
                 'value' => function($model){
                     return $model->kd_pemda.'. '.$model->pemda->name;
-                }
+                },
+                'filter' => Select2::widget([
+                    'id' => 'filterGridView',
+                    'model' => $searchModel,
+                    'attribute' => 'kd_pemda',
+                    // 'name' => 'EliminationAccountSearch[kd_pemda]',
+                    'data' => \yii\helpers\ArrayHelper::map(\app\models\RefPemda::find()->select(['id', 'CONCAT(id, \' \', name) AS name'])->all(), 'id', 'name'),
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'options' => [
+                        'placeholder' => 'Nama Pemda...'
+                    ]
+                ]),                
             ],
             [
                 'label' => 'Jenis Transfer',

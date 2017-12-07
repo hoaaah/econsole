@@ -150,7 +150,7 @@ use yii\web\Controller;
                             'kd_rek_2' => $model->kd_rek_2,
                             'kd_rek_3' => $model->kd_rek_3,
                         ])->sum('realisasi');
-                        return $saldo;
+                        return $saldo ? $saldo : 0;
                     }elseif($model->kd_rek_5 == 0){
                         $saldo = \app\models\CompilationRecord5::find()->where([
                             'tahun' => $model->tahun,
@@ -161,7 +161,7 @@ use yii\web\Controller;
                             'kd_rek_3' => $model->kd_rek_3,
                             'kd_rek_4' => $model->kd_rek_4,
                         ])->sum('realisasi');
-                        return $saldo;
+                        return $saldo ? $saldo : 0;
                     }else{
                         $saldo = \app\models\CompilationRecord5::find()->where([
                             'tahun' => $model->tahun,
@@ -173,7 +173,7 @@ use yii\web\Controller;
                             'kd_rek_4' => $model->kd_rek_4,
                             'kd_rek_5' => $model->kd_rek_5,
                         ])->one();
-                        return $saldo->realisasi;
+                        return $saldo->realisasi ? $saldo->realisasi : 0;
                     }
                 },
                 'pageSummary'=>true

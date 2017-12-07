@@ -71,12 +71,12 @@ $this->params['breadcrumbs'][] = $this->title;
 							}
                             $heading = 'Rekapitulasi Akun Elimininasi '.$label.' '.$Tahun;
                             break;
-                        // case 6:
-                        //     $heading = 'Rekapitulasi Sisa dana BOS '.$Tahun;
-                        //     break;
-                        // case 7:
-                        //     $heading = 'BOS-K7A Realisasi Penggunaan Dana Tiap Komponen BOS '.$Tahun;
-                        //     break;
+                        case 6:
+                            $heading = 'Monitoring Data Per Periode Tahun '.$Tahun;
+							break;
+						case 7:
+                            $heading = 'Monitoring Akun Eliminasi Tahun '.$Tahun;
+                            break;
 	                    default:
 	                        # code...
 	                        break;
@@ -92,6 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		            'data5' => $data5,
 		            'data6' => $data6,
                 	'heading' => $heading, 
-                	'getparam' => $getparam]); ?>
+					'getparam' => $getparam,
+					'totalPemda' => $totalPemda]); ?>
 
 <?php endif; ?>

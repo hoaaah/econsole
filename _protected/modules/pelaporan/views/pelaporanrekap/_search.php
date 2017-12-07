@@ -31,7 +31,8 @@ use kartik\widgets\DatePicker;
                     3 => 'LRA Regional Provinsi',
                     4 => 'LRA Pemda',
                     5 => 'Rekapitulasi Akun Eliminasi',
-                    // 6 => 'LRA Per Level Rekening',               
+                    6 => 'Monitoring Data Per Periode',   
+                    7 => 'Monitoring Akun Eliminasi',               
                 ],
                 'options' => ['class' =>'form-control input-sm' ,'placeholder' => 'Pilih Jenis Laporan ...', 'id' => 'field-kd_laporan'
                 ],

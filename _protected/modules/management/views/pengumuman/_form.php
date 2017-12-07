@@ -19,13 +19,11 @@ use kartik\widgets\Select2;
     <div class="row">
         <div class="col-md-6">
             <?php
+            $model->diumumkan_di = 3;
             echo $form->field($model, 'diumumkan_di')->widget(Select2::classname(), [
                 'data' => [
-                    1 => 'User SKPD',
-                    2 => 'User SKPKD',
-                    3 => 'Keduanya'
+                    3 => 'Dashboard'
                 ],
-                // 'language' => 'de',
                 'options' => ['placeholder' => 'Tampilkan Pada Dashboard ...'],
                 'pluginOptions' => [
                     'allowClear' => true

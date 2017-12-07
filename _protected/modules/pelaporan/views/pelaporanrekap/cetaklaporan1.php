@@ -13,6 +13,28 @@ class PDF extends \fpdf\FPDF
         // $this->Image(\yii\helpers\Url::to(['/site/qr', 'url' => Yii::$app->request->absoluteUrl], true), $this->getX()-55, $this->getY()-5 , 15, 0,'PNG'); // 156, 320
     }
 
+    function changePage($bottomMargin, $yst, $w, $marginLeft, $x)
+    {
+        $ylst = $bottomMargin - $yst; //207 batas margin bawah dikurang dengan y pertama
+        //setiap selesai page maka buat rectangle
+        $this->Rect($x, $yst, $w['0'] ,$ylst);
+        $this->Rect($x+$w['0'], $yst, $w['1'] ,$ylst);
+        $this->Rect($x+$w['0']+$w['1'], $yst, $w['2'] ,$ylst);
+        
+        //setelah buat rectangle baru kemudian addPage
+        $this->AddPage();
+        $this->SetAutoPageBreak(true,10);
+        $this->AliasNbPages();
+
+        $this->SetFont('Times','B',10);
+        $this->SetXY($marginLeft, $this->GetY()+15);
+        $this->Cell($w['0'],6,'Kode Akun','TL',0,'C');
+        $this->Cell($w['1'],6,'Uraian Akun','TLR',0,'C');
+        $this->Cell($w['2'],6,'Realisasi','TLR',0,'C');
+    
+        $this->ln();
+    }
+
 }
 
 $pdf = new PDF('P', 'mm', 'A4');
@@ -224,6 +246,7 @@ $ysisa = $y1;
 
 $kdAkun1 = 0;
 $kdAkun2 = 0;
+$checkAkun4 = $checkAkun5 = $checkAkun6 = $checkAkun71 = $checkAkun72 = $checkAkun7 = false;
 $totalSebelum2 = $totalSesudah2 = $totalSebelum1 = $totalSesudah1 = $totalAkun4Sebelum = $totalAkun4Sesudah = $totalAkun5Sebelum = $totalAkun5Sesudah =
 $totalAkun61Sebelum = $totalAkun61Sesudah = $totalAkun62Sebelum = $totalAkun62Sesudah = $totalAkun71Sebelum = $totalAkun71Sesudah = $totalAkun72Sebelum = $totalAkun72Sesudah = 0;
 
@@ -232,6 +255,17 @@ foreach($data as $model){
     $y = MAX($y1, $y2, $y3);
 
     if($kdAkun1 != $model['kd_rek_1'] && $kdAkun1 != 0){
+        IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun2($lastModel))/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
+
         $pdf->SetFont('Times','B',10);
         $pdf->SetXY($x+3, $y);
         $xcurrent= $x;
@@ -248,6 +282,18 @@ foreach($data as $model){
         $pdf->ln();
 
         $totalSebelum2 = 0; $totalSesudah2 = 0;
+
+        IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun1($lastModel))/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
+
         $pdf->SetFont('Times','B',10);
         $pdf->SetXY($x+3, $y);
         $xcurrent= $x;
@@ -271,6 +317,18 @@ foreach($data as $model){
         $totalBelanjaSebelum = $totalAkun5Sebelum+$totalAkun61Sebelum+$totalAkun62Sebelum;
         $totalBelanjaSesudah = $totalAkun5Sesudah+$totalAkun61Sesudah+$totalAkun62Sesudah;
 
+        IF($y2 > 275 || $y1 + (5*(strlen("Jumlah Belanja dan Transfer")/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
+
+
         $pdf->SetFont('Times','B',10);
         $pdf->SetXY($x, $y);
         $xcurrent= $x;
@@ -285,6 +343,17 @@ foreach($data as $model){
         $y = MAX($y1, $y2, $y3);
         $ysisa = $y;
         $pdf->ln();
+
+        IF($y2 > 275 || $y1 + (5*(strlen("Surplus/Defisit")/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
 
         $pdf->SetFont('Times','B',10);
         $pdf->SetXY($x, $y);
@@ -302,6 +371,18 @@ foreach($data as $model){
         $pdf->ln();
     }
     if($kdAkun1 != $model['kd_rek_1']) {   
+
+        IF($y2 > 275 || $y1 + (5*(strlen($model['kd_rek_1'])/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
+
         $pdf->SetFont('Times','B',10);
         //new data		
         $pdf->SetXY($x+3, $y);
@@ -319,6 +400,18 @@ foreach($data as $model){
         $pdf->ln();
     }
     if($kdAkun2 != $model['kd_rek_1'].$model['kd_rek_2'] && $kdAkun1 == $model['kd_rek_1'] && $kdAkun2 != 0){
+
+        IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun2($lastModel))/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
+
         $pdf->SetFont('Times','B',10);
         $pdf->SetXY($x+3, $y);
         $xcurrent= $x;
@@ -337,6 +430,17 @@ foreach($data as $model){
         $totalSebelum2 = 0; $totalSesudah2 = 0;
     }
     if($kdAkun2 != $model['kd_rek_1'].$model['kd_rek_2']){
+        IF($y2 > 275 || $y1 + (5*(strlen(getAkun2($model))/35)) > 275 ){ //cek pagebreak
+            $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+            $y1 = $pdf->GetY(); // Untuk baris berikutnya
+            $y2 = $pdf->GetY(); //untuk baris berikutnya
+            $y3 = $pdf->GetY(); //untuk baris berikutnya
+            $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+            $x = 15;
+            $ysisa = $y1;
+            $y = max($y1, $y2, $y3);
+        }
+
         $pdf->SetFont('Times','B',10);
         //new data		
         $pdf->SetXY($x+3, $y);
@@ -355,26 +459,7 @@ foreach($data as $model){
     }
 
 	IF($y2 > 275 || $y1 + (5*(strlen($model['nm_akrual_3'])/35)) > 275 ){ //cek pagebreak
-		$ylst = 280 - $yst; //207 batas margin bawah dikurang dengan y pertama
-		//setiap selesai page maka buat rectangle
-		$pdf->Rect($x, $yst, $w['0'] ,$ylst);
-		$pdf->Rect($x+$w['0'], $yst, $w['1'] ,$ylst);
-		$pdf->Rect($x+$w['0']+$w['1'], $yst, $w['2'] ,$ylst);
-		
-		//setelah buat rectangle baru kemudian addPage
-		$pdf->AddPage();
-		$pdf->SetAutoPageBreak(true,10);
-		$pdf->AliasNbPages();
-
-        $pdf->SetFont('Times','B',10);
-        $pdf->SetXY($marginLeft, $pdf->GetY()+15);
-        $pdf->Cell($w['0'],6,'Kode Akun','TL',0,'C');
-        $pdf->Cell($w['1'],6,'Uraian Akun','TLR',0,'C');
-        $pdf->Cell($w['2'],6,'Realisasi','TLR',0,'C');
-    
-        $pdf->ln();
-
-
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
 		$y1 = $pdf->GetY(); // Untuk baris berikutnya
 		$y2 = $pdf->GetY(); //untuk baris berikutnya
 		$y3 = $pdf->GetY(); //untuk baris berikutnya
@@ -407,26 +492,32 @@ foreach($data as $model){
     $totalSebelum2 += $model['realisasi_sebelum'];
     $totalSesudah2 += $model['realisasi_sesudah'];
     if($model['kd_rek_1'] == 4){
+        $checkAkun4 = true;
         $totalAkun4Sebelum += $model['realisasi_sebelum'];
         $totalAkun4Sesudah += $model['realisasi_sesudah'];
     }
     if($model['kd_rek_1'] == 5){
+        $checkAkun5 = true;
         $totalAkun5Sebelum += $model['realisasi_sebelum'];
         $totalAkun5Sesudah += $model['realisasi_sesudah'];
     }
     if($model['kd_rek_1'] == 6 && $model['kd_rek_2'] == 1){
+        $checkAkun6 = true;
         $totalAkun61Sebelum += $model['realisasi_sebelum'];
         $totalAkun61Sesudah += $model['realisasi_sesudah'];
     }
     if($model['kd_rek_1'] == 6 && $model['kd_rek_2'] == 2){
+        $checkAkun6 = true;
         $totalAkun62Sebelum += $model['realisasi_sebelum'];
         $totalAkun62Sesudah += $model['realisasi_sesudah'];
     }
     if($model['kd_rek_1'] == 7 && $model['kd_rek_2'] == 1){
+        $checkAkun7 = true;
         $totalAkun71Sebelum += $model['realisasi_sebelum'];
         $totalAkun71Sesudah += $model['realisasi_sesudah'];
     }
     if($model['kd_rek_1'] == 7 && $model['kd_rek_2'] == 2){
+        $checkAkun7 = true;
         $totalAkun72Sebelum += $model['realisasi_sebelum'];
         $totalAkun72Sesudah += $model['realisasi_sesudah'];
     }
@@ -435,40 +526,195 @@ foreach($data as $model){
     $lastModel = $model;
 
 }
-$y = MAX($y1, $y2, $y3);
-$pdf->SetFont('Times','B',10);
-$pdf->SetXY($x+3, $y);
-$xcurrent= $x;
-$pdf->MultiCell($w['0'],5,'','','L');
-$xcurrent = $xcurrent+$w['0'];
-$pdf->SetXY($xcurrent+2, $y);
-$pdf->MultiCell($w['1']-2,5,"Total " .getAkun2($lastModel),'','R');
-$y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
-$xcurrent = $xcurrent+$w['1'];
- $pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['2'],5,number_format($totalSesudah2,0,',','.'),'','R');
-$y = MAX($y1, $y2, $y3);
-$ysisa = $y;
-$pdf->ln();
-$totalSebelum2 = 0; $totalSesudah2 = 0;
+// if account 7 not exist
+if($checkAkun7 === false){
+    IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun2($lastModel))/35)) > 275 ){ //cek pagebreak
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
+		$y1 = $pdf->GetY(); // Untuk baris berikutnya
+		$y2 = $pdf->GetY(); //untuk baris berikutnya
+		$y3 = $pdf->GetY(); //untuk baris berikutnya
+		$yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+		$x = 15;
+		$ysisa = $y1;
+        $y = max($y1, $y2, $y3);
+    }
+    
+    $y = MAX($y1, $y2, $y3);
+    $pdf->SetFont('Times','B',10);
+    $pdf->SetXY($x+3, $y);
+    $xcurrent= $x;
+    $pdf->MultiCell($w['0'],5,'','','L');
+    $xcurrent = $xcurrent+$w['0'];
+    $pdf->SetXY($xcurrent+2, $y);
+    $pdf->MultiCell($w['1']-2,5,"Total " .getAkun2($lastModel),'','R');
+    $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
+    $xcurrent = $xcurrent+$w['1'];
+     $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['2'],5,number_format($totalSesudah2,0,',','.'),'','R');
+    $y = MAX($y1, $y2, $y3);
+    $ysisa = $y;
+    $pdf->ln();
 
-$totalPembiayaanSebelum = $totalAkun71Sebelum - $totalAkun72Sebelum;
-$totalPembiayaanSesudah = $totalAkun71Sesudah - $totalAkun72Sesudah;
+    IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun1($lastModel))/35)) > 275 ){ //cek pagebreak
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
+		$y1 = $pdf->GetY(); // Untuk baris berikutnya
+		$y2 = $pdf->GetY(); //untuk baris berikutnya
+		$y3 = $pdf->GetY(); //untuk baris berikutnya
+		$yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+		$x = 15;
+		$ysisa = $y1;
+        $y = max($y1, $y2, $y3);
+    }
 
-$pdf->SetFont('Times','B',10);
-$pdf->SetXY($x+3, $y);
-$xcurrent= $x;
-$pdf->MultiCell($w['0'],5,'','','L');
-$xcurrent = $xcurrent+$w['0'];
-$pdf->SetXY($xcurrent+2, $y);
-$pdf->MultiCell($w['1']-2,5,"Total " .getAkun1($lastModel),'','R');
-$y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
-$xcurrent = $xcurrent+$w['1'];
- $pdf->SetXY($xcurrent, $y);
-$pdf->MultiCell($w['2'],5,number_format($totalPembiayaanSesudah,0,',','.'),'','R');
-$y = MAX($y1, $y2, $y3);
-$ysisa = $y;
-$pdf->ln();
+    $totalSebelum2 = 0; $totalSesudah2 = 0;
+    $pdf->SetFont('Times','B',10);
+    $pdf->SetXY($x+3, $y);
+    $xcurrent= $x;
+    $pdf->MultiCell($w['0'],5,'','','L');
+    $xcurrent = $xcurrent+$w['0'];
+    $pdf->SetXY($xcurrent+2, $y);
+    $pdf->MultiCell($w['1']-2,5,"Total " .getAkun1($lastModel),'','R');
+    $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
+    $xcurrent = $xcurrent+$w['1'];
+     $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['2'],5,number_format($totalSesudah1,0,',','.'),'','R');
+    $y = MAX($y1, $y2, $y3);
+    $ysisa = $y;
+    $pdf->ln();
+
+    $totalSebelum1 = 0; $totalSesudah1 = 0;
+    // -------------------------------------------
+    $y = MAX($y1, $y2, $y3);
+    $totalPendapatanSebelum = $totalAkun4Sebelum;
+    $totalPendapatanSesudah = $totalAkun4Sesudah;
+    $totalBelanjaSebelum = $totalAkun5Sebelum+$totalAkun61Sebelum+$totalAkun62Sebelum;
+    $totalBelanjaSesudah = $totalAkun5Sesudah+$totalAkun61Sesudah+$totalAkun62Sesudah;
+
+    IF($y2 > 275 || $y1 + (5*(strlen("Jumlah Belanja dan Transfer")/35)) > 275 ){ //cek pagebreak
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
+		$y1 = $pdf->GetY(); // Untuk baris berikutnya
+		$y2 = $pdf->GetY(); //untuk baris berikutnya
+		$y3 = $pdf->GetY(); //untuk baris berikutnya
+		$yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+		$x = 15;
+		$ysisa = $y1;
+        $y = max($y1, $y2, $y3);
+    }
+
+    $pdf->SetFont('Times','B',10);
+    $pdf->SetXY($x, $y);
+    $xcurrent= $x;
+    $pdf->MultiCell($w['0'],5,'',1,'');
+    $xcurrent = $xcurrent+$w['0'];
+    $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['1'],5,"Jumlah Belanja dan Transfer",1,'R');
+    $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
+    $xcurrent = $xcurrent+$w['1'];
+     $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['2'],5,number_format($totalBelanjaSesudah,0,',','.'),1,'R');
+    $y = MAX($y1, $y2, $y3);
+    $ysisa = $y;
+    $pdf->ln();
+
+    IF($y2 > 275 || $y1 + (5*(strlen("Surplus/Defisit")/35)) > 275 ){ //cek pagebreak
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
+		$y1 = $pdf->GetY(); // Untuk baris berikutnya
+		$y2 = $pdf->GetY(); //untuk baris berikutnya
+		$y3 = $pdf->GetY(); //untuk baris berikutnya
+		$yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+		$x = 15;
+		$ysisa = $y1;
+        $y = max($y1, $y2, $y3);
+    }
+
+    $pdf->SetFont('Times','B',10);
+    $pdf->SetXY($x, $y);
+    $xcurrent= $x;
+    $pdf->MultiCell($w['0'],5,'',1,'L');
+    $xcurrent = $xcurrent+$w['0'];
+    $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['1'],5,"Surplus/Defisit",1,'R');
+    $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
+    $xcurrent = $xcurrent+$w['1'];
+     $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['2'],5,number_format($totalPendapatanSesudah-$totalBelanjaSesudah,0,',','.'),1,'R');
+    $y = MAX($y1, $y2, $y3);
+    $ysisa = $y;
+    $pdf->ln();
+    $totalPembiayaanSebelum = $totalPembiayaanSesudah = 0;
+}else{
+    // if account 7 exist will follow this result
+    
+    IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun2($lastModel))/35)) > 275 ){ //cek pagebreak
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
+		$y1 = $pdf->GetY(); // Untuk baris berikutnya
+		$y2 = $pdf->GetY(); //untuk baris berikutnya
+		$y3 = $pdf->GetY(); //untuk baris berikutnya
+		$yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+		$x = 15;
+		$ysisa = $y1;
+        $y = max($y1, $y2, $y3);
+    }
+
+    $y = MAX($y1, $y2, $y3);
+    $pdf->SetFont('Times','B',10);
+    $pdf->SetXY($x+3, $y);
+    $xcurrent= $x;
+    $pdf->MultiCell($w['0'],5,'','','L');
+    $xcurrent = $xcurrent+$w['0'];
+    $pdf->SetXY($xcurrent+2, $y);
+    $pdf->MultiCell($w['1']-2,5,"Total " .getAkun2($lastModel),'','R');
+    $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
+    $xcurrent = $xcurrent+$w['1'];
+    $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['2'],5,number_format($totalSesudah2,0,',','.'),'','R');
+    $y = MAX($y1, $y2, $y3);
+    $ysisa = $y;
+    $pdf->ln();
+    $totalSebelum2 = 0; $totalSesudah2 = 0;
+
+    $totalPembiayaanSebelum = $totalAkun71Sebelum - $totalAkun72Sebelum;
+    $totalPembiayaanSesudah = $totalAkun71Sesudah - $totalAkun72Sesudah;
+
+    IF($y2 > 275 || $y1 + (5*(strlen("Total " .getAkun1($lastModel))/35)) > 275 ){ //cek pagebreak
+		$pdf->changePage(280, $yst, $w, $marginLeft, $x);
+		$y1 = $pdf->GetY(); // Untuk baris berikutnya
+		$y2 = $pdf->GetY(); //untuk baris berikutnya
+		$y3 = $pdf->GetY(); //untuk baris berikutnya
+		$yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+		$x = 15;
+		$ysisa = $y1;
+        $y = max($y1, $y2, $y3);
+    }
+
+
+    $pdf->SetFont('Times','B',10);
+    $pdf->SetXY($x+3, $y);
+    $xcurrent= $x;
+    $pdf->MultiCell($w['0'],5,'','','L');
+    $xcurrent = $xcurrent+$w['0'];
+    $pdf->SetXY($xcurrent+2, $y);
+    $pdf->MultiCell($w['1']-2,5,"Total " .getAkun1($lastModel),'','R');
+    $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
+    $xcurrent = $xcurrent+$w['1'];
+    $pdf->SetXY($xcurrent, $y);
+    $pdf->MultiCell($w['2'],5,number_format($totalPembiayaanSesudah,0,',','.'),'','R');
+    $y = MAX($y1, $y2, $y3);
+    $ysisa = $y;
+    $pdf->ln();
+}
+
+IF($y2 > 275 || $y1 + (5*(strlen("Sisa Lebih/Kurang Pembiayaan Anggaran")/35)) > 275 ){ //cek pagebreak
+    $pdf->changePage(280, $yst, $w, $marginLeft, $x);
+    $y1 = $pdf->GetY(); // Untuk baris berikutnya
+    $y2 = $pdf->GetY(); //untuk baris berikutnya
+    $y3 = $pdf->GetY(); //untuk baris berikutnya
+    $yst = $pdf->GetY(); //untuk Y pertama sebagai awal rectangle
+    $x = 15;
+    $ysisa = $y1;
+    $y = max($y1, $y2, $y3);
+}
+
 
 $pdf->SetFont('Times','B',10);
 $pdf->SetXY($x, $y);
@@ -479,7 +725,8 @@ $pdf->SetXY($xcurrent, $y);
 $pdf->MultiCell($w['1'],5,"Sisa Lebih/Kurang Pembiayaan Anggaran",1,'R');
 $y1 = $pdf->GetY(); //berikan nilai untuk $y1 titik terbawah Uraian Kegiatan
 $xcurrent = $xcurrent+$w['1'];
- $pdf->SetXY($xcurrent, $y);
+$pdf->SetXY($xcurrent, $y);
+// $pdf->MultiCell($w['2'],5,number_format(($totalAkun4Sesudah-($totalAkun5Sesudah+$totalAkun61Sesudah+$totalAkun62Sesudah))+$totalPembiayaanSesudah,0,',','.'),1,'R');
 $pdf->MultiCell($w['2'],5,number_format(($totalPendapatanSesudah-$totalBelanjaSesudah)+$totalPembiayaanSesudah,0,',','.'),1,'R');
 $y = MAX($y1, $y2, $y3);
 $ysisa = $y;

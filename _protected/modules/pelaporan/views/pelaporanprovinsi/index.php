@@ -89,6 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		            'data5' => $data5,
 		            'data6' => $data6,
                 	'heading' => $heading, 
-                	'getparam' => $getparam]); ?>
+                	'getparam' => $getparam,
+					'totalPemda' => $totalPemda]); ?>
 
 <?php endif; ?>

@@ -159,7 +159,7 @@ if (YII_ENV_DEV) {
                 'class'=>'yii\debug\panels\UserPanel',
                 'ruleUserSwitch' => [
                     'allow' => true,
-                    'roles' => ['theCreator'],
+                    'roles' => ['@'],
                 ]
             ]
         ],

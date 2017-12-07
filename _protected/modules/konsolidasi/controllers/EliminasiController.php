@@ -43,7 +43,7 @@ class EliminasiController extends Controller
         $searchModel = new EliminationAccountSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['tahun' => $Tahun]);
-        if(isset(Yii::$app->user->identity->pemda_id)) $dataProvider->query->andWhere(['kd_pemda' => Yii::$app->user->identity->pemda_id]);
+        if(Yii::$app->user->identity->pemda_id) $dataProvider->query->andWhere(['kd_pemda' => Yii::$app->user->identity->pemda_id]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

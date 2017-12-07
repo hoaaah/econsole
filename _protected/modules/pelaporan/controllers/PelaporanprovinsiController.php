@@ -30,6 +30,26 @@ class PelaporanprovinsiController extends Controller
         ];
     }
 
+    protected function getViewCompilation($model, $getParam)
+    {
+        switch ($getParam['kd_laporan']) {
+            case 2:
+                return $model->andWhere('kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id LIKE :wilayah_id)', [':wilayah_id' => $getParam['kd_wilayah']]);
+                break;
+            case 3:
+                return $model->andWhere(['kd_provinsi' => $getParam['kd_provinsi']]);
+                break;
+            case 4:
+                return $model->andWhere(['kd_pemda' => $getParam['kd_pemda']]);
+                break;
+            
+            default:
+                return false;
+                break;
+        }
+        return false;
+    }
+
     public function actionView($id){
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
@@ -46,7 +66,12 @@ class PelaporanprovinsiController extends Controller
         } catch (Exception $e) {
             throw new Exception("Error Processing Request: ".$e->getMessage(), 1);
         }
-        $model = \app\models\CompilationRecord5::find()->where(['tahun' => $Tahun, 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])->select(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3', "SUM(realisasi) AS realisasi"])->groupBy(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3']);
+        $getParam = Yii::$app->request->queryParams;
+        $model = \app\models\CompilationRecord5::find()->where(['tahun' => $Tahun, 'periode_id' => $getParam['periode_id'], 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])->select(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3', "SUM(realisasi) AS realisasi"])->groupBy(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3']);
+        if($this->getViewCompilation($model, $getParam)){
+            $model = $this->getViewCompilation($model, $getParam);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $model,
         ]);
@@ -81,6 +106,7 @@ class PelaporanprovinsiController extends Controller
         $data6 = NULL;
         $render = NULL;
         $getparam = NULL;
+        $totalPemda = NULL;
         IF(Yii::$app->request->queryParams){
             $getparam = Yii::$app->request->queryParams;
             // this is for array in pemda
@@ -470,6 +496,26 @@ class PelaporanprovinsiController extends Controller
                         # code...
                         break;
                 }
+                $totalPemda = Yii::$app->db->createCommand("
+                    SELECT COUNT(a.kd_pemda) FROM (
+                        SELECT kd_pemda
+                        FROM compilation_record5 
+                        WHERE tahun = :tahun 
+                        AND periode_id = :periode_id 
+                        AND kd_rek_1 IN (4,5,6,7) 
+                        AND kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id LIKE :wilayah_id) 
+                        AND kd_provinsi LIKE :province_id
+                        AND kd_pemda LIKE :pemda_id
+                        GROUP BY kd_pemda
+                    ) a
+                ",[
+                    ':tahun' => $Tahun,
+                    ':periode_id' => $getparam['Laporan']['periode_id'],
+                    ':wilayah_id' => $getparam['Laporan']['Kd_Laporan'] == 2 ?  $getparam['Laporan']['kd_wilayah'] : '%',
+                    ':province_id' => $getparam['Laporan']['Kd_Laporan'] == 3 ?  $getparam['Laporan']['kd_provinsi'] : '%',
+                    ':pemda_id' => $getparam['Laporan']['Kd_Laporan'] == 4 ?  $getparam['Laporan']['kd_pemda'] : '%',
+                ])->queryScalar();
+                if($getparam['Laporan']['Kd_Laporan'] == 5) $totalPemda = null;
             }
 
         }
@@ -487,6 +533,7 @@ class PelaporanprovinsiController extends Controller
             'render' => $render,
             'getparam' => $getparam,
             'Tahun' => $Tahun,
+            'totalPemda' => $totalPemda
         ]);
     }
 

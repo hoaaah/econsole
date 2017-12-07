@@ -30,6 +30,26 @@ class PelaporanpemdaController extends Controller
         ];
     }
 
+    protected function getViewCompilation($model, $getParam)
+    {
+        switch ($getParam['kd_laporan']) {
+            case 2:
+                return $model->andWhere('kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id LIKE :wilayah_id)', [':wilayah_id' => $getParam['kd_wilayah']]);
+                break;
+            case 3:
+                return $model->andWhere(['kd_provinsi' => $getParam['kd_provinsi']]);
+                break;
+            case 4:
+                return $model->andWhere(['kd_pemda' => $getParam['kd_pemda']]);
+                break;
+            
+            default:
+                return false;
+                break;
+        }
+        return false;
+    }
+
     public function actionView($id){
         IF($this->cekakses() !== true){
             Yii::$app->getSession()->setFlash('warning',  'Anda tidak memiliki hak akses');
@@ -46,7 +66,12 @@ class PelaporanpemdaController extends Controller
         } catch (Exception $e) {
             throw new Exception("Error Processing Request: ".$e->getMessage(), 1);
         }
-        $model = \app\models\CompilationRecord5::find()->where(['tahun' => $Tahun, 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])->select(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3', "SUM(realisasi) AS realisasi"])->groupBy(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3']);
+        $getParam = Yii::$app->request->queryParams;
+        $model = \app\models\CompilationRecord5::find()->where(['tahun' => $Tahun, 'periode_id' => $getParam['periode_id'], 'kd_rek_1' => $kd_rek_1, 'kd_rek_2' => $kd_rek_2, 'kd_rek_3' => $kd_rek_3])->select(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3', "SUM(realisasi) AS realisasi"])->groupBy(['kd_pemda', 'kd_rek_1', 'kd_rek_2', 'kd_rek_3', 'nm_rek_3']);
+        if($this->getViewCompilation($model, $getParam)){
+            $model = $this->getViewCompilation($model, $getParam);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $model,
         ]);
@@ -81,6 +106,7 @@ class PelaporanpemdaController extends Controller
         $data6 = NULL;
         $render = NULL;
         $getparam = NULL;
+        $totalPemda = NULL;
         IF(Yii::$app->request->queryParams){
             $getparam = Yii::$app->request->queryParams;
             // this is for array in pemda

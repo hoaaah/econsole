@@ -32,9 +32,6 @@ class PelaporanrekapController extends Controller
 
     protected function getViewCompilation($model, $getParam)
     {
-        // ':wilayah_id' => $getparam['Laporan']['Kd_Laporan'] == 2 ?  $getparam['Laporan']['kd_wilayah'] : '%',
-        // ':province_id' => $getparam['Laporan']['Kd_Laporan'] == 3 ?  $getparam['Laporan']['kd_provinsi'] : '%',
-        // ':pemda_id' => $getparam['Laporan']['Kd_Laporan'] == 4 ?  $getparam['Laporan']['kd_pemda'] : '%',
         switch ($getParam['kd_laporan']) {
             case 2:
                 return $model->andWhere('kd_pemda IN (SELECT pemda_id FROM pemda_wilayah WHERE wilayah_id LIKE :wilayah_id)', [':wilayah_id' => $getParam['kd_wilayah']]);

@@ -175,7 +175,9 @@ echo GridView::widget([
                 }
                 return Html::a($return, ['view', 
                     'id' => $model['kd_rek_1'].'.'.$model['kd_rek_2'].'.'.$model['kd_rek_3'], 
-                    'kd_laporan' => $getparam['Laporan']['Kd_Laporan']
+                    'kd_laporan' => $getparam['Laporan']['Kd_Laporan'],
+                    'kd_pemda' => $getparam['Laporan']['kd_pemda'],
+                    'periode_id' => $getparam['Laporan']['periode_id']
                 ], [
                     'class' => 'akunDetail',
                     'data-toggle'=>"modal",

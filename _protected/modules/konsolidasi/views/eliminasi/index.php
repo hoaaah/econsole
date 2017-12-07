@@ -12,6 +12,7 @@ Select2Asset::register($this);
 
 $this->title = 'Akun Eliminasi';
 $this->params['breadcrumbs'][] = $this->title;
+// if(Yii::$app->user->identity->pemda_id == "") var_dump(Yii::$app->user->identity->pemda_id);
 ?>
 <div class="elimination-account-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -34,9 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'panel'=>['type'=>'primary', 'heading'=>$this->title],
         'responsiveWrap' => false,        
         'toolbar' => [
-            [
-                // 'content' => $this->render('_search', ['model' => $searchModel, 'Tahun' => $Tahun]),
-            ],
+            '{toggleData}',
+            '{export}', 
         ],       
         'pager' => [
             'firstPageLabel' => 'Awal',
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Pemda',
                 'attribute' => 'kd_pemda',
-                'visible' => isset(Yii::$app->user->identity->pemda_id) ? false : true,
+                'visible' => Yii::$app->user->identity->pemda_id ? false : true,
                 'value' => function($model){
                     return $model->kd_pemda.'. '.$model->pemda->name;
                 },

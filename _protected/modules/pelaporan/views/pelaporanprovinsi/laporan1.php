@@ -12,6 +12,7 @@ echo GridView::widget([
 	'panel'=>['type'=>'primary', 'heading'=>$heading],
 	'responsiveWrap' => false,        
 	'toolbar' => [
+            ['content' => $totalPemda !== null ? "<span class='label label-default'>Menampilkan data dari $totalPemda Pemda</span>" : ""],
             // '{toggleData}',
             '{export}',
             [
@@ -175,7 +176,12 @@ echo GridView::widget([
                 }
                 return Html::a($return, ['view', 
                     'id' => $model['kd_rek_1'].'.'.$model['kd_rek_2'].'.'.$model['kd_rek_3'], 
-                    'kd_laporan' => $getparam['Laporan']['Kd_Laporan']
+                    'kd_laporan' => isset($getparam['Laporan']['Kd_Laporan']) ? $getparam['Laporan']['Kd_Laporan'] : null,
+                    'elimination_level' => isset($getparam['Laporan']['elimination_level']) ? $getparam['Laporan']['elimination_level'] : null,
+                    'kd_wilayah' => isset($getparam['Laporan']['kd_wilayah']) ? $getparam['Laporan']['kd_wilayah'] : null,
+                    'kd_provinsi' => $getparam['Laporan']['kd_provinsi'],
+                    'kd_pemda' => $getparam['Laporan']['kd_pemda'],
+                    'periode_id' => $getparam['Laporan']['periode_id']
                 ], [
                     'class' => 'akunDetail',
                     'data-toggle'=>"modal",

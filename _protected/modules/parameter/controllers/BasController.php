@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 /* (C) Copyright 2017 Heru Arief Wijaya (http://belajararief.com/) untuk DJPK Kemenkeu.*/
 
@@ -220,5 +221,43 @@ class BasController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionRek2($tahun = null, $kd_pemda = null){
+        IF(Yii::$app->session->get('tahun'))
+        {
+            $tahun = Yii::$app->session->get('tahun');
+        }ELSE{
+            $tahun = DATE('Y');
+        }
+
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $id = end($_POST['depdrop_parents']);
+            
+            $list = Yii::$app->db->createCommand("
+                SELECT 
+                kd_akrual_2 AS id,
+                CONCAT(kd_akrual_1, '.', kd_akrual_2, ' ', IFNULL(nm_akrual_2, 'Tidak Ada Keterangan')) AS name
+                FROM ref_akrual_2 
+                WHERE kd_akrual_1 = :kd_akrual_1
+                ", [
+                    ':kd_akrual_1' => $id,
+                ])->queryAll();
+            $selected  = null;
+            if ($id != null && count($list) > 0) {
+                $selected = '';
+                foreach ($list as $i => $account) {
+                    $out[] = ['id' => $account['id'], 'name' => $account['name']];
+                    if ($i == 0) {
+                        $selected = $account['id'];
+                    }
+                }
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected'=>$selected]);
+                return;
+            }
+        }
+        echo Json::encode(['output' => '', 'selected'=>'']);            
     }
 }

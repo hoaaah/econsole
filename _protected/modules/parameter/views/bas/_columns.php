@@ -34,9 +34,9 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
-        'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'kd_akrual_1, $kd_akrual_2, $kd_akrual_3'=>$key]);
-        },
+        // 'urlCreator' => function($action, $model, $key, $index) { 
+        //         return Url::to([$action,'kd_akrual_1, $kd_akrual_2, $kd_akrual_3'=>$key]);
+        // },
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 

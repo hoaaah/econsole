@@ -77,8 +77,13 @@ function bulan($bulan){
 	    case 11 : $bulan="30 November";
 	        Break;
 	    case 12 : $bulan="31 Desember";
-	        Break;
-	    }
+            Break;
+	    case 16 : $bulan="30 Juni";
+            Break;
+        default: $bulan="31 Desember";
+            break;        
+        }
+        
 	return $bulan;
 }
 

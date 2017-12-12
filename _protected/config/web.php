@@ -126,6 +126,12 @@ $config = [
                 ],
             ],
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            'currencyCode' => 'Rp'
+        ],
         'db' => require(__DIR__ . '/db.php'),
     ],
     // this class use for force login to all controller. Usefull quiet enough

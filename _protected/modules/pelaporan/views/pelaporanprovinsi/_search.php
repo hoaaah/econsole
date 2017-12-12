@@ -26,7 +26,7 @@ use kartik\widgets\DatePicker;
             $model->Kd_Laporan = isset(Yii::$app->request->queryParams['Laporan']['Kd_Laporan']) ? Yii::$app->request->queryParams['Laporan']['Kd_Laporan'] : '';
             echo $form->field($model, 'Kd_Laporan')->widget(Select2::classname(), [
                 'data' => [
-                    2 => 'LRA Wilayah',               
+                    // 2 => 'LRA Wilayah',               
                     3 => 'LRA Regional Provinsi',
                     4 => 'LRA Pemda',
                     5 => 'Rekapitulasi Akun Eliminasi',

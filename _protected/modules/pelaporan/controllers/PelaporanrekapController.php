@@ -463,7 +463,7 @@ class PelaporanrekapController extends Controller
                         $data = new ActiveDataProvider([
                             'query' => $query->orderBy('transfer_id, kd_pemda'),
                             'pagination' => [
-                                'pageSize' => 0,
+                                'pageSize' => 50,
                             ],
                         ]);
                         $render = 'laporan2';

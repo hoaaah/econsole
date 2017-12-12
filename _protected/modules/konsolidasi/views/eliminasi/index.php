@@ -84,11 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => ' Nama Akun',
                 'value' => function($model){
                     if($model->kd_rek_4 == 0){
-                        return $model->rek3Compilation5->nm_rek_3;
+                        return $model['rek3Compilation5']['nm_rek_3'];
                     }elseif($model->kd_rek_5 == 0){
-                        return $model->rek4Compilation5->nm_rek_4;
+                        return $model['rek4Compilation5']['nm_rek_4'];
                     }else{
-                        return $model->rek5Compilation5->nm_rek_5;
+                        return $model['rek5Compilation5']['nm_rek_5'];
                     }
                 }
             ],

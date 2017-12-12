@@ -122,11 +122,11 @@ use yii\web\Controller;
                 // 'width'=>'20%',
                 'value' =>function($model){
                     if($model->kd_rek_4 == 0){
-                        return $model->rek3Compilation5->nm_rek_3;
+                        return $model['rek3Compilation5']['nm_rek_3'];
                     }elseif($model->kd_rek_5 == 0){
-                        return $model->rek4Compilation5->nm_rek_4;
+                        return $model['rek4Compilation5']['nm_rek_4'];
                     }else{
-                        return $model->rek5Compilation5->nm_rek_5;
+                        return $model['rek5Compilation5']['nm_rek_5'];
                     }
                 },
                 // 'group'=>true,  // enable grouping,
@@ -173,7 +173,7 @@ use yii\web\Controller;
                             'kd_rek_4' => $model->kd_rek_4,
                             'kd_rek_5' => $model->kd_rek_5,
                         ])->one();
-                        return $saldo->realisasi ? $saldo->realisasi : 0;
+                        return $saldo['realisasi'] ? $saldo->realisasi : 0;
                     }
                 },
                 'pageSummary'=>true
